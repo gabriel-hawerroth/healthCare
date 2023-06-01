@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/7967e71da6.js" crossorigin="anonymous"></script>
+    <title>HealthCare</title>
+</head>
+
+<body>
+
+    <!-- Topo do site -->
+    <img id="logo" src="staff-snake.svg" alt="símbolo da medicina">
+    <img id="logo-user" src="user-logo.svg" alt="ícone de usuário">
+    <section class="header">
+            <ul class="list-top">
+                <span id="pacientes-button" class="top-button">Pacientes</span>
+                <span id="unidades-button" class="top-button">Unidades</span>
+                <span id="atendimentos-button" class="top-button">Atendimentos</span>
+            </ul>
+    </section>
+
+    <!-- Corpo -->
+    <section class="section1">
+        <div class="box-body">
+            <h1 id="inicial-title">
+                HealthCare <br> Unindo Ciência e tecnologia
+            </h1>
+            <div id="table-pacientes" class="table">
+                <span>Tabela pacientes</span>
+            </div>
+            <div id="table-unidades" class="table">
+                <span>Tabela unidades</span>
+            </div>
+            <div id="table-atendimentos" class="table">
+                <span>Tabela atendimentos</span>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        var pacientesButton = document.getElementById('pacientes-button');
+        var unidadesButton = document.getElementById('unidades-button');
+        var atendimentosButton = document.getElementById('atendimentos-button');
+
+        var medicinIcon = document.getElementById('logo');
+
+        var inicialTitle = document.getElementById('inicial-title');
+
+        var tablePacientes = document.getElementById('table-pacientes');
+        var tableUnidades = document.getElementById('table-unidades');
+        var tableAtendimentos = document.getElementById('table-atendimentos');
+
+        pacientesButton.addEventListener('click', function () {
+            inicialTitle.style.display = 'none';
+            tablePacientes.style.display = 'block';
+            tableUnidades.style.display = 'none';
+            tableAtendimentos.style.display = 'none';
+        });
+
+        unidadesButton.addEventListener('click', function () {
+            inicialTitle.style.display = 'none';
+            tablePacientes.style.display = 'none';
+            tableUnidades.style.display = 'block';
+            tableAtendimentos.style.display = 'none';
+        });
+
+        atendimentosButton.addEventListener('click', function () {
+            inicialTitle.style.display = 'none';
+            tablePacientes.style.display = 'none';
+            tableUnidades.style.display = 'none';
+            tableAtendimentos.style.display = 'block';
+        });
+
+        medicinIcon.addEventListener('click', function () {
+            inicialTitle.style.display = 'block';
+            tablePacientes.style.display = 'none';
+            tableUnidades.style.display = 'none';
+            tableAtendimentos.style.display = 'none';
+        });
+    </script>
+
+</body>
+
+</html>
