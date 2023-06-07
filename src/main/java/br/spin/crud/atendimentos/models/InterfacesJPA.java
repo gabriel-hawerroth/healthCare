@@ -7,8 +7,9 @@ public class InterfacesJPA {
         Integer getId();
         String getDt_atendimento();
         String getNome_paciente();
-        String getDt_nascimento();
+        String getNome_medico();
         String getNome_unidade();
+        String getStatus_atend();
 
     }
 

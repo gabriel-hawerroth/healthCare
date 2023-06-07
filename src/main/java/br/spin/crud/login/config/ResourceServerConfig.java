@@ -13,7 +13,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/rest/alive/aberto").permitAll()
+                .antMatchers("/passwordRecovery/**").permitAll()
                 .anyRequest().authenticated();
     }
 

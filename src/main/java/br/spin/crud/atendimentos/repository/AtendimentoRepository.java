@@ -10,15 +10,15 @@ import java.util.List;
 
 public interface AtendimentoRepository extends JpaRepository<Atendimento, Integer> {
 
-    @Query(value =
-            "select a.id id, date_format(a.dt_atendimento, '%d/%m/%Y') dt_atendimento, " +
-            "b.ds_nome nome_paciente, date_format(b.dt_nascimento, '%d/%m/%Y') dt_nascimento, c.ds_nome nome_unidade " +
-            "from atendimento a " +
-            "left join paciente b on a.id_paciente = b.id " +
-            "left join unidade c on a.id_unidade = c.id",
-            nativeQuery = true
-    )
-    public List<RetornoAtendimentoSQLNativo> retornoPersonalizado();
+//    @Query(value =
+//            "select a.id id, date_format(a.dt_atendimento, '%d/%m/%Y') dt_atendimento, b.ds_nome nome_paciente, " +
+//            "date_format(b.dt_nascimento, '%d/%m/%Y') dt_nascimento, c.ds_nome nome_unidade, a.status_atend " +
+//            "from atendimento a " +
+//            "left join paciente b on a.id_paciente = b.id " +
+//            "left join unidade c on a.id_unidade = c.id",
+//            nativeQuery = true
+//    )
+//    public List<RetornoAtendimentoSQLNativo> retornoPersonalizado();
 
     @Query(value =
             "select a.id id_atendimento, " +
@@ -34,8 +34,8 @@ public interface AtendimentoRepository extends JpaRepository<Atendimento, Intege
     public List<AtendimentosPaciente> atendimentosPacinte(Integer id, Integer idDois, Integer idTres);
 
     @Query(value =
-            "select a.id id, date_format(a.dt_atendimento,  '%d/%m/%Y') dt_atendimento, " +
-            "b.ds_nome nome_paciente, date_format(b.dt_nascimento, '%d/%m/%Y') dt_nascimento, c.ds_nome nome_unidade " +
+            "select a.id id, date_format(a.dt_atendimento,  '%d/%m/%Y') dt_atendimento, b.ds_nome nome_paciente, " +
+            "a.ds_medico nome_medico, c.ds_nome nome_unidade, a.status_atend " +
             "from atendimento a " +
             "left join paciente b on a.id_paciente = b.id " +
             "left join unidade c on a.id_unidade = c.id " +

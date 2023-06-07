@@ -44,7 +44,7 @@ public class AtendimentoController {
     }
 
     @GetMapping("/listaAtendimentosPaciente")
-    public List<AtendimentosPaci> atendimentos4(
+    public List<AtendimentosPaci> atendimentosPaciente(
             @RequestParam(name = "id") Integer id,
             @RequestParam(name = "idDois", required = false) Integer idDois,
             @RequestParam(name = "idTres", required = false) Integer idTres
@@ -62,7 +62,7 @@ public class AtendimentoController {
     }
 
     @GetMapping("/listaAtendimentosData")
-    public List<AtendimentoPersonalizado> atendimentos5(@RequestParam(name = "data") LocalDate data) {
+    public List<AtendimentoPersonalizado> atendimentosData(@RequestParam(name = "data") LocalDate data) {
         List<RetornoAtendimentoSQLNativo> listaAtendimentos = atendimentoRepository.atendimentosData(data);
         List<AtendimentoPersonalizado> resposta = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -71,8 +71,9 @@ public class AtendimentoController {
             objeto.setId(linha.getId());
             objeto.setDtAtendimento(linha.getDt_atendimento());
             objeto.setNomePaciente(linha.getNome_paciente());
-            objeto.setDtNascimento(linha.getDt_nascimento());
+            objeto.setNomeMedico(linha.getNome_medico());
             objeto.setNomeUnidade(linha.getNome_unidade());
+            objeto.setStatusAtend(linha.getStatus_atend());
             resposta.add(objeto);
         }
         return resposta;

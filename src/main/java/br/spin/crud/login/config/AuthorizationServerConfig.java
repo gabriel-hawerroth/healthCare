@@ -1,6 +1,7 @@
 package br.spin.crud.login.config;
 
 import br.spin.crud.login.security.CustomTokenEnhacer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,6 +23,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public static final int ACESS_TOKEN_VALIDITY_IN_SECONDS= 3600;
     public static final int REFRESH_TOKEN_VALIDITY_IN_SECONDS = 3600;
 
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Bean

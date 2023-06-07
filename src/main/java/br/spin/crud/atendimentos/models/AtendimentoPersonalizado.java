@@ -20,16 +20,19 @@ public class AtendimentoPersonalizado {
 
     private String nomePaciente;
 
-    private String dtNascimento;
+    private String nomeMedico;
 
     private String nomeUnidade;
 
-    public AtendimentoPersonalizado(Integer id, String dtAtendimento, String nomePaciente, String dtNascimento, String nomeUnidade) {
+    private String statusAtend;
+
+    public AtendimentoPersonalizado(Integer id, String dtAtendimento, String nomePaciente, String nomeMedico, String nomeUnidade, String statusAtend) {
         this.id = id;
         this.dtAtendimento = dtAtendimento;
         this.nomePaciente = nomePaciente;
-        this.dtNascimento = dtNascimento;
+        this.nomeMedico = nomeMedico;
         this.nomeUnidade = nomeUnidade;
+        this.statusAtend = statusAtend;
     }
 
     public AtendimentoPersonalizado() {
@@ -59,12 +62,12 @@ public class AtendimentoPersonalizado {
         this.nomePaciente = nomePaciente;
     }
 
-    public String getDtNascimento() {
-        return dtNascimento;
+    public String getNomeMedico() {
+        return nomeMedico;
     }
 
-    public void setDtNascimento(String dtNascimento) {
-        this.dtNascimento = dtNascimento;
+    public void setNomeMedico(String nomeMedico) {
+        this.nomeMedico = nomeMedico;
     }
 
     public String getNomeUnidade() {
@@ -75,10 +78,19 @@ public class AtendimentoPersonalizado {
         this.nomeUnidade = nomeUnidade;
     }
 
+    public String getStatusAtend() {
+        return statusAtend;
+    }
+
+    public void setStatusAtend(String statusAtend) {
+        this.statusAtend = statusAtend;
+    }
+
 //    • ID do atendimento
 //    • Data do atendimento ( dd/mm/yyyy )
 //    • Nome do paciente
-//    • Data de nascimento do paciente ( dd/mm/yyyy )
+//    • Nome do médico
 //    • Nome da unidade
+//    • Status do atendimento
 
 }

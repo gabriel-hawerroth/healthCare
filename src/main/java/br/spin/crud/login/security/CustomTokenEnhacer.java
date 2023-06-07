@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 @Primary
 @Component
-public class    CustomTokenEnhacer extends JwtAccessTokenConverter {
+public class CustomTokenEnhacer extends JwtAccessTokenConverter {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken acessToken,
