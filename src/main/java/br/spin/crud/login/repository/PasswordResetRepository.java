@@ -1,6 +1,5 @@
 package br.spin.crud.login.repository;
 
-import br.spin.crud.login.models.Login;
 import br.spin.crud.login.models.PasswordReset;
 import org.springframework.data.jpa.repository.JpaRepository;
 

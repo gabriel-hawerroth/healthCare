@@ -1,12 +1,9 @@
 package br.spin.crud.login.security;
 
 import br.spin.crud.login.models.Login;
-import br.spin.crud.login.models.StaticLogin;
 import br.spin.crud.login.repository.LoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

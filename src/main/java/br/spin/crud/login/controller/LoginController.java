@@ -32,7 +32,7 @@ public class LoginController {
         return passwordResetRepository.findAll();
     }
 
-    @PostMapping // método para cadastrar um novo usuário
+    @PostMapping("/cadastrarUsuario") // método para cadastrar um novo usuário
     private Login salvarLogin(@RequestBody Login login) {
         encriptedPassword = encoder.encode(login.getSenha());
         login.setSenha(encriptedPassword);

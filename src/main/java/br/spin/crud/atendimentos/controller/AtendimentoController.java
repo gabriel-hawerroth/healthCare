@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +64,6 @@ public class AtendimentoController {
     public List<AtendimentoPersonalizado> atendimentosData(@RequestParam(name = "data") LocalDate data) {
         List<RetornoAtendimentoSQLNativo> listaAtendimentos = atendimentoRepository.atendimentosData(data);
         List<AtendimentoPersonalizado> resposta = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         for (RetornoAtendimentoSQLNativo linha : listaAtendimentos) {
             AtendimentoPersonalizado objeto = new AtendimentoPersonalizado();
             objeto.setId(linha.getId());

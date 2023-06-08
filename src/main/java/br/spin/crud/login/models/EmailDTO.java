@@ -1,7 +1,5 @@
 package br.spin.crud.login.models;
 
-import javax.persistence.Entity;
-
 public class EmailDTO {
 
     private String destinatario;

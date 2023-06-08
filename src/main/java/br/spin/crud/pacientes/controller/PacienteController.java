@@ -23,11 +23,12 @@ public class PacienteController {
 
     @PostMapping("/cadastro")
     private Paciente salvarUnidade(@RequestBody Paciente paciente) {
+        paciente.setIe_situacao("A");
         return pacienteRepository.save(paciente);
     }
 
-    @DeleteMapping("/excluir")
-    private void excluirPaciente(@RequestParam(name = "id") Integer id) {
+    @DeleteMapping("/excluir/{id}")
+    private void excluirPaciente(@PathVariable(name = "id") Long id) {
         pacienteRepository.findById(id);
         Paciente paci = pacienteRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Paciente não encontrado: " + id)
