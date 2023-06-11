@@ -40,7 +40,5 @@ public class LoginController {
     }
 
 //    gabrielhawerroth04@gmail.com, Gabriel123
-//    administrador, adm@234
-//    consulta, 123456
 
 }
