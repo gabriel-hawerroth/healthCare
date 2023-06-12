@@ -12,8 +12,13 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/login/cadastrarUsuario").permitAll()
+//                .antMatchers("/login/cadastrarUsuario").permitAll()
+//                .antMatchers("/passwordRecovery/**").permitAll()
+                .antMatchers("/login/**").permitAll()
                 .antMatchers("/passwordRecovery/**").permitAll()
+                .antMatchers("/atendimentos/**").permitAll()
+                .antMatchers("/pacientes/**").permitAll()
+                .antMatchers("/unidades/**").permitAll()
                 .anyRequest().authenticated();
     }
 
