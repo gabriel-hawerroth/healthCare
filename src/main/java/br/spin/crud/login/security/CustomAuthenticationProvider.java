@@ -38,7 +38,7 @@ public class CustomAuthenticationProvider implements AuthenticationManager {
     }
 
     private Authentication fazerLogin(String username, String password) {
-        Login loginExistente = loginRepository.findByUsuario(username);
+        Login loginExistente = loginRepository.findByUsuarioEmail(username);
         if (loginExistente == null) {
             return null;
         }

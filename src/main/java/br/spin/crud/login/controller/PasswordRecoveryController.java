@@ -37,12 +37,12 @@ public class PasswordRecoveryController {
 
 
     @PostMapping("/gerarToken/{nomeUsuario}") //método que solicita o usuário, gera um token e salva no banco
-    private void gerarToken(@PathVariable(name = "nomeUsuario") String nomeUsuario) throws MessagingException {
-        if (loginRepository.findByUsuario(nomeUsuario) == null) {
+    private void gerarToken(@PathVariable(name = "nomeUsuario") String Usuario) throws MessagingException {
+        if (loginRepository.findByUsuarioEmail(Usuario) == null) {
             throw new BadCredentialsException("Usuario inexistente!");
         } else {
             PasswordReset reset = new PasswordReset();
-            reset.setId_usuario(loginRepository.findByUsuario(nomeUsuario).getId());
+            reset.setId_usuario(loginRepository.findByUsuarioEmail(Usuario).getId());
             reset.setToken(String.valueOf(random.nextInt(900000) + 100000));
             reset.setDt_solicitacao(LocalDate.now());
             passwordResetRepository.save(reset);
@@ -53,7 +53,7 @@ public class PasswordRecoveryController {
     private void enviarEmail(PasswordReset reset) throws MessagingException {
         Login login = loginRepository.findById(reset.getId_usuario()).get();
         EmailDTO email = new EmailDTO();
-        email.setDestinatario(login.getUsuario());
+        email.setDestinatario(login.getUsuarioEmail());
         email.setAssunto("Token para recuperação de senha HealthCare");
         email.setConteudo("O Token para recuperação da senha é " + reset.getToken());
         emailService.enviarEmail(email.getDestinatario(), email.getAssunto(), email.getConteudo());

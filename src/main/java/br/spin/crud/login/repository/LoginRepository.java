@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LoginRepository extends JpaRepository<Login, Long> {
 
-    public Login findByUsuario(String usuario);
+    public Login findByUsuarioEmail(String usuario);
 
 }
