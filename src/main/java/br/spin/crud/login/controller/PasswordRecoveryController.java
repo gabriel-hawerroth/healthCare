@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Random;
 
+@CrossOrigin
 @RestController
 @RequestMapping("passwordRecovery")
 public class PasswordRecoveryController {
