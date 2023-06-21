@@ -17,12 +17,12 @@ public class PacienteController {
     @Autowired
     private PacienteRepository pacienteRepository;
 
-    @GetMapping("/lista")
+    @GetMapping
     private List<Paciente> listaPessoas() {
         return pacienteRepository.findAll();
     }
 
-    @PostMapping("/cadastro")
+    @PostMapping
     private Paciente salvarUnidade(@RequestBody Paciente paciente) {
         paciente.setIe_situacao("A");
         return pacienteRepository.save(paciente);

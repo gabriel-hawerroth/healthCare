@@ -17,17 +17,17 @@ public class UnidadeController {
     @Autowired
     private UnidadeRepository unidadeRepository;
 
-    @GetMapping("/lista")
+    @GetMapping
     private List<Unidade> listaPessoas() {
         return unidadeRepository.findAll();
     }
 
-    @PostMapping("/cadastro")
+    @PostMapping
     private Unidade salvarUnidade(@RequestBody Unidade unidade) {
         return unidadeRepository.save(unidade);
     }
 
-    @DeleteMapping("/excluir")
+    @DeleteMapping("/excluir/{id}")
     private void excluirUnidade(@RequestParam(name = "id") Integer id) {
         unidadeRepository.findById(id);
         Unidade uni = unidadeRepository.findById(id).orElseThrow(

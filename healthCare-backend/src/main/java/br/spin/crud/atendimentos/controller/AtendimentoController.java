@@ -78,7 +78,7 @@ public class AtendimentoController {
         return resposta;
     }
 
-    @PostMapping("/cadastro")
+    @PostMapping
     private Atendimento salvarAtendimento(@RequestBody Atendimento atendimento) {
         if (atendimento.getDt_atendimento() == null) {
             atendimento.setDt_atendimento(LocalDate.now());
