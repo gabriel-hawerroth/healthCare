@@ -2,8 +2,8 @@ export interface Paciente {
   id?: number;
   nome: string;
   dt_nascimento: string;
-  cpf: string;
+  nr_cpf: string;
   cidade: string;
   estado: string;
-  situacao: string;
+  ie_situacao: string;
 }

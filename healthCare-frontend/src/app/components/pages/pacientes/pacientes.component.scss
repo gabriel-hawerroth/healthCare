@@ -1,0 +1,71 @@
+@media screen and (min-width: 1350px) and (min-height: 900px) {
+  .home-container h1 {
+    margin-top: 25px;
+  }
+}
+
+.pacientes-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .search-container {
+    margin-bottom: 2.5em;
+    width: 100%;
+
+    form {
+      width: 30%;
+      position: relative;
+    }
+
+    fa-icon {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+    }
+
+    input {
+      padding: 0.5em;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  h1 {
+    margin-bottom: 0.8em;
+  }
+
+  .pacientes-table {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+    margin: 0 auto;
+    justify-content: space-around;
+
+    .paciente {
+      width: 100%;
+      margin-bottom: 1em;
+      text-align: center;
+
+      h3,
+      p {
+        margin-bottom: 1em;
+      }
+
+      .date {
+        font-size: 0.7em;
+        font-style: italic;
+      }
+    }
+  }
+
+  a {
+    color: rgb(0, 110, 86);
+    padding: 0.3em 0.6em;
+
+    &:hover {
+      background-color: #efefef;
+    }
+  }
+}
