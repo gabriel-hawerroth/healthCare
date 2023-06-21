@@ -6,7 +6,7 @@ import { AtendimentosComponent } from './components/pages/atendimentos/atendimen
 import { PacientesComponent } from './components/pages/pacientes/pacientes.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'pacientes', component: PacientesComponent },
   { path: 'unidades', component: UnidadesComponent },
   { path: 'atendimentos', component: AtendimentosComponent },
