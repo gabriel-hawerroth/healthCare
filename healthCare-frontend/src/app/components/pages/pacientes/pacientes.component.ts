@@ -14,10 +14,21 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 export class PacientesComponent implements OnInit {
   allPacientes: Paciente[] = [];
   pacientes: Paciente[] = [];
+
   baseApiUrl = environment.baseApiUrl;
 
   faSearch = faSearch;
   searchTerm: string = '';
+
+  rows = [this.allPacientes];
+  columns = [
+    { prop: 'nome', name: 'Nome' },
+    { prop: 'dt_nascimento', name: 'Nascimento' },
+    { prop: 'nr_cpf', name: 'CPF' },
+    { prop: 'cidade', name: 'Cidade' },
+    { prop: 'estado', name: 'Estado' },
+    { prop: 'ie_situacao', name: 'Situação' },
+  ];
 
   constructor(private pacienteService: PacienteService) {}
   ngOnInit(): void {

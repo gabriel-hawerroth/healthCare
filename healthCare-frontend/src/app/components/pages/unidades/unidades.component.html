@@ -1,1 +1,20 @@
-<p>unidades works!</p>
+<div class="unidades-container">
+  <div class="search-container">
+    <form>
+      <fa-icon [icon]="faSearch"></fa-icon>
+      <input
+        type="text"
+        placeholder="Busque por uma unidade"
+        (input)="search($event)"
+      />
+    </form>
+  </div>
+  <div *ngIf="units.length > 0; else noUnits"></div>
+  <div>
+    <ngx-datatable [rows]="allUnits" [columns]="columns"> </ngx-datatable>
+  </div>
+  <ng-template #noUnits>
+    <h1>Não há unidades cadastradas!</h1>
+    <a routerLink="/moments/new">Cadastre uma nova unidade!</a>
+  </ng-template>
+</div>

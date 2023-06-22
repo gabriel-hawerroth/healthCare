@@ -2,21 +2,16 @@
   <div class="search-container">
     <form>
       <fa-icon [icon]="faSearch"></fa-icon>
-      <input type="text" placeholder="Busque por um paciente" (input)="search($event)" />
+      <input
+        type="text"
+        placeholder="Busque por um paciente"
+        (input)="search($event)"
+      />
     </form>
   </div>
-  <div *ngIf="pacientes.length > 0; else noPatients">
-    <div class="pacientes-table">
-      <div class="paciente" *ngFor="let paciente of pacientes">
-        <p>{{ paciente.nome }}</p>
-        <p>{{ paciente.dt_nascimento }}</p>
-        <p>{{ paciente.nr_cpf }}</p>
-        <p>{{ paciente.cidade }}</p>
-        <p>{{ paciente.estado }}</p>
-        <p>{{ paciente.ie_situacao }}</p>
-        <p></p>
-      </div>
-    </div>
+  <div *ngIf="pacientes.length > 0; else noPatients"></div>
+  <div>
+    <ngx-datatable [rows]="allPacientes" [columns]="columns"> </ngx-datatable>
   </div>
   <ng-template #noPatients>
     <h1>Não há pacientes cadastrados!</h1>
