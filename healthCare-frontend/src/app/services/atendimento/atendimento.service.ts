@@ -20,7 +20,9 @@ export class AtendimentoService {
   }
 
   getAtendimentos(): Observable<Response<Atendimento[]>> {
-    return this.http.get<Response<Atendimento[]>>(`${this.apiUrl}/lista`);
+    return this.http.get<Response<Atendimento[]>>(
+      `${this.apiUrl}/listaPersonalizada/view`
+    );
   }
 
   updateAtendimento(id: number, formData: FormData): Observable<FormData> {

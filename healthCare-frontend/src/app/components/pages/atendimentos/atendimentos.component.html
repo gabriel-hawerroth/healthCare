@@ -1,20 +1,29 @@
-<div class="unidades-container">
-  <div class="search-container">
-    <form>
-      <fa-icon [icon]="faSearch"></fa-icon>
-      <input
-        type="text"
-        placeholder="Busque por um atendimento"
-        (input)="search($event)"
-      />
-    </form>
+<div class="atendimentos-container">
+  <div class="filters">
+    <div class="search-container">
+      <form>
+        <fa-icon [icon]="faSearch"></fa-icon>
+        <input type="text" placeholder="Busque por um atendimento" />
+      </form>
+    </div>
   </div>
-  <div *ngIf="atends.length > 0; else noUnits"></div>
-  <div>
-    <ngx-datatable [rows]="allAtends" [columns]="columns"> </ngx-datatable>
+  <div class="table">
+    <div *ngIf="atends.length > 0; else noAtends"></div>
+    <div>
+      <ngx-datatable
+        [rows]="allAtends"
+        [columns]="columns"
+        [limit]="8"
+        [selectAllRowsOnPage]="false"
+        [messages]="{
+          emptyMessage: 'Nenhum atendimento encontrado.',
+          totalMessage: 'registros encontrados.'
+        }"
+      ></ngx-datatable>
+    </div>
+    <ng-template #noAtends>
+      <h1>Não há atendimentos cadastrados!</h1>
+      <a routerLink="/moments/new">Cadastre um novo atendimento!</a>
+    </ng-template>
   </div>
-  <ng-template #noUnits>
-    <h1>Não há atendimentos cadastrados!</h1>
-    <a routerLink="/moments/new">Cadastre um novo atendimento!</a>
-  </ng-template>
 </div>

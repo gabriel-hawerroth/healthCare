@@ -22,11 +22,11 @@ export class AtendimentosComponent implements OnInit {
 
   rows = [this.allAtends];
   columns = [
-    { prop: 'id_unidade', name: 'Unidade' },
-    { prop: 'id_paciente', name: 'Paciente' },
-    { prop: 'dt_atendimento', name: 'Data do atendimento' },
-    { prop: 'ds_medico', name: 'Médico' },
-    { prop: 'status_atend', name: 'Status do atendimento' },
+    { prop: 'dtAtendimento', name: 'Data do atendimento' },
+    { prop: 'nomePaciente', name: 'Paciente' },
+    { prop: 'nomeMedico', name: 'Nome do médico' },
+    { prop: 'nomeUnidade', name: 'Nome da unidade' },
+    { prop: 'statusAtend', name: 'Status do atendimento' },
   ];
 
   constructor(private atendimentoService: AtendimentoService) {}

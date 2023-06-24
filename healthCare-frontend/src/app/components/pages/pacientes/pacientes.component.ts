@@ -37,13 +37,4 @@ export class PacientesComponent implements OnInit {
       this.pacientes = items;
     });
   }
-
-  search(e: Event): void {
-    const target = e.target as HTMLInputElement;
-    const value = target.value;
-
-    this.pacientes = this.allPacientes.filter((paciente) => {
-      return paciente.nome.toLowerCase().includes(value);
-    });
-  }
 }

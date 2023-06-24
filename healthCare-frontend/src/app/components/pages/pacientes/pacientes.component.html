@@ -1,20 +1,29 @@
 <div class="pacientes-container">
-  <div class="search-container">
-    <form>
-      <fa-icon [icon]="faSearch"></fa-icon>
-      <input
-        type="text"
-        placeholder="Busque por um paciente"
-        (input)="search($event)"
-      />
-    </form>
+  <div class="filters">
+    <div class="search-container">
+      <form>
+        <fa-icon [icon]="faSearch"></fa-icon>
+        <input type="text" placeholder="Busque por um paciente" />
+      </form>
+    </div>
   </div>
-  <div *ngIf="pacientes.length > 0; else noPatients"></div>
-  <div>
-    <ngx-datatable [rows]="allPacientes" [columns]="columns"> </ngx-datatable>
+  <div class="table">
+    <div *ngIf="pacientes.length > 0; else noPatients"></div>
+    <div>
+      <ngx-datatable
+        [rows]="allPacientes"
+        [columns]="columns"
+        [limit]="8"
+        [selectAllRowsOnPage]="false"
+        [messages]="{
+          emptyMessage: 'Nenhum paciente encontrado.',
+          totalMessage: 'registros encontrados.'
+        }"
+      ></ngx-datatable>
+    </div>
+    <ng-template #noPatients>
+      <h1>Não há pacientes cadastrados!</h1>
+      <a routerLink="/moments/new">Cadastre um novo paciente!</a>
+    </ng-template>
   </div>
-  <ng-template #noPatients>
-    <h1>Não há pacientes cadastrados!</h1>
-    <a routerLink="/moments/new">Cadastre um novo paciente!</a>
-  </ng-template>
 </div>

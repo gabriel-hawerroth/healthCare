@@ -1,8 +1,8 @@
 export interface Atendimento {
   id?: number;
-  unidade: number;
-  paciente: number;
-  dt_atendimento: string;
-  ds_medico: string;
-  status_atend: string;
+  dtAtendimento: string;
+  nomePaciente: number;
+  nomeMedico: string;
+  nomeUnidade: number;
+  statusAtend: string;
 }

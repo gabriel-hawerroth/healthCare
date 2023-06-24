@@ -1,20 +1,29 @@
 <div class="unidades-container">
-  <div class="search-container">
-    <form>
-      <fa-icon [icon]="faSearch"></fa-icon>
-      <input
-        type="text"
-        placeholder="Busque por uma unidade"
-        (input)="search($event)"
-      />
-    </form>
+  <div class="filters">
+    <div class="search-container">
+      <form>
+        <fa-icon [icon]="faSearch"></fa-icon>
+        <input type="text" placeholder="Busque por uma unidade" />
+      </form>
+    </div>
   </div>
-  <div *ngIf="units.length > 0; else noUnits"></div>
-  <div>
-    <ngx-datatable [rows]="allUnits" [columns]="columns"> </ngx-datatable>
+  <div class="table">
+    <div *ngIf="units.length > 0; else noUnits"></div>
+    <div>
+      <ngx-datatable
+        [rows]="allUnits"
+        [columns]="columns"
+        [limit]="8"
+        [selectAllRowsOnPage]="false"
+        [messages]="{
+          emptyMessage: 'Nenhuma unidade encontrada.',
+          totalMessage: 'registros encontrados.'
+        }"
+      ></ngx-datatable>
+    </div>
+    <ng-template #noUnits>
+      <h1>Não há unidades cadastradas!</h1>
+      <a routerLink="/moments/new">Cadastre uma nova paciente!</a>
+    </ng-template>
   </div>
-  <ng-template #noUnits>
-    <h1>Não há unidades cadastradas!</h1>
-    <a routerLink="/moments/new">Cadastre uma nova unidade!</a>
-  </ng-template>
 </div>
