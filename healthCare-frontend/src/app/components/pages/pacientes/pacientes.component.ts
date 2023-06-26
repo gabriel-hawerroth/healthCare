@@ -12,21 +12,34 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./pacientes.component.scss'],
 })
 export class PacientesComponent implements OnInit {
-  allPacientes: Paciente[] = [];
-  pacientes: Paciente[] = [];
+  allPatients: Paciente[] = [];
+  patients: Paciente[] = [];
 
   baseApiUrl = environment.baseApiUrl;
 
   faSearch = faSearch;
   searchTerm: string = '';
 
-  rows = [this.allPacientes];
+  rows = [this.allPatients];
 
   constructor(private pacienteService: PacienteService) {}
   ngOnInit(): void {
     this.pacienteService.getPacientes().subscribe((items: any) => {
-      this.allPacientes = items;
-      this.pacientes = items;
+      this.allPatients = items;
+      this.patients = items;
+    });
+  }
+
+  novoPaciente() {
+
+  }
+
+  search(e: Event): void {
+    const target = e.target as HTMLInputElement;
+    const value = target.value;
+
+    this.patients = this.allPatients.filter((patient) => {
+      return patient.nome.toLowerCase().includes(value);
     });
   }
 }

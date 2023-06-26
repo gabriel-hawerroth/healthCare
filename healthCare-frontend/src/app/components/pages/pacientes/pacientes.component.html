@@ -3,12 +3,13 @@
     class="filters"
     fxLayout="row"
     fxLayout.xs="column"
-    fxLayoutAlign="start"
+    fxLayoutAlign="start center"
     fxLayoutGap="15px"
+    [ngStyle]="{'padding-left': '10px'}"
   >
     <mat-form-field fxFlex="45">
       <mat-label>Filtrar por nome</mat-label>
-      <input matInput />
+      <input matInput (input)="search($event)" />
     </mat-form-field>
     <mat-form-field fxFlex="20">
       <mat-label>Filtrar por situação</mat-label>
@@ -17,18 +18,21 @@
         <mat-option value="two">Inativos</mat-option>
       </mat-select>
     </mat-form-field>
+    <button mat-fab class="button-new" (click)="novoPaciente()" aria-label="add paciente" id="add-paciente-button"
+      matTooltip="Novo paciente" [ngStyle]="{'background-color': 'rgb(0, 110, 86)', left: '535px'}">
+      <mat-icon>add</mat-icon>
+    </button>
   </div>
 
   <div class="table-pacientes">
-    <div>
       <ngx-datatable
-        [rows]="allPacientes"
+        [rows]="allPatients"
         class="material striped"
         [headerHeight]="48"
         [rowHeight]="'auto'"
         [footerHeight]="50"
         [columnMode]="'force'"
-        [limit]="8"
+        [limit]="10"
         [reorderable]="false"
         [selectAllRowsOnPage]="false"
         [messages]="{
@@ -62,9 +66,4 @@
         ></ngx-datatable-column>
       </ngx-datatable>
     </div>
-    <!-- <ng-template #noPatients>
-      <h1>Não há pacientes cadastrados!</h1>
-      <a routerLink="/moments/new">Cadastre um novo paciente!</a>
-    </ng-template> -->
-  </div>
 </div>
