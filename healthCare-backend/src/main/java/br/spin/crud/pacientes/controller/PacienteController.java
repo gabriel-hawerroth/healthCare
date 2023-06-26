@@ -22,6 +22,11 @@ public class PacienteController {
         return pacienteRepository.findAll();
     }
 
+    @GetMapping("/paginados")
+    private List<Paciente> listaPacientesPaginados() {
+        return pacienteRepository.findAll();
+    }
+
     @PostMapping
     private Paciente salvarUnidade(@RequestBody Paciente paciente) {
         paciente.setIe_situacao("A");

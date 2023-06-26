@@ -1,24 +1,23 @@
+@import "/node_modules/@swimlane/ngx-datatable/index.css";
+@import "/node_modules/@swimlane/ngx-datatable/themes/material.scss";
+@import "/node_modules/@swimlane/ngx-datatable/assets/icons.css";
+
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 html,
 body {
+  width: 100%;
   height: 100%;
 }
 
 .root {
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-}
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }

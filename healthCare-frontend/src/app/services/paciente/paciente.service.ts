@@ -23,6 +23,15 @@ export class PacienteService {
     return this.http.get<Response<Paciente[]>>(this.apiUrl);
   }
 
+  getPacientesPaginado(
+    page: number,
+    limit: number
+  ): Observable<Response<Paciente[]>> {
+    return this.http.get<Response<Paciente[]>>(
+      `${this.apiUrl}?page=${page}&limit=${limit}`
+    );
+  }
+
   updatePaciente(id: number, formData: FormData): Observable<FormData> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.put<FormData>(url, formData);

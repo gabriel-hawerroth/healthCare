@@ -1,29 +1,70 @@
 <div class="pacientes-container">
-  <div class="filters">
-    <div class="search-container">
-      <form>
-        <fa-icon [icon]="faSearch"></fa-icon>
-        <input type="text" placeholder="Busque por um paciente" />
-      </form>
-    </div>
+  <div
+    class="filters"
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayoutAlign="start"
+    fxLayoutGap="15px"
+  >
+    <mat-form-field fxFlex="45">
+      <mat-label>Filtrar por nome</mat-label>
+      <input matInput />
+    </mat-form-field>
+    <mat-form-field fxFlex="20">
+      <mat-label>Filtrar por situação</mat-label>
+      <mat-select>
+        <mat-option value="one">Ativos</mat-option>
+        <mat-option value="two">Inativos</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
-  <div class="table">
-    <div *ngIf="pacientes.length > 0; else noPatients"></div>
+
+  <div class="table-pacientes">
     <div>
       <ngx-datatable
         [rows]="allPacientes"
-        [columns]="columns"
+        class="material striped"
+        [headerHeight]="48"
+        [rowHeight]="'auto'"
+        [footerHeight]="50"
+        [columnMode]="'force'"
         [limit]="8"
+        [reorderable]="false"
         [selectAllRowsOnPage]="false"
         [messages]="{
-          emptyMessage: 'Nenhum paciente encontrado.',
           totalMessage: 'registros encontrados.'
         }"
-      ></ngx-datatable>
+      >
+        <ngx-datatable-column
+          name="Nome"
+          prop="nome"
+          [width]="200"
+        ></ngx-datatable-column>
+        <ngx-datatable-column name="Data de nascimento" prop="dt_nascimento">
+          <ng-template class="celula" let-row="row" ngx-datatable-cell-template>
+            {{ row.dt_nascimento | date : "dd/MM/yyyy" }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="CPF" prop="nr_cpf"></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Cidade"
+          prop="cidade"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Estado"
+          prop="estado"
+          [width]="100"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Situação"
+          prop="ie_situacao"
+          [width]="100"
+        ></ngx-datatable-column>
+      </ngx-datatable>
     </div>
-    <ng-template #noPatients>
+    <!-- <ng-template #noPatients>
       <h1>Não há pacientes cadastrados!</h1>
       <a routerLink="/moments/new">Cadastre um novo paciente!</a>
-    </ng-template>
+    </ng-template> -->
   </div>
 </div>
