@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +21,7 @@ import { HomeComponent } from './components/pages/home/home.component';
 import { PacientesComponent } from './components/pages/pacientes/pacientes.component';
 import { UnidadesComponent } from './components/pages/unidades/unidades.component';
 import { AtendimentosComponent } from './components/pages/atendimentos/atendimentos.component';
+import { PacienteFormComponent } from './components/pages/pacientes/pacienteForm/paciente-form.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,7 @@ import { AtendimentosComponent } from './components/pages/atendimentos/atendimen
     PacientesComponent,
     UnidadesComponent,
     AtendimentosComponent,
+    PacienteFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +47,9 @@ import { AtendimentosComponent } from './components/pages/atendimentos/atendimen
     MatInputModule,
     MatSelectModule,
     FlexLayoutModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule,
+    MatCardModule,
   ],
 
   providers: [],

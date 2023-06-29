@@ -5,6 +5,7 @@ import { PacienteService } from 'src/app/services/paciente/paciente.service';
 import { environment } from 'src/environments/environment';
 
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-pacientes',
@@ -30,16 +31,21 @@ export class PacientesComponent implements OnInit {
     });
   }
 
-  novoPaciente() {
-
-  }
-
-  search(e: Event): void {
+  filterName(e: Event): void {
     const target = e.target as HTMLInputElement;
     const value = target.value;
 
     this.patients = this.allPatients.filter((patient) => {
       return patient.nome.toLowerCase().includes(value);
+    });
+  }
+
+  filterSituation(e: Event): void {
+    const target = e.target as HTMLInputElement;
+    const value = target.value;
+
+    this.patients = this.allPatients.filter((patient) => {
+      return patient.ie_situacao.includes(value);
     });
   }
 }

@@ -5,65 +5,77 @@
     fxLayout.xs="column"
     fxLayoutAlign="start center"
     fxLayoutGap="15px"
-    [ngStyle]="{'padding-left': '10px'}"
+    [ngStyle]="{ 'padding-left': '10px' }"
   >
-    <mat-form-field fxFlex="45">
+    <input
+      type="text"
+      (input)="filterName($event)"
+      placeholder="Filtrar por nome"
+      class="input-text"
+    />
+    <!-- <mat-form-field fxFlex="45">
       <mat-label>Filtrar por nome</mat-label>
-      <input matInput (input)="search($event)" />
-    </mat-form-field>
+      <input matInput (input)="filterName($event)" />
+    </mat-form-field> -->
     <mat-form-field fxFlex="20">
       <mat-label>Filtrar por situação</mat-label>
-      <mat-select>
-        <mat-option value="one">Ativos</mat-option>
-        <mat-option value="two">Inativos</mat-option>
+      <mat-select (input)="filterSituation($event)">
+        <mat-option value="A">Ativos</mat-option>
+        <mat-option value="I">Inativos</mat-option>
       </mat-select>
     </mat-form-field>
-    <button mat-fab class="button-new" (click)="novoPaciente()" aria-label="add paciente" id="add-paciente-button"
-      matTooltip="Novo paciente" [ngStyle]="{'background-color': 'rgb(0, 110, 86)', left: '535px'}">
+    <button
+      mat-fab
+      class="button-new"
+      routerLink="/pacienteForm"
+      aria-label="add paciente"
+      id="add-paciente-button"
+      matTooltip="Novo paciente"
+      [ngStyle]="{
+        'background-color': 'rgb(0, 110, 86)',
+      }"
+    >
       <mat-icon>add</mat-icon>
     </button>
   </div>
 
   <div class="table-pacientes">
-      <ngx-datatable
-        [rows]="allPatients"
-        class="material striped"
-        [headerHeight]="48"
-        [rowHeight]="'auto'"
-        [footerHeight]="50"
-        [columnMode]="'force'"
-        [limit]="10"
-        [reorderable]="false"
-        [selectAllRowsOnPage]="false"
-        [messages]="{
-          totalMessage: 'registros encontrados.'
-        }"
-      >
-        <ngx-datatable-column
-          name="Nome"
-          prop="nome"
-          [width]="200"
-        ></ngx-datatable-column>
-        <ngx-datatable-column name="Data de nascimento" prop="dt_nascimento">
-          <ng-template class="celula" let-row="row" ngx-datatable-cell-template>
-            {{ row.dt_nascimento | date : "dd/MM/yyyy" }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="CPF" prop="nr_cpf"></ngx-datatable-column>
-        <ngx-datatable-column
-          name="Cidade"
-          prop="cidade"
-        ></ngx-datatable-column>
-        <ngx-datatable-column
-          name="Estado"
-          prop="estado"
-          [width]="100"
-        ></ngx-datatable-column>
-        <ngx-datatable-column
-          name="Situação"
-          prop="ie_situacao"
-          [width]="100"
-        ></ngx-datatable-column>
-      </ngx-datatable>
-    </div>
+    <ngx-datatable
+      [rows]="patients"
+      class="material striped"
+      [headerHeight]="48"
+      [rowHeight]="'auto'"
+      [footerHeight]="50"
+      [columnMode]="'force'"
+      [limit]="7"
+      [reorderable]="false"
+      [selectAllRowsOnPage]="false"
+      [messages]="{
+        totalMessage: 'registros encontrados.'
+      }"
+    >
+      <ngx-datatable-column
+        name="Nome"
+        prop="nome"
+        [width]="200"
+      ></ngx-datatable-column>
+      <ngx-datatable-column name="Data de nascimento" prop="dt_nascimento">
+        <ng-template class="celula" let-row="row" ngx-datatable-cell-template>
+          {{ row.dt_nascimento | date : "dd/MM/yyyy" }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="CPF" prop="nr_cpf"></ngx-datatable-column>
+      <ngx-datatable-column name="Cidade" prop="cidade"></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Estado"
+        prop="estado"
+        [width]="100"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Situação"
+        prop="ie_situacao"
+        [width]="100"
+      ></ngx-datatable-column>
+    </ngx-datatable>
+  </div>
 </div>

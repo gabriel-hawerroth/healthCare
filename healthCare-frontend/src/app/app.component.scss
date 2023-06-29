@@ -1,9 +1,12 @@
 .header {
-  height: 80px;
+  width: 100%;
+  height: 140px;
+  position: fixed;
 }
 
 .main,
 .body {
+  margin-top: 140px;
   flex: 1;
   background-color: rgb(243, 243, 243);
 }

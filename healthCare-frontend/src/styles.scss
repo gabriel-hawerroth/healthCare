@@ -1,7 +1,7 @@
 @import "/node_modules/@swimlane/ngx-datatable/index.css";
 @import "/node_modules/@swimlane/ngx-datatable/themes/material.scss";
 @import "/node_modules/@swimlane/ngx-datatable/assets/icons.css";
-@import '/node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+@import "/node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
 
 * {
   padding: 0;
@@ -20,9 +20,6 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
+  color: black;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.button-new {
-  fill: green;
 }

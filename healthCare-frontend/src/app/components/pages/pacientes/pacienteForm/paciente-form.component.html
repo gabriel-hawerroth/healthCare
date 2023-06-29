@@ -1,0 +1,37 @@
+<div class="pacient-form">
+  <div class="general-section">
+    <mat-form-field fxFlex="34">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nm_paciente" />
+    </mat-form-field>
+  </div>
+  <div class="complementary-data">
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="h3"><b>Dados complementares</b></div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutAlign="start"
+          fxLayoutGap="10px"
+        >
+          <mat-form-field fxFlex="15">
+            <input
+              matInput
+              placeholder="Nome da mãe"
+              formControlName="nm_mae"
+            />
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div class="assistance-data"></div>
+  <div class="service-data"></div>
+  <div class="adress"></div>
+</div>
