@@ -1,4 +1,5 @@
 <div class="pacientes-container">
+
   <div
     class="filters"
     fxLayout="row"
@@ -7,23 +8,21 @@
     fxLayoutGap="15px"
     [ngStyle]="{ 'padding-left': '10px' }"
   >
-    <input
-      type="text"
-      (input)="filterName($event)"
-      placeholder="Filtrar por nome"
-      class="input-text"
-    />
-    <!-- <mat-form-field fxFlex="45">
+
+    <mat-form-field fxFlex="45">
       <mat-label>Filtrar por nome</mat-label>
       <input matInput (input)="filterName($event)" />
-    </mat-form-field> -->
+    </mat-form-field>
+
     <mat-form-field fxFlex="20">
       <mat-label>Filtrar por situação</mat-label>
       <mat-select (input)="filterSituation($event)">
         <mat-option value="A">Ativos</mat-option>
         <mat-option value="I">Inativos</mat-option>
       </mat-select>
+
     </mat-form-field>
+
     <button
       mat-fab
       class="button-new"
@@ -47,7 +46,7 @@
       [rowHeight]="'auto'"
       [footerHeight]="50"
       [columnMode]="'force'"
-      [limit]="7"
+      [limit]="9"
       [reorderable]="false"
       [selectAllRowsOnPage]="false"
       [messages]="{
