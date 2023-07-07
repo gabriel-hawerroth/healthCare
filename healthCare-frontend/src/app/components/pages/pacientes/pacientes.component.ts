@@ -22,12 +22,28 @@ export class PacientesComponent implements OnInit {
   searchTerm: string = '';
 
   rows = [this.allPatients];
+  rowsLimit: number = 7;
 
   constructor(private pacienteService: PacienteService) {}
   ngOnInit(): void {
     this.pacienteService.getPacientes().subscribe((items: any) => {
       this.allPatients = items;
       this.patients = items;
+
+      const handleResize = (): void => {
+        const windowWidth: number = window.innerWidth;
+        const windowHeight: number = window.innerHeight;
+
+        if (windowWidth > 1300 && windowHeight > 700) {
+          this.rowsLimit = 7;
+        } else {
+          this.rowsLimit = 5;
+        }
+
+        console.log('Valor de rowsLimit:', this.rowsLimit);
+      };
+
+      window.addEventListener('resize', handleResize);
     });
 
     // this.buildComponent();

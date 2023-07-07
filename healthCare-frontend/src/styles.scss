@@ -1,7 +1,18 @@
+$primary-color: #2a7869;
+
+@import "/node_modules/@angular/material/theming";
 @import "/node_modules/@swimlane/ngx-datatable/index.css";
 @import "/node_modules/@swimlane/ngx-datatable/themes/material.scss";
 @import "/node_modules/@swimlane/ngx-datatable/assets/icons.css";
 @import "/node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
+
+@include mat-core();
+
+@media (max-width: 1300px) and (max-height: 700px) {
+  .button-new {
+    width: 50px !important;
+  }
+}
 
 * {
   padding: 0;
@@ -24,6 +35,130 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
+.title-page {
+  position: fixed;
+  top: 103px;
+  left: 25px;
+  color: white;
+  font-size: 1.5em;
+  z-index: 9999;
+}
+
+.arrow-back {
+  position: fixed;
+  top: 107px;
+  left: 27px;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.button-1,
+.button-2,
+.button-3,
+.button-4 {
+  position: fixed;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: rgb(255, 255, 255);
+  z-index: 9999;
+  cursor: pointer;
+}
+
+.button-1 {
+  top: 94px;
+  right: 205px;
+}
+
+.button-2 {
+  top: 94px;
+  right: 145px;
+}
+
+.button-3 {
+  top: 94px;
+  right: 85px;
+}
+
+.button-4 {
+  top: 94px;
+  right: 25px;
+}
+
+.delete {
+  background-color: rgb(196, 50, 50);
+}
+
+.button-new {
+  height: 6.7vh;
+  width: 62px;
+  margin-left: 550px;
+  margin-right: 10px;
+  z-index: 9999;
+}
+
+.form-field {
+  background-color: transparent !important;
+}
+
 mat-form-field {
-  margin-top: 12px;
+  height: 73px;
+  margin-top: 7px;
+
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: transparent;
+    padding-left: 4px;
+
+    &:hover {
+      background-color: transparent !important;
+    }
+
+    &:focus {
+      background-color: transparent !important;
+    }
+
+    &:active {
+      background-color: transparent !important;
+    }
+  }
+}
+
+.mat-accordion {
+  margin-top: 15px;
+
+  mat-panel-title h3 {
+    font-size: 1.25em;
+  }
+
+  .mat-expansion-panel-header {
+    height: 48px !important;
+  }
+
+  .mat-expansion-panel-body {
+    padding: 0px 12px 12px !important;
+  }
+}
+
+.ngx-datatable.material.striped .datatable-row-odd {
+  background: white !important;
+}
+
+.ngx-datatable.material.striped .datatable-row-even {
+  background: #c8ece6 !important;
+}
+
+.heatlhCare-fg {
+  color: $primary-color;
+}
+
+.heatlhCare-bg {
+  color: $primary-color;
 }

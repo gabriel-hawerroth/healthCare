@@ -13,6 +13,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +25,7 @@ import { PacientesComponent } from './components/pages/pacientes/pacientes.compo
 import { UnidadesComponent } from './components/pages/unidades/unidades.component';
 import { AtendimentosComponent } from './components/pages/atendimentos/atendimentos.component';
 import { PacienteFormComponent } from './components/pages/pacientes/pacienteForm/paciente-form.component';
+import { CpfMaskPipe } from 'src/app/utils/cpf-mask.pipe';
 
 @NgModule({
   declarations: [
@@ -32,6 +36,7 @@ import { PacienteFormComponent } from './components/pages/pacientes/pacienteForm
     UnidadesComponent,
     AtendimentosComponent,
     PacienteFormComponent,
+    CpfMaskPipe,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +55,9 @@ import { PacienteFormComponent } from './components/pages/pacientes/pacienteForm
     MatIconModule,
     MatExpansionModule,
     MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
   ],
 
   providers: [],

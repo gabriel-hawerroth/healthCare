@@ -2,35 +2,37 @@
   <div class="top">
     <div id="logo">
       <a routerLink="/">
-        <span [ngStyle]="{ color: 'rgb(81, 180, 125)', 'font-weight': 'bold' }"
-          >Spin</span
-        >
-        <span [ngStyle]="{ color: 'rgb(218, 123, 30)' }"
-          >Care
-          <span [ngStyle]="{ 'font-size': '.7em' }"
-            >- <span [ngStyle]="{ 'font-weight': 'bold' }">Enterprise</span>
-          </span>
+        <img src="../../../assets/enterpriseImage.png" alt="" />
+        <span
+          [ngStyle]="{
+            'font-size': '.7em',
+            color: '#ff7243',
+            'margin-top': '8px',
+            'margin-left': '-4px'
+          }"
+          >-
+          <span [ngStyle]="{ 'font-weight': 'bold' }">Enterprise</span>
         </span>
       </a>
     </div>
     <div id="right-header">
       <div id="infos">
-        <mat-icon id="notification-button">notifications</mat-icon>
+        <span class="material-symbols-outlined"> notifications </span>
         <img
           src="../../../assets/enterpriseImage.png"
           alt="Logotipo da empresa"
           class="headerImage"
         />
         <span [ngStyle]="{ cursor: 'default' }">SpinCare - Matriz</span>
-        <!-- <div> -->
-        <img
-          src="../../../assets/userImage.jpeg"
-          alt="Foto do usuário"
-          class="headerImage"
-        />
-        <span>Gabriel Hawerroth</span>
+        <div class="user">
+          <img
+            src="../../../assets/userImage.jpeg"
+            alt="Foto do usuário"
+            class="headerImage"
+          />
+          <span>Gabriel Hawerroth</span>
+        </div>
         <mat-icon [ngStyle]="{ 'margin-left': '-20px' }">expand_more</mat-icon>
-        <!-- </div> -->
       </div>
 
       <div id="logout-icon">
@@ -40,11 +42,11 @@
   </div>
 
   <div class="nav">
-    <mat-icon routerLink="/">home</mat-icon>
     <ul class="links">
-      <li><a routerLink="/pacientes">Pacientes</a></li>
-      <li><a routerLink="/unidades">Unidades</a></li>
-      <li><a routerLink="/atendimentos">Atendimentos</a></li>
+      <mat-icon routerLink="/">home</mat-icon>
+      <li routerLink="/pacientes">Pacientes</li>
+      <li routerLink="/unidades">Unidades</li>
+      <li routerLink="/atendimentos">Atendimentos</li>
     </ul>
   </div>
 

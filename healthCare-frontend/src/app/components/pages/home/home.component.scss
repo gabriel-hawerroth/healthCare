@@ -4,6 +4,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgb(0, 110, 86);
-  font-size: 4em;
+  color: #3fccb0;
+  font-size: 4.4em;
+  background-color: white;
+
+  p {
+    margin-bottom: 70px;
+
+    span {
+      color: #ff7243;
+    }
+  }
 }
