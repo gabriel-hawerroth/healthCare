@@ -105,9 +105,15 @@ $primary-color: #2a7869;
 
   .nav {
     width: 100%;
-    height: 24%;
+    height: 55%;
     background-color: rgb(248, 248, 248);
     border-top: 1px solid rgba(48, 48, 48, 0.185);
+    display: flex;
+    justify-content: center;
+    background-color: #2a7869;
+    border-bottom: 1px solid black;
+    color: white;
+    font-size: 1.3em;
 
     ul {
       height: 100%;
@@ -144,7 +150,7 @@ $primary-color: #2a7869;
 
   .info {
     width: 100%;
-    height: 42%;
+    height: 45%;
     background-color: $primary-color;
   }
 }

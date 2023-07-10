@@ -4,6 +4,7 @@ import br.spin.crud.pacientes.models.Paciente;
 import br.spin.crud.pacientes.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,7 +19,7 @@ public class PacienteController {
     private PacienteRepository pacienteRepository;
 
     @GetMapping
-    private List<Paciente> listaPessoas() {
+    private List<Paciente> listaPacientes() {
         return pacienteRepository.findAll();
     }
 
@@ -28,14 +29,13 @@ public class PacienteController {
     }
 
     @PostMapping
-    private Paciente salvarUnidade(@RequestBody Paciente paciente) {
+    private ResponseEntity<Paciente> salvarPaciente(@RequestBody Paciente paciente) {
         paciente.setIe_situacao("A");
-        return pacienteRepository.save(paciente);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pacienteRepository.save(paciente));
     }
 
     @DeleteMapping("/excluir/{id}")
     private void excluirPaciente(@PathVariable(name = "id") Long id) {
-        pacienteRepository.findById(id);
         Paciente paci = pacienteRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Paciente não encontrado: " + id)
         );

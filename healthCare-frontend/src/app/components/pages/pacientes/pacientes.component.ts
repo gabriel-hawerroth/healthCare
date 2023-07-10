@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Paciente } from 'src/app/Paciente';
-import { PacienteService } from 'src/app/services/paciente/paciente.service';
+import { Patient } from 'src/app/Patient';
+import { PatientService } from 'src/app/services/paciente/patient.service';
 import { environment } from 'src/environments/environment';
 
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-pacientes',
@@ -13,8 +12,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./pacientes.component.scss'],
 })
 export class PacientesComponent implements OnInit {
-  allPatients: Paciente[] = [];
-  patients: Paciente[] = [];
+  allPatients: Patient[] = [];
+  patients: Patient[] = [];
 
   baseApiUrl = environment.baseApiUrl;
 
@@ -22,28 +21,12 @@ export class PacientesComponent implements OnInit {
   searchTerm: string = '';
 
   rows = [this.allPatients];
-  rowsLimit: number = 7;
 
-  constructor(private pacienteService: PacienteService) {}
+  constructor(private patientService: PatientService) {}
   ngOnInit(): void {
-    this.pacienteService.getPacientes().subscribe((items: any) => {
+    this.patientService.getPatients().subscribe((items: any) => {
       this.allPatients = items;
       this.patients = items;
-
-      const handleResize = (): void => {
-        const windowWidth: number = window.innerWidth;
-        const windowHeight: number = window.innerHeight;
-
-        if (windowWidth > 1300 && windowHeight > 700) {
-          this.rowsLimit = 7;
-        } else {
-          this.rowsLimit = 5;
-        }
-
-        console.log('Valor de rowsLimit:', this.rowsLimit);
-      };
-
-      window.addEventListener('resize', handleResize);
     });
 
     // this.buildComponent();
@@ -56,18 +39,18 @@ export class PacientesComponent implements OnInit {
     const value = target.value.toLowerCase();
 
     this.patients = this.allPatients.filter((patient) => {
-      return patient.nome.toLowerCase().includes(value);
+      return patient.ds_nome.toLowerCase().includes(value);
     });
   }
 
-  filterSituation(e: Event): void {
-    const target = e.target as HTMLInputElement;
-    const value = target.value;
+  // filterSituation(e: Event): void {
+  //   const target = e.target as HTMLInputElement;
+  //   const value = target.value;
 
-    this.patients = this.allPatients.filter((patient) => {
-      return patient.ie_situacao.includes(value);
-    });
-  }
+  //   this.patients = this.allPatients.filter((patient) => {
+  //     return patient.ie_situacao.includes(value);
+  //   });
+  // }
 
   // public removeAcentos(newStringComAcento): string {
   //   if (!newStringComAcento) {

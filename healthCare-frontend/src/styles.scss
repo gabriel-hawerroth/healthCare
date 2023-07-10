@@ -1,5 +1,3 @@
-$primary-color: #2a7869;
-
 @import "/node_modules/@angular/material/theming";
 @import "/node_modules/@swimlane/ngx-datatable/index.css";
 @import "/node_modules/@swimlane/ngx-datatable/themes/material.scss";
@@ -14,6 +12,20 @@ $primary-color: #2a7869;
   }
 }
 
+$primary-color: #2a7869;
+
+$custom-app-primary: mat-palette($mat-teal, 900);
+$custom-app-secondary: mat-palette($mat-teal, 900);
+$custom-app-warn: mat-palette($mat-teal, 900);
+
+$custom-theme: mat-light-theme(
+  $custom-app-primary,
+  $custom-app-secondary,
+  $custom-app-warn
+);
+
+@include angular-material-theme($custom-theme);
+
 * {
   padding: 0;
   margin: 0;
@@ -26,7 +38,7 @@ body {
   height: 100%;
 }
 
-.root {
+app-root {
   width: 100%;
   height: 100%;
   display: flex;

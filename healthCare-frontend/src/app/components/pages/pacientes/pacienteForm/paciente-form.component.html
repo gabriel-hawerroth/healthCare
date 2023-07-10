@@ -9,7 +9,7 @@
 </div>
 
 <div class="button-3">
-  <span routerLink="/pacientes" class="material-symbols-outlined"> save </span>
+  <span (click)="savePatient()" class="material-symbols-outlined"> save </span>
 </div>
 
 <div class="button-4 delete">
@@ -18,29 +18,33 @@
   </span>
 </div>
 
-<div class="pacient-form">
+<form class="pacient-form" [formGroup]="patientForm">
   <div class="general-section" fxLayoutGap="13">
     <mat-form-field fxFlex="37">
       <mat-label><b>Nome do paciente</b></mat-label>
-      <input matInput #nomeInput maxlength="60" />
+      <input matInput #nomeInput maxlength="60" formControlName="ds_nome" />
       <mat-hint align="end">{{ nomeInput.value.length }}/60</mat-hint>
     </mat-form-field>
 
     <mat-form-field fxFlex="10">
       <mat-label>RG</mat-label>
-      <input matInput #rgInput maxlength="7" />
+      <input matInput #rgInput maxlength="7" formControlName="nr_rg" />
       <mat-hint align="end">{{ rgInput.value.length }}/7</mat-hint>
     </mat-form-field>
 
     <mat-form-field fxFlex="12">
       <mat-label><b>CPF</b></mat-label>
-      <input matInput #cpfInput maxlength="11" />
+      <input matInput #cpfInput maxlength="11" formControlName="nr_cpf" />
       <mat-hint align="end">{{ cpfInput.value.length }}/11</mat-hint>
     </mat-form-field>
 
     <mat-form-field fxFlex="13">
       <mat-label><b>Nascimento</b></mat-label>
-      <input matInput [matDatepicker]="picker" />
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="dt_nascimento"
+      />
       <mat-datepicker-toggle
         matIconSuffix
         [for]="picker"
@@ -49,14 +53,19 @@
     </mat-form-field>
 
     <mat-form-field fxFlex="12">
-      <mat-label><b>Celular</b></mat-label>
-      <input matInput #numeroInput maxlength="11" />
+      <mat-label>Celular</mat-label>
+      <input
+        matInput
+        #numeroInput
+        maxlength="11"
+        formControlName="nr_celular"
+      />
       <mat-hint align="end">{{ numeroInput.value.length }}/11</mat-hint>
     </mat-form-field>
 
     <mat-form-field fxFlex="16">
       <mat-label>Status</mat-label>
-      <mat-select>
+      <mat-select formControlName="status">
         <mat-option value="em captação">Em captação</mat-option>
         <mat-option value="aguardando aprovação"
           >Aguardando aprovação</mat-option
@@ -69,7 +78,7 @@
   </div>
 
   <mat-accordion class="mat-acordion complementary-section">
-    <mat-expansion-panel expanded>
+    <mat-expansion-panel>
       <mat-expansion-panel-header class="mat-expansion-panel-header">
         <mat-panel-title>
           <h3><b>Dados Complementares</b></h3>
@@ -78,20 +87,30 @@
 
       <div fxLayout="row" fxLayoutGap="10px">
         <mat-form-field fxFlex="30">
-          <mat-label><b>Nome da mãe</b></mat-label>
-          <input matInput #nomeMaeInput maxlength="100" />
+          <mat-label>Nome da mãe</mat-label>
+          <input
+            matInput
+            #nomeMaeInput
+            maxlength="100"
+            formControlName="nome_mae"
+          />
           <mat-hint align="end">{{ nomeMaeInput.value.length }}/60</mat-hint>
         </mat-form-field>
 
         <mat-form-field fxFlex="30">
           <mat-label>Nome do pai</mat-label>
-          <input matInput #nomePaiInput maxlength="60" />
+          <input
+            matInput
+            #nomePaiInput
+            maxlength="60"
+            formControlName="nome_pai"
+          />
           <mat-hint align="end">{{ nomePaiInput.value.length }}/60</mat-hint>
         </mat-form-field>
 
         <mat-form-field fxFlex="15">
-          <mat-label><b>Gênero</b></mat-label>
-          <mat-select>
+          <mat-label>Gênero</mat-label>
+          <mat-select formControlName="genero">
             <mat-option value="masculino">Masculino</mat-option>
             <mat-option value="feminino">Feminino</mat-option>
           </mat-select>
@@ -99,7 +118,7 @@
 
         <mat-form-field fxFlex="18">
           <mat-label>Estado civil</mat-label>
-          <mat-select>
+          <mat-select formControlName="estado_civil">
             <mat-option value="Solteiro">Solteiro</mat-option>
             <mat-option value="Casado">Casado</mat-option>
             <mat-option value="Viuvo">Viúvo</mat-option>
@@ -112,7 +131,12 @@
       <div fxLayout="row" fxLayoutGap="10px">
         <mat-form-field fxFlex="18">
           <mat-label>Nacionalidade</mat-label>
-          <input matInput #nacionalidadeInput maxlength="40" />
+          <input
+            matInput
+            #nacionalidadeInput
+            maxlength="40"
+            formControlName="nacionalidade"
+          />
           <mat-hint align="end"
             >{{ nacionalidadeInput.value.length }}/40</mat-hint
           >
@@ -120,38 +144,54 @@
 
         <mat-form-field fxFlex="14">
           <mat-label>Etnia</mat-label>
-          <input matInput #etniaInput maxlength="25" />
+          <input matInput #etniaInput maxlength="25" formControlName="etnia" />
           <mat-hint align="end">{{ etniaInput.value.length }}/25</mat-hint>
         </mat-form-field>
 
         <mat-form-field fxFlex="14">
           <mat-label>Religião</mat-label>
-          <input matInput #religiaoInput maxlength="30" />
+          <input
+            matInput
+            #religiaoInput
+            maxlength="30"
+            formControlName="religiao"
+          />
           <mat-hint align="end">{{ religiaoInput.value.length }}/30</mat-hint>
         </mat-form-field>
 
         <mat-form-field fxFlex="10">
           <mat-label>Peso (kg)</mat-label>
-          <input type="number" matInput #pesoInput />
+          <input type="number" matInput #pesoInput formControlName="peso_kg" />
           <mat-hint align="end">{{ pesoInput.value.length }}/3</mat-hint>
         </mat-form-field>
 
         <mat-form-field fxFlex="10">
           <mat-label>Altura (cm)</mat-label>
-          <input type="number" matInput #alturaInput />
+          <input
+            type="number"
+            matInput
+            #alturaInput
+            formControlName="altura_cm"
+          />
           <mat-hint align="end">{{ alturaInput.value.length }}/3</mat-hint>
         </mat-form-field>
 
         <mat-form-field fxFlex="25">
           <mat-label>E-mail</mat-label>
-          <input type="email" matInput #emailInput maxlength="60" />
-          <mat-hint align="end">{{ emailInput.value.length }}/60</mat-hint>
+          <input
+            type="email"
+            matInput
+            #emailInput
+            maxlength="80"
+            formControlName="email"
+          />
+          <mat-hint align="end">{{ emailInput.value.length }}/80</mat-hint>
         </mat-form-field>
       </div>
     </mat-expansion-panel>
   </mat-accordion>
 
-  <mat-accordion class="mat-accordion assistance-section">
+  <!-- <mat-accordion class="mat-accordion assistance-section">
     <mat-expansion-panel expanded>
       <mat-expansion-panel-header class="mat-expansion-panel-header">
         <mat-panel-title>
@@ -162,13 +202,18 @@
       <div fxLayout="row" fxLayoutGap="10px">
         <mat-form-field fxFlex="48">
           <mat-label>Alergias</mat-label>
-          <input matInput #alergiaInput maxlength="120" />
+          <input
+            matInput
+            #alergiaInput
+            maxlength="120"
+            formControlName="alergias"
+          />
           <mat-hint align="end">{{ alergiaInput.value.length }}/120</mat-hint>
         </mat-form-field>
 
         <mat-form-field fxFlex="18">
           <mat-label>Dependência</mat-label>
-          <mat-select>
+          <mat-select formControlName="dependencia">
             <mat-option value="independente">Independente</mat-option>
             <mat-option value="requer-assintencia"
               >Requer assintência</mat-option
@@ -177,7 +222,9 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-checkbox>Permite atendimento on-line</mat-checkbox>
+        <mat-checkbox formControlName="permite_atend_online"
+          >Permite atendimento on-line</mat-checkbox
+        >
       </div>
 
       <div fxLayout="row" [ngStyle]="{ 'padding-bottom': '90px' }">
@@ -185,6 +232,7 @@
           <mat-label>Observação/diagnóstico</mat-label>
           <textarea
             matInput
+            formControlName="obs_diagnostico"
             [ngStyle]="{
               height: '120px',
               'max-height': '120px',
@@ -205,9 +253,13 @@
       </mat-expansion-panel-header>
 
       <div fxLayout="row" fxLayoutGap="10px">
-        <mat-form-field fxFlex="15">
+        <mat-form-field fxFlex="16">
           <mat-label>Início do atendimento</mat-label>
-          <input matInput [matDatepicker]="inicioAtendPicker" />
+          <input
+            matInput
+            [matDatepicker]="inicioAtendPicker"
+            formControlName="dt_inicio_atend"
+          />
           <mat-datepicker-toggle
             matIconSuffix
             [for]="inicioAtendPicker"
@@ -215,9 +267,13 @@
           <mat-datepicker #inicioAtendPicker></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field fxFlex="15">
+        <mat-form-field fxFlex="16">
           <mat-label>Fim do atendimento</mat-label>
-          <input matInput [matDatepicker]="fimAtendPicker" />
+          <input
+            matInput
+            [matDatepicker]="fimAtendPicker"
+            formControlName="dt_fim_atend"
+          />
           <mat-datepicker-toggle
             matIconSuffix
             [for]="fimAtendPicker"
@@ -225,15 +281,19 @@
           <mat-datepicker #fimAtendPicker></mat-datepicker>
         </mat-form-field>
 
-        <mat-checkbox>Estoque empenhado</mat-checkbox>
+        <mat-checkbox formControlName="estoque_empenhado"
+          >Estoque empenhado</mat-checkbox
+        >
 
-        <mat-checkbox>Guarda compartilhada</mat-checkbox>
+        <mat-checkbox formControlName="guarda_compartilhada"
+          >Guarda compartilhada</mat-checkbox
+        >
       </div>
 
       <div fxLayout="row" fxLayoutGap="10px">
         <mat-form-field fxFlex="15">
           <mat-label>Gênero preferencial</mat-label>
-          <mat-select>
+          <mat-select formControlName="genero_pref">
             <mat-option value="nenhum">Nenhum</mat-option>
             <mat-option value="masculino">Masculino</mat-option>
             <mat-option value="feminino">Feminino</mat-option>
@@ -242,26 +302,41 @@
 
         <mat-form-field fxFlex="11">
           <mat-label>Idade mínima</mat-label>
-          <input type="number" matInput #idadeMinimaInput />
+          <input
+            type="number"
+            matInput
+            #idadeMinimaInput
+            formControlName="idade_min"
+          />
           <mat-hint align="end">{{ idadeMinimaInput.value.length }}/3</mat-hint>
         </mat-form-field>
 
         <mat-form-field fxFlex="11">
           <mat-label>Idade máxima</mat-label>
-          <input type="number" matInput #idadeMaximaInput />
+          <input
+            type="number"
+            matInput
+            #idadeMaximaInput
+            formControlName="idade_max"
+          />
           <mat-hint align="end">{{ idadeMaximaInput.value.length }}/3</mat-hint>
         </mat-form-field>
 
         <mat-form-field fxFlex="60">
           <mat-label>Observação sobre preferências</mat-label>
-          <input matInput #obsPreferenciasInput maxlength="100" />
+          <input
+            matInput
+            #obsPreferenciasInput
+            maxlength="100"
+            formControlName="obs_preferencias"
+          />
           <mat-hint align="end"
             >{{ obsPreferenciasInput.value.length }}/100</mat-hint
           >
         </mat-form-field>
       </div>
     </mat-expansion-panel>
-  </mat-accordion>
+  </mat-accordion> -->
 
   <mat-accordion class="mat-accordion address-data">
     <mat-expansion-panel expanded>
@@ -274,13 +349,13 @@
       <div fxLayout="row" fxLayoutGap="10px">
         <mat-form-field fxFlex="10">
           <mat-label><b>CEP</b></mat-label>
-          <input matInput #cepInput maxlength="8" />
+          <input matInput #cepInput maxlength="8" formControlName="nr_cep" />
           <mat-hint align="end">{{ cepInput.value.length }}/8</mat-hint>
         </mat-form-field>
 
         <mat-form-field fxFlex="15">
           <mat-label>Estado</mat-label>
-          <mat-select>
+          <mat-select formControlName="estado">
             <mat-option value=""></mat-option>
             <mat-option value="AC">Acre</mat-option>
             <mat-option value="AL">Alagoas</mat-option>
@@ -314,19 +389,34 @@
 
         <mat-form-field fxFlex="20">
           <mat-label>Cidade</mat-label>
-          <input matInput #cidadeInput maxlength="40" />
-          <mat-hint align="end">{{ cidadeInput.value.length }}/40</mat-hint>
+          <input
+            matInput
+            #cidadeInput
+            maxlength="50"
+            formControlName="cidade"
+          />
+          <mat-hint align="end">{{ cidadeInput.value.length }}/50</mat-hint>
         </mat-form-field>
 
         <mat-form-field fxFlex="16">
           <mat-label>Bairro</mat-label>
-          <input matInput #bairroInput maxlength="30" />
+          <input
+            matInput
+            #bairroInput
+            maxlength="30"
+            formControlName="bairro"
+          />
           <mat-hint align="end">{{ bairroInput.value.length }}/30</mat-hint>
         </mat-form-field>
 
         <mat-form-field fxFlex="36">
           <mat-label>Endereço</mat-label>
-          <input matInput #enderecoInput maxlength="80" />
+          <input
+            matInput
+            #enderecoInput
+            maxlength="80"
+            formControlName="endereco"
+          />
           <mat-hint align="end">{{ enderecoInput.value.length }}/80</mat-hint>
         </mat-form-field>
       </div>
@@ -334,13 +424,23 @@
       <div fxLayout="row" fxLayoutGap="10px">
         <mat-form-field fxFlex="10">
           <mat-label>Nº do endereço</mat-label>
-          <input matInput #nrEnderecoInput maxlength="4" />
+          <input
+            matInput
+            #nrEnderecoInput
+            maxlength="4"
+            formControlName="nr_endereco"
+          />
           <mat-hint align="end">{{ nrEnderecoInput.value.length }}/4</mat-hint>
         </mat-form-field>
 
         <mat-form-field fxFlex="30">
           <mat-label>Complemento</mat-label>
-          <input matInput #complementoInput maxlength="50" />
+          <input
+            matInput
+            #complementoInput
+            maxlength="50"
+            formControlName="complemento"
+          />
           <mat-hint align="end"
             >{{ complementoInput.value.length }}/50</mat-hint
           >
@@ -352,6 +452,7 @@
           <mat-label>Como chegar</mat-label>
           <textarea
             matInput
+            formControlName="como_chegar"
             [ngStyle]="{
               height: '120px',
               'max-height': '120px',
@@ -362,4 +463,4 @@
       </div>
     </mat-expansion-panel>
   </mat-accordion>
-</div>
+</form>

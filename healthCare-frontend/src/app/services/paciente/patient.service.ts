@@ -2,43 +2,43 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Paciente } from 'src/app/Paciente';
+import { Patient } from 'src/app/Patient';
 import { Response } from 'src/app/Response';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PacienteService {
+export class PatientService {
   private baseApiUrl = environment.baseApiUrl;
   private apiUrl = `${this.baseApiUrl}pacientes`;
 
   constructor(private http: HttpClient) {}
 
-  createPaciente(formData: FormData): Observable<FormData> {
-    return this.http.post<FormData>(this.apiUrl, formData);
+  createPatient(patient: Patient) {
+    return this.http.post<Patient>(this.apiUrl, patient);
   }
 
-  getPacientes(): Observable<Response<Paciente[]>> {
-    return this.http.get<Response<Paciente[]>>(this.apiUrl);
+  getPatients(): Observable<Response<Patient[]>> {
+    return this.http.get<Response<Patient[]>>(this.apiUrl);
   }
 
-  getPacientesPaginado(
+  getPatientsPaginado(
     page: number,
     limit: number
-  ): Observable<Response<Paciente[]>> {
-    return this.http.get<Response<Paciente[]>>(
+  ): Observable<Response<Patient[]>> {
+    return this.http.get<Response<Patient[]>>(
       `${this.apiUrl}?page=${page}&limit=${limit}`
     );
   }
 
-  updatePaciente(id: number, formData: FormData): Observable<FormData> {
+  updatePatient(id: number, formData: FormData): Observable<FormData> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.put<FormData>(url, formData);
   }
 
-  removePaciente(id: number) {
+  removePatient(id: number) {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.delete<Paciente>(url);
+    return this.http.delete<Patient>(url);
   }
 }
