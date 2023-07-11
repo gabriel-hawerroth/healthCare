@@ -93,11 +93,11 @@ public class Paciente {
         this.id = id;
     }
 
-    public String getNome() {
+    public String getDs_nome() {
         return ds_nome;
     }
 
-    public void setNome(String ds_nome) {
+    public void setDs_nome(String ds_nome) {
         this.ds_nome = ds_nome;
     }
 

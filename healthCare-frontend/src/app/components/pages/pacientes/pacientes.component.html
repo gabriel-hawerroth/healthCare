@@ -15,7 +15,10 @@
 
     <mat-form-field fxFlex="20">
       <mat-label>Filtrar por situação</mat-label>
-      <mat-select>
+      <mat-select
+        [(value)]="initialSelectedOption"
+        (selectionChange)="handleSelectChange($event)"
+      >
         <mat-option value="A">Ativos</mat-option>
         <mat-option value="I">Inativos</mat-option>
       </mat-select>
@@ -24,7 +27,7 @@
     <button
       mat-fab
       class="button-new"
-      routerLink="/pacienteForm"
+      routerLink="/paciente/novo"
       aria-label="add paciente"
       [ngStyle]="{
         'background-color': '#2a7869',
@@ -53,7 +56,7 @@
     >
       <ngx-datatable-column
         name="Nome"
-        prop="nome"
+        prop="ds_nome"
         [width]="200"
       ></ngx-datatable-column>
       <ngx-datatable-column name="Data de nascimento" prop="dt_nascimento">
@@ -72,11 +75,16 @@
         prop="estado"
         [width]="100"
       ></ngx-datatable-column>
-      <ngx-datatable-column
-        name="Situação"
-        prop="ie_situacao"
-        [width]="100"
-      ></ngx-datatable-column>
+      <ngx-datatable-column name="Situação" prop="ie_situacao" [width]="100">
+        <ng-template
+          ngx-datatable-cell-template
+          let-row="row"
+          let-value="value"
+        >
+          <span *ngIf="value === 'A'">Ativo</span>
+          <span *ngIf="value === 'I'">Inativo</span>
+        </ng-template>
+      </ngx-datatable-column>
     </ngx-datatable>
   </div>
 </div>

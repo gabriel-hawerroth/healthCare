@@ -16,6 +16,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +27,7 @@ import { UnidadesComponent } from './components/pages/unidades/unidades.componen
 import { AtendimentosComponent } from './components/pages/atendimentos/atendimentos.component';
 import { PacienteFormComponent } from './components/pages/pacientes/pacienteForm/paciente-form.component';
 import { CpfMaskPipe } from 'src/app/utils/cpf-mask.pipe';
+import { PacienteNewComponent } from './components/pages/pacientes/pacienteNew/paciente-new.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { CpfMaskPipe } from 'src/app/utils/cpf-mask.pipe';
     AtendimentosComponent,
     PacienteFormComponent,
     CpfMaskPipe,
+    PacienteNewComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +61,7 @@ import { CpfMaskPipe } from 'src/app/utils/cpf-mask.pipe';
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
+    MatSnackBarModule,
   ],
 
   providers: [],

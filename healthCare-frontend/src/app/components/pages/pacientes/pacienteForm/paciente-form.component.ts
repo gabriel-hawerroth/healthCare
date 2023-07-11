@@ -6,6 +6,7 @@ import { Patient } from 'src/app/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
 
 import * as moment from 'moment-timezone';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-paciente-form',
@@ -17,7 +18,11 @@ export class PacienteFormComponent implements OnInit {
 
   patientForm!: FormGroup;
 
-  constructor(private route: Router, private patientService: PatientService) {}
+  constructor(
+    private route: Router,
+    private patientService: PatientService,
+    private snackBar: MatSnackBar
+  ) {}
   ngOnInit(): void {
     this.patientForm = new FormGroup({
       id: new FormControl(this.patientData ? this.patientData.id : ''),
@@ -119,22 +124,5 @@ export class PacienteFormComponent implements OnInit {
         this.patientData ? this.patientData.ie_situacao : ''
       ),
     });
-  }
-
-  savePatient(): void {
-    if (this.patientForm.invalid) {
-      return;
-    }
-
-    const dataNascimento = this.patientForm.value.dt_nascimento;
-    const dataNascimentoISO = new Date(dataNascimento).toISOString();
-    // const dataNascimentoISO = moment(dataNascimento)
-    //   .tz('America/Sao_Paulo')
-    //   .format();
-    this.patientForm.patchValue({ dt_nascimento: dataNascimentoISO });
-
-    console.log(this.patientForm.value);
-
-    this.patientService.createPatient(this.patientForm.value).subscribe();
   }
 }

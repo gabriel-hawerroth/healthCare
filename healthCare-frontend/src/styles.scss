@@ -51,6 +51,12 @@ app-root {
   display: none;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .title-page {
   position: fixed;
   top: 103px;
@@ -160,11 +166,19 @@ mat-form-field {
 }
 
 .ngx-datatable.material.striped .datatable-row-odd {
-  background: white !important;
+  background-color: white !important;
+
+  &:hover {
+    background-color: rgb(238, 238, 238) !important;
+  }
 }
 
 .ngx-datatable.material.striped .datatable-row-even {
-  background: #c8ece6 !important;
+  background-color: #c8ece6 !important;
+
+  &:hover {
+    background-color: #9ed3ca !important;
+  }
 }
 
 .heatlhCare-fg {
@@ -172,5 +186,9 @@ mat-form-field {
 }
 
 .heatlhCare-bg {
-  color: $primary-color;
+  background-color: $primary-color;
+}
+
+.bold {
+  font-weight: bold;
 }

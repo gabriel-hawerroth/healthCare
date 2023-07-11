@@ -1,34 +1,20 @@
-<div class="arrow-back">
-  <a routerLink="/pacientes">
-    <mat-icon [ngStyle]="{ color: 'white' }">arrow_back</mat-icon>
-  </a>
-</div>
-
-<div class="title-page">
-  <span>Novo paciente</span>
-</div>
-
-<div class="button-3">
-  <span (click)="savePatient()" class="material-symbols-outlined"> save </span>
-</div>
-
-<div class="button-4 delete">
-  <span routerLink="/pacientes" class="material-symbols-outlined">
-    delete
-  </span>
-</div>
-
 <form class="pacient-form" [formGroup]="patientForm">
   <div class="general-section" fxLayoutGap="13">
     <mat-form-field fxFlex="37">
       <mat-label><b>Nome do paciente</b></mat-label>
-      <input matInput #nomeInput maxlength="60" formControlName="ds_nome" />
+      <input
+        matInput
+        #nomeInput
+        type="text"
+        maxlength="60"
+        formControlName="ds_nome"
+      />
       <mat-hint align="end">{{ nomeInput.value.length }}/60</mat-hint>
     </mat-form-field>
 
     <mat-form-field fxFlex="10">
       <mat-label>RG</mat-label>
-      <input matInput #rgInput maxlength="7" formControlName="nr_rg" />
+      <input matInput #rgInput type="number" formControlName="nr_rg" />
       <mat-hint align="end">{{ rgInput.value.length }}/7</mat-hint>
     </mat-form-field>
 
@@ -78,7 +64,7 @@
   </div>
 
   <mat-accordion class="mat-acordion complementary-section">
-    <mat-expansion-panel>
+    <mat-expansion-panel expanded>
       <mat-expansion-panel-header class="mat-expansion-panel-header">
         <mat-panel-title>
           <h3><b>Dados Complementares</b></h3>
@@ -191,7 +177,7 @@
     </mat-expansion-panel>
   </mat-accordion>
 
-  <!-- <mat-accordion class="mat-accordion assistance-section">
+  <mat-accordion class="mat-accordion assistance-section">
     <mat-expansion-panel expanded>
       <mat-expansion-panel-header class="mat-expansion-panel-header">
         <mat-panel-title>
@@ -336,7 +322,7 @@
         </mat-form-field>
       </div>
     </mat-expansion-panel>
-  </mat-accordion> -->
+  </mat-accordion>
 
   <mat-accordion class="mat-accordion address-data">
     <mat-expansion-panel expanded>

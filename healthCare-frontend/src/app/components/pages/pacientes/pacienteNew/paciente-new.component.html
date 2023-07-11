@@ -1,0 +1,15 @@
+<div class="arrow-back">
+  <a routerLink="/paciente">
+    <mat-icon [ngStyle]="{ color: 'white' }">arrow_back</mat-icon>
+  </a>
+</div>
+
+<div class="title-page">
+  <span>Novo paciente</span>
+</div>
+
+<div class="button-4">
+  <span (click)="savePatient()" class="material-symbols-outlined">save</span>
+</div>
+
+<app-paciente-form></app-paciente-form>

@@ -22,11 +22,15 @@ export class PacientesComponent implements OnInit {
 
   rows = [this.allPatients];
 
+  initialSelectedOption: string = 'A';
+
   constructor(private patientService: PatientService) {}
   ngOnInit(): void {
     this.patientService.getPatients().subscribe((items: any) => {
       this.allPatients = items;
       this.patients = items;
+
+      this.filterSituation(this.initialSelectedOption);
     });
 
     // this.buildComponent();
@@ -43,14 +47,16 @@ export class PacientesComponent implements OnInit {
     });
   }
 
-  // filterSituation(e: Event): void {
-  //   const target = e.target as HTMLInputElement;
-  //   const value = target.value;
+  handleSelectChange(event: any): void {
+    const value = event.value;
+    this.filterSituation(value);
+  }
 
-  //   this.patients = this.allPatients.filter((patient) => {
-  //     return patient.ie_situacao.includes(value);
-  //   });
-  // }
+  filterSituation(value: string): void {
+    this.patients = this.allPatients.filter((patient) => {
+      return patient.ie_situacao === value;
+    });
+  }
 
   // public removeAcentos(newStringComAcento): string {
   //   if (!newStringComAcento) {
