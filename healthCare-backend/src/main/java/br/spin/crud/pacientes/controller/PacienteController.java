@@ -11,6 +11,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @CrossOrigin
@@ -31,9 +32,17 @@ public class PacienteController {
         return pacienteRepository.findAll();
     }
 
+    @GetMapping("/{id}")
+    private Paciente listaPaciente(@PathVariable(name = "id") Long id){
+        return pacienteRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Paciente não encontrado: " + id)
+        );
+    }
+
     @PostMapping
     private ResponseEntity<Paciente> salvarPaciente(@RequestBody Paciente paciente) {
         paciente.setIe_situacao("A");
+        paciente.setDt_criacao(LocalDate.now());
         return ResponseEntity.status(HttpStatus.CREATED).body(pacienteRepository.save(paciente));
     }
 
