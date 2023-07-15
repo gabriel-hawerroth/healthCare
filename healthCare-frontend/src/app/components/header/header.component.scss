@@ -6,151 +6,81 @@ $primary-color: #2a7869;
   }
 }
 
-.header {
-  width: 100%;
+.header-nav {
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  font-family: Cambria;
 
-  .top {
-    width: 100%;
-    height: 34%;
-    background-color: $primary-color;
+  .header {
     display: flex;
     align-items: center;
-    padding: 0 0.8em 0 0em;
+    flex-direction: row;
     justify-content: space-between;
+    width: 100vw;
+    height: 75px;
+    padding-left: 3vw;
+    background-color: $primary-color;
+    box-shadow: 0 1px 8px #0000004f;
+    color: white;
+    font-size: 2.3em;
 
-    .headerImage {
-      height: 38px;
-      width: 38px;
-      border-radius: 50%;
-      margin-right: -15px;
-    }
-
-    #logo {
-      width: 52%;
+    .right-header {
+      width: 450px;
       height: 100%;
       display: flex;
-      padding-left: 1.3em;
       align-items: center;
-      background: linear-gradient(
-        95deg,
-        rgb(255, 255, 255) 33%,
-        $primary-color 67%
-      );
-
-      a {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        font-size: 1.6em;
-        font-family: Arial;
-
-        img {
-          width: 150px;
-        }
-      }
-    }
-
-    #right-header {
-      height: 100%;
-      width: 42%;
-      display: flex;
-      justify-content: flex-end;
-      color: rgb(238, 238, 238);
-      font-family: Arial;
-      font-size: 0.9em;
+      justify-content: space-around;
+      float: right;
 
       .material-symbols-outlined {
-        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+        font-size: 0.85em;
 
         &:hover {
           cursor: pointer;
         }
       }
 
-      mat-icon:hover {
-        cursor: pointer;
+      img {
+        border-radius: 50%;
+        width: 47px;
+        height: 47px;
+        margin-right: -30px;
       }
 
-      #infos {
+      .logout {
+        height: 100%;
         display: flex;
         align-items: center;
-        justify-content: space-around;
-        width: 85%;
-
-        .user {
-          height: 100%;
-          width: 34%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-
-        #notification-button {
-          margin-right: 10px;
-        }
-      }
-
-      #logout-icon {
-        padding-left: 0.9em;
-        border-left: 1px solid rgba(0, 0, 0, 0.219);
-        display: flex;
-        align-items: center;
+        justify-content: center;
+        padding-left: 22px;
+        border-left: 1px solid #0000002d;
       }
     }
   }
 
   .nav {
     width: 100%;
-    height: 55%;
-    background-color: rgb(248, 248, 248);
-    border-top: 1px solid rgba(48, 48, 48, 0.185);
+    height: calc(100% - 75px);
     display: flex;
-    justify-content: center;
-    background-color: #2a7869;
-    border-bottom: 1px solid black;
-    color: white;
-    font-size: 1.3em;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    padding-top: 23px;
+    box-shadow: 1px 0 8px #0000002d;
 
-    ul {
-      height: 100%;
+    span {
+      width: 50px;
+      height: 50px;
+      font-size: 2.3em;
+      margin: 10px 0;
       display: flex;
-      font-size: 1.1em;
-      font-family: Roboto;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
 
-      mat-icon {
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 0 1.1em;
-        &:hover {
-          background-color: $primary-color;
-          cursor: pointer;
-        }
-      }
-
-      li {
-        height: 100%;
-        list-style: none;
-        display: flex;
-        align-items: center;
-        padding: 0 0.8em;
-
-        &:hover {
-          background-color: $primary-color;
-          cursor: pointer;
-        }
+      &:hover {
+        cursor: pointer;
+        background-color: #a8a8a82f;
       }
     }
-  }
-
-  .info {
-    width: 100%;
-    height: 45%;
-    background-color: $primary-color;
   }
 }

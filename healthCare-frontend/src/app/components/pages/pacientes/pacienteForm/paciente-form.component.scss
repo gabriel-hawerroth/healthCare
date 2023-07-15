@@ -1,41 +1,79 @@
-$bg-color-sections: rgb(253, 253, 253);
+$bg-color-sections: white;
 
-.title-page {
-  margin-left: 40px;
-}
-
-.pacient-form {
+.patient-form {
   width: 100%;
   height: 100%;
-  padding: 0.6em;
   display: flex;
   flex-direction: column;
+  padding: 1em;
 
-  .general-section {
+  .top-actions {
     width: 100%;
-    height: 15%;
+    height: 12.5%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background-color: $bg-color-sections;
     box-shadow: 1px 2px 10px rgb(0 0 0/ 30%);
     border-radius: 3px;
     padding: 0 1em;
+    margin-bottom: 15px;
+
+    .left-ta {
+      height: 100%;
+      width: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+
+      mat-icon {
+        margin-top: 4px;
+        margin-right: 12px;
+      }
+    }
+
+    .rigth-ta {
+      height: 100%;
+      width: 30%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-direction: row;
+    }
   }
 
-  .complementary-data {
-    background-color: $bg-color-sections;
-    margin-bottom: 20px;
-  }
+  .pacient-form {
+    width: 100%;
+    height: 87.5%;
+    display: flex;
+    flex-direction: column;
 
-  .assistance-data {
-    background-color: $bg-color-sections;
-  }
+    .general-section {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      background-color: $bg-color-sections;
+      box-shadow: 1px 2px 10px rgb(0 0 0/ 30%);
+      border-radius: 3px;
+      padding: 0 1em;
+    }
 
-  .service-data {
-    background-color: $bg-color-sections;
-  }
+    .complementary-data {
+      background-color: $bg-color-sections;
+      margin-bottom: 20px;
+    }
 
-  .adress {
-    background-color: $bg-color-sections;
+    .assistance-data {
+      background-color: $bg-color-sections;
+    }
+
+    .service-data {
+      background-color: $bg-color-sections;
+    }
+
+    .adress {
+      background-color: $bg-color-sections;
+    }
   }
 }

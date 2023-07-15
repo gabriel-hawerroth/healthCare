@@ -23,6 +23,11 @@ export class PatientService {
     return this.http.get<Response<Patient[]>>(this.apiUrl);
   }
 
+  getById(id: number): Observable<Response<Patient>> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.get<Response<Patient>>(url);
+  }
+
   getPatientsPaginado(
     page: number,
     limit: number

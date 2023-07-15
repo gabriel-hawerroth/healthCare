@@ -1,9 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Patient } from 'src/app/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
+import { EditPatientComponent } from '../editPatient/edit-patient.component';
 
 import * as moment from 'moment-timezone';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,14 +23,21 @@ export class PacienteFormComponent implements OnInit {
   @Input() patientData: Patient | null = null;
 
   patientForm!: FormGroup;
+  pageType?: string;
+  patient?: Patient;
 
   constructor(
-    private route: Router,
+    private router: Router,
+    private route: ActivatedRoute,
     private patientService: PatientService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private formBuilder: FormBuilder
   ) {}
+
   ngOnInit(): void {
-    this.patientForm = new FormGroup({
+    this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
+
+    this.patientForm = this.formBuilder.group({
       id: new FormControl(this.patientData ? this.patientData.id : ''),
       ds_nome: new FormControl(
         this.patientData ? this.patientData.ds_nome : '',
@@ -124,5 +137,42 @@ export class PacienteFormComponent implements OnInit {
         this.patientData ? this.patientData.ie_situacao : ''
       ),
     });
+
+    console.log('patientData:');
+    console.log(this.patientData);
+
+    if (this.patientData) {
+      this.patientForm.patchValue(this.patientData);
+    }
+  }
+
+  savePatient() {
+    if (this.patientForm.invalid) {
+      console.log('Formulário inválido.');
+      this.snackBar.open('Não foi possível salvar as informações.', '', {
+        duration: 4500,
+      });
+    } else {
+      console.log(this.patientForm.value);
+      this.patientService.createPatient(this.patientForm.value).subscribe({
+        next: (result) => {
+          this.snackBar.open('Paciente salvo com sucesso.', '', {
+            duration: 4000,
+          }),
+            this.router.navigate(['/paciente']);
+        },
+        error: (error) => {
+          this.snackBar.open('Não foi possível salvar as informações.', '', {
+            duration: 4500,
+          });
+        },
+      });
+    }
+  }
+
+  removePatient(event: Event) {
+    if (event.type == 'click') {
+      console.log('Funcionando');
+    }
   }
 }

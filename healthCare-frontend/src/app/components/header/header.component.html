@@ -1,54 +1,34 @@
-<div class="header">
-  <!-- <div class="top">
-    <div id="logo">
-      <a routerLink="/">
-        <img src="../../../assets/enterpriseImage.png" alt="" />
-        <span
-          [ngStyle]="{
-            'font-size': '.7em',
-            color: '#ff7243',
-            'margin-top': '8px',
-            'margin-left': '-4px'
-          }"
-          >-
-          <span [ngStyle]="{ 'font-weight': 'bold' }">Enterprise</span>
-        </span>
-      </a>
-    </div>
-    <div id="right-header">
-      <div id="infos">
-        <span class="material-symbols-outlined"> notifications </span>
-        <img
-          src="../../../assets/enterpriseImage.png"
-          alt="Logotipo da empresa"
-          class="headerImage"
-        />
-        <span [ngStyle]="{ cursor: 'default' }">SpinCare - Matriz</span>
-        <div class="user">
-          <img
-            src="../../../assets/userImage.jpeg"
-            alt="Foto do usuário"
-            class="headerImage"
-          />
-          <span>Gabriel Hawerroth</span>
-        </div>
-        <mat-icon [ngStyle]="{ 'margin-left': '-20px' }">expand_more</mat-icon>
-      </div>
-
-      <div id="logout-icon">
-        <mat-icon>logout</mat-icon>
-      </div>
-    </div>
-  </div> -->
-
-  <div class="nav">
-    <ul class="links">
-      <mat-icon routerLink="/">home</mat-icon>
-      <li routerLink="/paciente">Pacientes</li>
-      <li routerLink="/unidades">Unidades</li>
-      <li routerLink="/atendimentos">Atendimentos</li>
-    </ul>
+<div class="header-nav">
+  <div class="header">
+    <article>
+      <span>HealthCare</span>
+    </article>
+    <article class="right-header">
+      <span class="material-symbols-outlined"> notifications </span>
+      <img src="../../../assets/userImage.jpeg" />
+      <span [ngStyle]="{ 'font-size': '.55em' }">{{
+        user.nome + " " + user.sobrenome
+      }}</span>
+      <span class="material-symbols-outlined logout"> logout </span>
+    </article>
   </div>
 
-  <div class="info"></div>
+  <div class="nav">
+    <span
+      class="material-symbols-outlined"
+      [ngStyle]="{ 'margin-bottom': '27px' }"
+      routerLink=""
+    >
+      home
+    </span>
+    <span routerLink="/paciente" class="material-symbols-outlined">
+      personal_injury
+    </span>
+    <span routerLink="/unidade" class="material-symbols-outlined">
+      apartment
+    </span>
+    <span routerLink="/atendimento" class="material-symbols-outlined">
+      demography
+    </span>
+  </div>
 </div>

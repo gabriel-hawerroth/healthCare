@@ -85,6 +85,8 @@ public class Paciente {
 
     private String ie_situacao;
 
+    private LocalDate dt_criacao;
+
     public Long getId() {
         return id;
     }
@@ -387,5 +389,13 @@ public class Paciente {
 
     public void setIe_situacao(String ie_situacao) {
         this.ie_situacao = ie_situacao;
+    }
+
+    public LocalDate getDt_criacao() {
+        return dt_criacao;
+    }
+
+    public void setDt_criacao(LocalDate dt_criacao) {
+        this.dt_criacao = dt_criacao;
     }
 }

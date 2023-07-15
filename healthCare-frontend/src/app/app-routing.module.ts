@@ -5,13 +5,13 @@ import { UnidadesComponent } from './components/pages/unidades/unidades.componen
 import { AtendimentosComponent } from './components/pages/atendimentos/atendimentos.component';
 import { PacientesComponent } from './components/pages/pacientes/pacientes.component';
 import { PacienteFormComponent } from './components/pages/pacientes/pacienteForm/paciente-form.component';
-import { PacienteNewComponent } from './components/pages/pacientes/pacienteNew/paciente-new.component';
+import { EditPatientComponent } from './components/pages/pacientes/editPatient/edit-patient.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'paciente', component: PacientesComponent },
-  { path: 'paciente/novo', component: PacienteNewComponent },
-  { path: 'paciente/:id', component: PacienteFormComponent },
+  { path: 'paciente/novo', component: PacienteFormComponent },
+  { path: 'paciente/:id', component: EditPatientComponent },
   { path: 'unidade', component: UnidadesComponent },
   { path: 'atendimento', component: AtendimentosComponent },
 ];

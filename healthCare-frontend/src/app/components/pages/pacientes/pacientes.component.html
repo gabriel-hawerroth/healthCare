@@ -1,42 +1,25 @@
-<div class="title-page">
-  <span>Cadastro de paciente</span>
-</div>
-
 <div class="pacientes-container">
-  <div
-    class="filters"
-    fxLayoutGap="15px"
-    [ngStyle]="{ 'padding-left': '10px' }"
-  >
-    <mat-form-field fxFlex="45" class="form-field">
-      <mat-label>Filtrar por nome</mat-label>
-      <input matInput (input)="filterName($event)" />
-    </mat-form-field>
+  <div class="filters">
+    <div class="left-filters" fxLayoutGap="15px">
+      <mat-form-field fxFlex="45" class="form-field">
+        <mat-label>Filtrar por nome</mat-label>
+        <input matInput (input)="filterName($event)" />
+      </mat-form-field>
 
-    <mat-form-field fxFlex="20">
-      <mat-label>Filtrar por situação</mat-label>
-      <mat-select
-        [(value)]="initialSelectedOption"
-        (selectionChange)="handleSelectChange($event)"
-      >
-        <mat-option value="A">Ativos</mat-option>
-        <mat-option value="I">Inativos</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <button
-      mat-fab
-      class="button-new"
-      routerLink="/paciente/novo"
-      aria-label="add paciente"
-      [ngStyle]="{
-        'background-color': '#2a7869',
-        width: '50px',
-        height: '50px'
-      }"
-    >
-      <mat-icon>add</mat-icon>
-    </button>
+      <mat-form-field fxFlex="20">
+        <mat-label>Filtrar por situação</mat-label>
+        <mat-select
+          [(value)]="initialSelectedOption"
+          (selectionChange)="handleSelectChange($event)"
+        >
+          <mat-option value="A">Ativos</mat-option>
+          <mat-option value="I">Inativos</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="rigth-filters">
+      <mat-icon class="button" routerLink="/paciente/novo">add</mat-icon>
+    </div>
   </div>
 
   <div class="table-pacientes">
@@ -44,46 +27,44 @@
       [rows]="patients"
       class="material striped"
       [headerHeight]="48"
-      [rowHeight]="'auto'"
+      [rowHeight]="52"
       [footerHeight]="50"
       [columnMode]="'force'"
-      [limit]="6"
+      [limit]="8"
       [reorderable]="false"
       [selectAllRowsOnPage]="false"
       [messages]="{
         totalMessage: 'registros encontrados.'
       }"
+      (activate)="editPatient($event)"
     >
+      <ngx-datatable-column name="Nome" prop="ds_nome" [width]="250">
+      </ngx-datatable-column>
       <ngx-datatable-column
-        name="Nome"
-        prop="ds_nome"
-        [width]="200"
-      ></ngx-datatable-column>
-      <ngx-datatable-column name="Data de nascimento" prop="dt_nascimento">
+        name="Data de nascimento"
+        prop="dt_nascimento"
+        [width]="170"
+      >
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.dt_nascimento | date : "dd/MM/yyyy" }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="CPF" prop="nr_cpf">
+      <ngx-datatable-column name="CPF" prop="nr_cpf" [width]="180">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.nr_cpf | cpfMask }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Cidade" prop="cidade"></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Cidade"
+        prop="cidade"
+        [width]="210"
+      ></ngx-datatable-column>
       <ngx-datatable-column
         name="Estado"
         prop="estado"
-        [width]="100"
+        [width]="120"
       ></ngx-datatable-column>
-      <ngx-datatable-column name="Situação" prop="ie_situacao" [width]="100">
-        <ng-template
-          ngx-datatable-cell-template
-          let-row="row"
-          let-value="value"
-        >
-          <span *ngIf="value === 'A'">Ativo</span>
-          <span *ngIf="value === 'I'">Inativo</span>
-        </ng-template>
+      <ngx-datatable-column name="Status" prop="status" [width]="220">
       </ngx-datatable-column>
     </ngx-datatable>
   </div>

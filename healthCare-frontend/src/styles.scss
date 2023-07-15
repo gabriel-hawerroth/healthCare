@@ -7,9 +7,6 @@
 @include mat-core();
 
 @media (max-width: 1300px) and (max-height: 700px) {
-  .button-new {
-    width: 50px !important;
-  }
 }
 
 $primary-color: #2a7869;
@@ -35,14 +32,14 @@ $custom-theme: mat-light-theme(
 html,
 body {
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 
 app-root {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   color: black;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
@@ -57,70 +54,8 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.title-page {
-  position: fixed;
-  top: 103px;
-  left: 25px;
-  color: white;
-  font-size: 1.5em;
-  z-index: 9999;
-}
-
-.arrow-back {
-  position: fixed;
-  top: 107px;
-  left: 27px;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.button-1,
-.button-2,
-.button-3,
-.button-4 {
-  position: fixed;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background-color: rgb(255, 255, 255);
-  z-index: 9999;
-  cursor: pointer;
-}
-
-.button-1 {
-  top: 94px;
-  right: 205px;
-}
-
-.button-2 {
-  top: 94px;
-  right: 145px;
-}
-
-.button-3 {
-  top: 94px;
-  right: 85px;
-}
-
-.button-4 {
-  top: 94px;
-  right: 25px;
-}
-
 .delete {
   background-color: rgb(196, 50, 50);
-}
-
-.button-new {
-  height: 6.7vh;
-  width: 62px;
-  margin-left: 550px;
-  margin-right: 10px;
-  z-index: 9999;
 }
 
 .form-field {
@@ -151,6 +86,7 @@ mat-form-field {
 
 .mat-accordion {
   margin-top: 15px;
+  box-shadow: 1px 0 8px rgb(0 0 0/ 14%);
 
   mat-panel-title h3 {
     font-size: 1.25em;
@@ -170,14 +106,16 @@ mat-form-field {
 
   &:hover {
     background-color: rgb(238, 238, 238) !important;
+    cursor: pointer;
   }
 }
 
 .ngx-datatable.material.striped .datatable-row-even {
-  background-color: #c8ece6 !important;
+  background-color: #7fd1abda !important;
 
   &:hover {
     background-color: #9ed3ca !important;
+    cursor: pointer;
   }
 }
 
@@ -189,6 +127,35 @@ mat-form-field {
   background-color: $primary-color;
 }
 
+.color-white {
+  color: white;
+}
+
+.color-black {
+  color: black;
+}
+
 .bold {
   font-weight: bold;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.button {
+  width: 41px !important;
+  height: 41px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  box-shadow: 1px 0 4px #00000096 !important;
+  margin-right: 16px !important;
+  background-color: white;
+  cursor: pointer;
 }

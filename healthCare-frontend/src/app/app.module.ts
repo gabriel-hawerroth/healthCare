@@ -27,7 +27,7 @@ import { UnidadesComponent } from './components/pages/unidades/unidades.componen
 import { AtendimentosComponent } from './components/pages/atendimentos/atendimentos.component';
 import { PacienteFormComponent } from './components/pages/pacientes/pacienteForm/paciente-form.component';
 import { CpfMaskPipe } from 'src/app/utils/cpf-mask.pipe';
-import { PacienteNewComponent } from './components/pages/pacientes/pacienteNew/paciente-new.component';
+import { EditPatientComponent } from './components/pages/pacientes/editPatient/edit-patient.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +39,7 @@ import { PacienteNewComponent } from './components/pages/pacientes/pacienteNew/p
     AtendimentosComponent,
     PacienteFormComponent,
     CpfMaskPipe,
-    PacienteNewComponent,
+    EditPatientComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,8 +9,18 @@ import { Usuario } from 'src/app/Usuario';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  usuario!: Usuario;
+  user!: Usuario;
   faBell = faBell;
 
-  ngOnInit(): void {}
+  constructor() {}
+
+  ngOnInit(): void {
+    this.user = {
+      nome: 'Gabriel',
+      sobrenome: 'Hawerroth',
+      email: 'gabrielhawerroth04@gmail.com',
+      celular: 47996609550,
+      empresa: 'SpinCare',
+    };
+  }
 }

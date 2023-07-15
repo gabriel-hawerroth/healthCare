@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 import { Patient } from 'src/app/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
 import { environment } from 'src/environments/environment';
 
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pacientes',
@@ -12,19 +13,20 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./pacientes.component.scss'],
 })
 export class PacientesComponent implements OnInit {
+  @Output() edit = new EventEmitter(false);
+
   allPatients: Patient[] = [];
   patients: Patient[] = [];
+  filteredRows = this.patients;
 
   baseApiUrl = environment.baseApiUrl;
 
   faSearch = faSearch;
   searchTerm: string = '';
 
-  rows = [this.allPatients];
-
   initialSelectedOption: string = 'A';
 
-  constructor(private patientService: PatientService) {}
+  constructor(private patientService: PatientService, private router: Router) {}
   ngOnInit(): void {
     this.patientService.getPatients().subscribe((items: any) => {
       this.allPatients = items;
@@ -32,10 +34,6 @@ export class PacientesComponent implements OnInit {
 
       this.filterSituation(this.initialSelectedOption);
     });
-
-    // this.buildComponent();
-    //   this.form.valueChanges.pipe(takeUntil(this._unsubscribeAll)).subscribe(() => {this.filterEspecialista()});
-    //   this.atualizaLista();
   }
 
   filterName(e: Event): void {
@@ -56,6 +54,14 @@ export class PacientesComponent implements OnInit {
     this.patients = this.allPatients.filter((patient) => {
       return patient.ie_situacao === value;
     });
+  }
+
+  editPatient(event: any) {
+    if (event.type == 'click') {
+      const patientId = event.row.id;
+      this.router.navigate([`/paciente/${patientId}`]);
+      this.edit.emit(event);
+    }
   }
 
   // public removeAcentos(newStringComAcento): string {

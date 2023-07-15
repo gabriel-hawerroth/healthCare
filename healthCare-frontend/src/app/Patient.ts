@@ -1,10 +1,10 @@
 export interface Patient {
   id?: number;
   ds_nome: string;
-  nr_rg?: number;
-  nr_cpf: number;
+  nr_rg?: string;
+  nr_cpf: string;
   dt_nascimento: Date;
-  nr_celular?: number;
+  nr_celular?: string;
   status?: string;
   nome_mae?: string;
   nome_pai?: string;
@@ -28,12 +28,12 @@ export interface Patient {
   idade_min?: number;
   idade_max?: number;
   obs_preferencias?: string;
-  nr_cep: number;
+  nr_cep: string;
   estado?: string;
   cidade?: string;
   bairro?: string;
   endereco?: string;
-  nr_endereco?: number;
+  nr_endereco?: string;
   complemento?: string;
   como_chegar?: string;
   ie_situacao?: string;
