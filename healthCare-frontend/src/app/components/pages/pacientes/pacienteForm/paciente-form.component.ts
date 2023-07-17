@@ -9,9 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Patient } from 'src/app/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
-import { EditPatientComponent } from '../editPatient/edit-patient.component';
 
-import * as moment from 'moment-timezone';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -37,13 +35,12 @@ export class PacienteFormComponent implements OnInit {
   ngOnInit(): void {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
 
-    this.patientForm = this.formBuilder.group({
+    this.patientForm = new FormGroup({
       id: new FormControl(this.patientData ? this.patientData.id : ''),
       ds_nome: new FormControl(
         this.patientData ? this.patientData.ds_nome : '',
         [Validators.required]
       ),
-      nr_rg: new FormControl(this.patientData ? this.patientData.nr_rg : ''),
       nr_cpf: new FormControl(this.patientData ? this.patientData.nr_cpf : '', [
         Validators.required,
       ]),
@@ -57,6 +54,9 @@ export class PacienteFormComponent implements OnInit {
       status: new FormControl(this.patientData ? this.patientData.status : ''),
       nome_mae: new FormControl(
         this.patientData ? this.patientData.nome_mae : ''
+      ),
+      ie_situacao: new FormControl(
+        this.patientData ? this.patientData.ie_situacao : ''
       ),
       nome_pai: new FormControl(
         this.patientData ? this.patientData.nome_pai : ''
@@ -133,13 +133,7 @@ export class PacienteFormComponent implements OnInit {
       como_chegar: new FormControl(
         this.patientData ? this.patientData.como_chegar : ''
       ),
-      ie_situacao: new FormControl(
-        this.patientData ? this.patientData.ie_situacao : ''
-      ),
     });
-
-    console.log('patientData:');
-    console.log(this.patientData);
 
     if (this.patientData) {
       this.patientForm.patchValue(this.patientData);
@@ -155,6 +149,30 @@ export class PacienteFormComponent implements OnInit {
     } else {
       console.log(this.patientForm.value);
       this.patientService.createPatient(this.patientForm.value).subscribe({
+        next: (result) => {
+          this.snackBar.open('Paciente criado com sucesso.', '', {
+            duration: 4000,
+          }),
+            this.router.navigate(['/paciente']);
+        },
+        error: (error) => {
+          this.snackBar.open('Não foi possível salvar as informações.', '', {
+            duration: 4500,
+          });
+        },
+      });
+    }
+  }
+
+  editPatient() {
+    if (this.patientForm.invalid) {
+      console.log('Formulário inválido.');
+      this.snackBar.open('Não foi possível salvar as informações.', '', {
+        duration: 4500,
+      });
+    } else {
+      console.log(this.patientForm.value);
+      this.patientService.updatePatient(this.patientForm.value).subscribe({
         next: (result) => {
           this.snackBar.open('Paciente salvo com sucesso.', '', {
             duration: 4000,
@@ -172,7 +190,21 @@ export class PacienteFormComponent implements OnInit {
 
   removePatient(event: Event) {
     if (event.type == 'click') {
-      console.log('Funcionando');
+      const id = Number(this.route.snapshot.paramMap.get('id'));
+
+      this.patientService.removePatient(id).subscribe({
+        next: (result) => {
+          this.snackBar.open('Paciente removido com sucesso.', '', {
+            duration: 4500,
+          }),
+            this.router.navigate(['/paciente']);
+        },
+        error: (error) => {
+          this.snackBar.open('Não foi possível excluir o paciente.', '', {
+            duration: 4500,
+          });
+        },
+      });
     }
   }
 }

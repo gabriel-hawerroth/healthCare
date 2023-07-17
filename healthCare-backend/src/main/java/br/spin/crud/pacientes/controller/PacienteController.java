@@ -2,6 +2,7 @@ package br.spin.crud.pacientes.controller;
 
 import br.spin.crud.pacientes.models.Paciente;
 import br.spin.crud.pacientes.repository.PacienteRepository;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,10 +41,14 @@ public class PacienteController {
     }
 
     @PostMapping
-    private ResponseEntity<Paciente> salvarPaciente(@RequestBody Paciente paciente) {
-        paciente.setIe_situacao("A");
+    private ResponseEntity<Paciente> criarPaciente(@RequestBody Paciente paciente) {
         paciente.setDt_criacao(LocalDate.now());
         return ResponseEntity.status(HttpStatus.CREATED).body(pacienteRepository.save(paciente));
+    }
+
+    @PutMapping
+    private ResponseEntity<Paciente> salvarPaciente(@RequestBody Paciente paciente) {
+        return ResponseEntity.status(HttpStatus.OK).body(pacienteRepository.save(paciente));
     }
 
     @DeleteMapping("/excluir/{id}")
@@ -51,7 +56,6 @@ public class PacienteController {
         Paciente paci = pacienteRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Paciente não encontrado: " + id)
         );
-        paci.setIe_situacao("I");
-        pacienteRepository.save(paci);
+        pacienteRepository.deleteById(id);
     }
 }

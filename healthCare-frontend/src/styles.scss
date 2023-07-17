@@ -32,12 +32,12 @@ $custom-theme: mat-light-theme(
 html,
 body {
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 
 app-root {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: row;
   color: black;
@@ -148,8 +148,8 @@ mat-form-field {
 }
 
 .button {
-  width: 41px !important;
-  height: 41px !important;
+  width: 47px !important;
+  height: 47px !important;
   border-radius: 50% !important;
   display: flex !important;
   justify-content: center !important;

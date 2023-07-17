@@ -13,8 +13,6 @@ public class Paciente {
 
     private String ds_nome;
 
-    private String nr_rg;
-
     private String nr_cpf;
 
     private LocalDate dt_nascimento;
@@ -22,6 +20,8 @@ public class Paciente {
     private String nr_celular;
 
     private String status;
+
+    private String ie_situacao;
 
     private String nome_mae;
 
@@ -83,8 +83,6 @@ public class Paciente {
 
     private String como_chegar;
 
-    private String ie_situacao;
-
     private LocalDate dt_criacao;
 
     public Long getId() {
@@ -101,14 +99,6 @@ public class Paciente {
 
     public void setDs_nome(String ds_nome) {
         this.ds_nome = ds_nome;
-    }
-
-    public String getNr_rg() {
-        return nr_rg;
-    }
-
-    public void setNr_rg(String nr_rg) {
-        this.nr_rg = nr_rg;
     }
 
     public String getNr_cpf() {

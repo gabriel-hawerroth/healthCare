@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 
-import { Usuario } from 'src/app/Usuario';
+import { User } from 'src/app/User';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +9,7 @@ import { Usuario } from 'src/app/Usuario';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  user!: Usuario;
+  user!: User;
   faBell = faBell;
 
   constructor() {}
@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit {
       email: 'gabrielhawerroth04@gmail.com',
       celular: 47996609550,
       empresa: 'SpinCare',
+      permissao: true,
     };
   }
 }

@@ -23,9 +23,9 @@ export class PatientService {
     return this.http.get<Response<Patient[]>>(this.apiUrl);
   }
 
-  getById(id: number): Observable<Response<Patient>> {
+  getById(id: number): Observable<Patient> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<Response<Patient>>(url);
+    return this.http.get<Patient>(url);
   }
 
   getPatientsPaginado(
@@ -37,8 +37,8 @@ export class PatientService {
     );
   }
 
-  updatePatient(id: number, formData: FormData): Observable<FormData> {
-    const url = `${this.apiUrl}/${id}`;
+  updatePatient(formData: FormData): Observable<FormData> {
+    const url = `${this.apiUrl}`;
     return this.http.put<FormData>(url, formData);
   }
 

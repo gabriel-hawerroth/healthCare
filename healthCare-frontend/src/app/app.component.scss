@@ -6,7 +6,8 @@
 }
 
 .main {
-  flex: 1;
+  height: calc(100% - 75px);
+  width: calc(100% - 83px);
   margin-top: 75px;
   margin-left: 83px;
 }
