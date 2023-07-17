@@ -52,11 +52,12 @@ export class PacienteFormComponent implements OnInit {
         this.patientData ? this.patientData.nr_celular : ''
       ),
       status: new FormControl(this.patientData ? this.patientData.status : ''),
+      ie_situacao: new FormControl(
+        this.patientData ? this.patientData.ie_situacao : 'A',
+        [Validators.required]
+      ),
       nome_mae: new FormControl(
         this.patientData ? this.patientData.nome_mae : ''
-      ),
-      ie_situacao: new FormControl(
-        this.patientData ? this.patientData.ie_situacao : ''
       ),
       nome_pai: new FormControl(
         this.patientData ? this.patientData.nome_pai : ''
@@ -142,6 +143,7 @@ export class PacienteFormComponent implements OnInit {
 
   savePatient() {
     if (this.patientForm.invalid) {
+      console.log(this.patientForm);
       console.log('Formulário inválido.');
       this.snackBar.open('Não foi possível salvar as informações.', '', {
         duration: 4500,

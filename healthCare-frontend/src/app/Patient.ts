@@ -12,8 +12,8 @@ export interface Patient {
   nacionalidade?: string;
   etnia?: string;
   religiao?: string;
-  peso_kg?: number;
-  altura_cm?: number;
+  peso_kg?: string;
+  altura_cm?: string;
   email?: string;
   alergias?: string;
   dependencia?: string;
@@ -24,8 +24,8 @@ export interface Patient {
   estoque_empenhado?: boolean;
   guarda_compartilhada?: boolean;
   genero_pref?: string;
-  idade_min?: number;
-  idade_max?: number;
+  idade_min?: string;
+  idade_max?: string;
   obs_preferencias?: string;
   nr_cep: string;
   estado?: string;

@@ -22,7 +22,6 @@ export class EditPatientComponent implements OnInit {
     try {
       this.patientService.getById(id).subscribe((item) => {
         this.patient = item;
-        console.log('item');
         console.log(item);
       });
     } catch (error) {

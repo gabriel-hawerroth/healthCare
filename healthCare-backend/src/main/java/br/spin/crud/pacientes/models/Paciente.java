@@ -37,9 +37,9 @@ public class Paciente {
 
     private String religiao;
 
-    private int peso_kg;
+    private String peso_kg;
 
-    private int altura_cm;
+    private String altura_cm;
 
     private String email;
 
@@ -61,9 +61,9 @@ public class Paciente {
 
     private String genero_pref;
 
-    private int idade_min;
+    private String idade_min;
 
-    private int idade_max;
+    private String idade_max;
 
     private String obs_preferencias;
 
@@ -189,19 +189,19 @@ public class Paciente {
         this.religiao = religiao;
     }
 
-    public int getPeso_kg() {
+    public String getPeso_kg() {
         return peso_kg;
     }
 
-    public void setPeso_kg(int peso_kg) {
+    public void setPeso_kg(String peso_kg) {
         this.peso_kg = peso_kg;
     }
 
-    public int getAltura_cm() {
+    public String getAltura_cm() {
         return altura_cm;
     }
 
-    public void setAltura_cm(int altura_cm) {
+    public void setAltura_cm(String altura_cm) {
         this.altura_cm = altura_cm;
     }
 
@@ -285,19 +285,19 @@ public class Paciente {
         this.genero_pref = genero_pref;
     }
 
-    public int getIdade_min() {
+    public String getIdade_min() {
         return idade_min;
     }
 
-    public void setIdade_min(int idade_min) {
+    public void setIdade_min(String idade_min) {
         this.idade_min = idade_min;
     }
 
-    public int getIdade_max() {
+    public String getIdade_max() {
         return idade_max;
     }
 
-    public void setIdade_max(int idade_max) {
+    public void setIdade_max(String idade_max) {
         this.idade_max = idade_max;
     }
 

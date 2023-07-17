@@ -48,11 +48,11 @@
         <input
           matInput
           #cpfInput
-          maxlength="11"
+          maxlength="14"
           formControlName="nr_cpf"
-          mask="999.999.999-99"
+          mask="000.000.000-00"
         />
-        <mat-hint align="end">{{ cpfInput.value.length }}/11</mat-hint>
+        <mat-hint align="end">{{ cpfInput.value.length }}/14</mat-hint>
       </mat-form-field>
 
       <mat-form-field fxFlex="12">
@@ -74,11 +74,11 @@
         <input
           matInput
           #numeroInput
-          maxlength="11"
+          maxlength="15"
           formControlName="nr_celular"
-          mask="(99) 99999-9999"
+          mask="(00) 00000-0000"
         />
-        <mat-hint align="end">{{ numeroInput.value.length }}/11</mat-hint>
+        <mat-hint align="end">{{ numeroInput.value.length }}/15</mat-hint>
       </mat-form-field>
 
       <mat-form-field fxFlex="16">
@@ -95,7 +95,7 @@
       </mat-form-field>
 
       <mat-form-field fxFlex="12">
-        <mat-label>Situação</mat-label>
+        <mat-label><b>Situação</b></mat-label>
         <mat-select formControlName="ie_situacao">
           <mat-option value="A">Ativo</mat-option>
           <mat-option value="I">Inativo</mat-option>
@@ -193,10 +193,11 @@
           <mat-form-field fxFlex="10">
             <mat-label>Peso (kg)</mat-label>
             <input
-              type="number"
+              type="text"
               matInput
               #pesoInput
               formControlName="peso_kg"
+              mask="000"
             />
             <mat-hint align="end">{{ pesoInput.value.length }}/3</mat-hint>
           </mat-form-field>
@@ -204,24 +205,25 @@
           <mat-form-field fxFlex="10">
             <mat-label>Altura (cm)</mat-label>
             <input
-              type="number"
+              type="text"
               matInput
               #alturaInput
               formControlName="altura_cm"
+              mask="000"
             />
             <mat-hint align="end">{{ alturaInput.value.length }}/3</mat-hint>
           </mat-form-field>
 
-          <mat-form-field fxFlex="25">
+          <mat-form-field fxFlex="26">
             <mat-label>E-mail</mat-label>
             <input
               type="email"
               matInput
               #emailInput
-              maxlength="80"
+              maxlength="50"
               formControlName="email"
             />
-            <mat-hint align="end">{{ emailInput.value.length }}/80</mat-hint>
+            <mat-hint align="end">{{ emailInput.value.length }}/50</mat-hint>
           </mat-form-field>
         </div>
       </mat-expansion-panel>
@@ -339,26 +341,28 @@
           <mat-form-field fxFlex="11">
             <mat-label>Idade mínima</mat-label>
             <input
-              type="number"
+              type="text"
               matInput
               #idadeMinimaInput
               formControlName="idade_min"
+              mask="00"
             />
             <mat-hint align="end"
-              >{{ idadeMinimaInput.value.length }}/3</mat-hint
+              >{{ idadeMinimaInput.value.length }}/2</mat-hint
             >
           </mat-form-field>
 
           <mat-form-field fxFlex="11">
             <mat-label>Idade máxima</mat-label>
             <input
-              type="number"
+              type="text"
               matInput
               #idadeMaximaInput
               formControlName="idade_max"
+              mask="00"
             />
             <mat-hint align="end"
-              >{{ idadeMaximaInput.value.length }}/3</mat-hint
+              >{{ idadeMaximaInput.value.length }}/2</mat-hint
             >
           </mat-form-field>
 
@@ -389,8 +393,14 @@
         <div fxLayout="row" fxLayoutGap="10px">
           <mat-form-field fxFlex="10">
             <mat-label><b>CEP</b></mat-label>
-            <input matInput #cepInput maxlength="8" formControlName="nr_cep" />
-            <mat-hint align="end">{{ cepInput.value.length }}/8</mat-hint>
+            <input
+              matInput
+              #cepInput
+              maxlength="9"
+              formControlName="nr_cep"
+              mask="00000-000"
+            />
+            <mat-hint align="end">{{ cepInput.value.length }}/9</mat-hint>
           </mat-form-field>
 
           <mat-form-field fxFlex="15">
@@ -469,6 +479,7 @@
               #nrEnderecoInput
               maxlength="4"
               formControlName="nr_endereco"
+              mask="0000"
             />
             <mat-hint align="end"
               >{{ nrEnderecoInput.value.length }}/4</mat-hint
