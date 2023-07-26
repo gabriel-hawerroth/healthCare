@@ -18,6 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { DatePipe } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -67,7 +68,7 @@ import { EditPatientComponent } from './components/pages/pacientes/editPatient/e
     NgxMaskPipe,
   ],
 
-  providers: [provideNgxMask()],
+  providers: [provideNgxMask(), DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

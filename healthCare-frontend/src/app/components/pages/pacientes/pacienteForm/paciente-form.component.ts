@@ -1,16 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  FormBuilder,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Patient } from 'src/app/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
-
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-paciente-form',
@@ -28,8 +22,7 @@ export class PacienteFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private patientService: PatientService,
-    private snackBar: MatSnackBar,
-    private formBuilder: FormBuilder
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {

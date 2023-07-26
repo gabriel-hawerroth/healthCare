@@ -18,7 +18,7 @@ public class UnidadeController {
     private UnidadeRepository unidadeRepository;
 
     @GetMapping
-    private List<Unidade> listaPessoas() {
+    private List<Unidade> listaUnidades() {
         return unidadeRepository.findAll();
     }
 

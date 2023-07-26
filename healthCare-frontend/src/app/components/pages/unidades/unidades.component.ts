@@ -5,6 +5,7 @@ import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 import { environment } from 'src/environments/environment';
 
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-unidades',
@@ -15,18 +16,7 @@ export class UnidadesComponent implements OnInit {
   allUnits: Unidade[] = [];
   units: Unidade[] = [];
 
-  baseApiUrl = environment.baseApiUrl;
-
-  faSearch = faSearch;
-  searchTerm: string = '';
-
-  rows = [this.allUnits];
-  columns = [
-    { prop: 'nome', name: 'Nome' },
-    { prop: 'situacao', name: 'Situacao' },
-  ];
-
-  constructor(private unidadeService: UnidadeService) {}
+  constructor(private unidadeService: UnidadeService, private route: Router) {}
   ngOnInit(): void {
     this.unidadeService.getUnidades().subscribe((items: any) => {
       this.allUnits = items;
@@ -39,7 +29,14 @@ export class UnidadesComponent implements OnInit {
     const value = target.value;
 
     this.units = this.allUnits.filter((unidade) => {
-      return unidade.nome.toLowerCase().includes(value);
+      return unidade.ds_nome.toLowerCase().includes(value);
     });
+  }
+
+  editUnit(event: any) {
+    if (event.type == 'click') {
+      const patientId = event.row.id;
+      this.route.navigate([`/paciente/${patientId}`]);
+    }
   }
 }

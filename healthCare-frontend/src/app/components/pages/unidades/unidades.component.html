@@ -1,29 +1,53 @@
 <div class="unidades-container">
-  <div class="filters">
-    <div class="search-container">
-      <form>
-        <fa-icon [icon]="faSearch"></fa-icon>
-        <input type="text" placeholder="Busque por uma unidade" />
-      </form>
-    </div>
-  </div>
+  <div class="filters"></div>
   <div class="table">
-    <div *ngIf="units.length > 0; else noUnits"></div>
     <div>
       <ngx-datatable
-        [rows]="allUnits"
-        [columns]="columns"
-        [limit]="8"
+        [rows]="units"
+        class="material striped"
+        [headerHeight]="48"
+        [rowHeight]="52"
+        [footerHeight]="50"
+        [columnMode]="'force'"
+        [limit]="6"
+        [reorderable]="false"
         [selectAllRowsOnPage]="false"
         [messages]="{
-          emptyMessage: 'Nenhuma unidade encontrada.',
           totalMessage: 'registros encontrados.'
         }"
-      ></ngx-datatable>
+        (activate)="editUnit($event)"
+      >
+        <ngx-datatable-column
+          name="Nome"
+          prop="ds_nome"
+          [width]="230"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="CNPJ"
+          prop="cnpj"
+          [width]="120"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Cidade"
+          prop="cidade"
+          [width]="150"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Estado"
+          prop="estado"
+          [width]="90"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="E-mail"
+          prop="email"
+          [width]="180"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Tipo"
+          prop="tipo"
+          [width]="150"
+        ></ngx-datatable-column>
+      </ngx-datatable>
     </div>
-    <ng-template #noUnits>
-      <h1>Não há unidades cadastradas!</h1>
-      <a routerLink="/moments/new">Cadastre uma nova paciente!</a>
-    </ng-template>
   </div>
 </div>

@@ -193,11 +193,10 @@
           <mat-form-field fxFlex="10">
             <mat-label>Peso (kg)</mat-label>
             <input
-              type="text"
+              type="number"
               matInput
               #pesoInput
               formControlName="peso_kg"
-              mask="000"
             />
             <mat-hint align="end">{{ pesoInput.value.length }}/3</mat-hint>
           </mat-form-field>
@@ -205,11 +204,10 @@
           <mat-form-field fxFlex="10">
             <mat-label>Altura (cm)</mat-label>
             <input
-              type="text"
+              type="number"
               matInput
               #alturaInput
               formControlName="altura_cm"
-              mask="000"
             />
             <mat-hint align="end">{{ alturaInput.value.length }}/3</mat-hint>
           </mat-form-field>
@@ -291,7 +289,7 @@
         </mat-expansion-panel-header>
 
         <div fxLayout="row" fxLayoutGap="10px">
-          <mat-form-field fxFlex="16">
+          <mat-form-field fxFlex="18">
             <mat-label>Início do atendimento</mat-label>
             <input
               matInput
@@ -305,7 +303,7 @@
             <mat-datepicker #inicioAtendPicker></mat-datepicker>
           </mat-form-field>
 
-          <mat-form-field fxFlex="16">
+          <mat-form-field fxFlex="18">
             <mat-label>Fim do atendimento</mat-label>
             <input
               matInput

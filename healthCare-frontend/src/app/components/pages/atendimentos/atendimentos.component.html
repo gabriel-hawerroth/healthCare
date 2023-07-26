@@ -1,29 +1,53 @@
-<div class="atendimentos-container">
-  <div class="filters">
-    <div class="search-container">
-      <form>
-        <fa-icon [icon]="faSearch"></fa-icon>
-        <input type="text" placeholder="Busque por um atendimento" />
-      </form>
-    </div>
-  </div>
+<div class="unidades-container">
+  <div class="filters"></div>
   <div class="table">
-    <div *ngIf="atends.length > 0; else noAtends"></div>
     <div>
       <ngx-datatable
-        [rows]="allAtends"
-        [columns]="columns"
-        [limit]="8"
+        [rows]="atends"
+        class="material striped"
+        [headerHeight]="48"
+        [rowHeight]="52"
+        [footerHeight]="50"
+        [columnMode]="'force'"
+        [limit]="6"
+        [reorderable]="false"
         [selectAllRowsOnPage]="false"
         [messages]="{
-          emptyMessage: 'Nenhum atendimento encontrado.',
           totalMessage: 'registros encontrados.'
         }"
-      ></ngx-datatable>
+        (activate)="editAtend($event)"
+      >
+        <ngx-datatable-column
+          name="Nome do paciente"
+          prop="ds_nome_paciente"
+          [width]="220"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Data"
+          prop="dt_atendimento"
+          [width]="120"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Unidade"
+          prop="ds_nome_unidade"
+          [width]="190"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Especialidade"
+          prop="especialidade"
+          [width]="150"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Tipo"
+          prop="tipo"
+          [width]="150"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Status"
+          prop="status_atend"
+          [width]="150"
+        ></ngx-datatable-column>
+      </ngx-datatable>
     </div>
-    <ng-template #noAtends>
-      <h1>Não há atendimentos cadastrados!</h1>
-      <a routerLink="/moments/new">Cadastre um novo atendimento!</a>
-    </ng-template>
   </div>
 </div>
