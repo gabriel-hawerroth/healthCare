@@ -11,4 +11,4 @@ Atuais funcionalidades do sistema:
 - Possibilidade de recuperar a senha do usuário (o sistema gera um token aleatório de 6 dígitos e envia para o e-mail do usuário, depois recebe o token e a senha nova, se o token for válido a senha é alterada).  
 - Criptografia das senhas.  
 
-Algumas das dependências e bibliotecas utilizadas: Spring Web, Spring JPA, Spring Security, bcrypt e OAuth2.
+Linguagens/ferramentas utilizadas: java com Spring, html, sccs e typescript com Angular, criação e gerenciamento do banco de dados e SQL.
