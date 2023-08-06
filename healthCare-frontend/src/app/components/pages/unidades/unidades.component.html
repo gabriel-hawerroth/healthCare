@@ -1,53 +1,46 @@
 <div class="unidades-container">
-  <div class="filters"></div>
-  <div class="table">
+  <div class="top-actions">
+    <div class="left" fxLayoutGap="15px">
+      <mat-form-field fxFlex="45" class="form-field">
+        <mat-label>Filtrar por nome</mat-label>
+        <input matInput (input)="filterName($event)" />
+      </mat-form-field>
+
+      <mat-form-field fxFlex="20">
+        <mat-label>Filtrar por situação</mat-label>
+        <mat-select [(value)]="initialSelectedOption" (selectionChange)="handleSelectChange($event)">
+          <mat-option value="A">Ativos</mat-option>
+          <mat-option value="I">Inativos</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="rigth">
+      <h1 class="title-table-page">Cadastro de unidade</h1>
+    </div>
+  </div>
+
+  <div class="table-units">
     <div>
-      <ngx-datatable
-        [rows]="units"
-        class="material striped"
-        [headerHeight]="48"
-        [rowHeight]="52"
-        [footerHeight]="50"
-        [columnMode]="'force'"
-        [limit]="6"
-        [reorderable]="false"
-        [selectAllRowsOnPage]="false"
-        [messages]="{
+      <ngx-datatable [rows]="filteredUnits" class="material striped custom-datatable" [headerHeight]="48"
+        [rowHeight]="52" [footerHeight]="50" [columnMode]="'force'" [limit]="6" [reorderable]="false"
+        [selectAllRowsOnPage]="false" [messages]="{
           totalMessage: 'registros encontrados.'
-        }"
-        (activate)="editUnit($event)"
-      >
-        <ngx-datatable-column
-          name="Nome"
-          prop="ds_nome"
-          [width]="230"
-        ></ngx-datatable-column>
-        <ngx-datatable-column
-          name="CNPJ"
-          prop="cnpj"
-          [width]="120"
-        ></ngx-datatable-column>
-        <ngx-datatable-column
-          name="Cidade"
-          prop="cidade"
-          [width]="150"
-        ></ngx-datatable-column>
-        <ngx-datatable-column
-          name="Estado"
-          prop="estado"
-          [width]="90"
-        ></ngx-datatable-column>
-        <ngx-datatable-column
-          name="E-mail"
-          prop="email"
-          [width]="180"
-        ></ngx-datatable-column>
-        <ngx-datatable-column
-          name="Tipo"
-          prop="tipo"
-          [width]="150"
-        ></ngx-datatable-column>
+        }" (activate)="editUnit($event)">
+        <ngx-datatable-column name="Nome" prop="ds_nome" [width]="150"></ngx-datatable-column>
+        <ngx-datatable-column name="CNPJ" prop="cnpj" [width]="140">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.cnpj | cnpjMask }}</ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Cidade" prop="cidade" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="Estado" prop="estado" [width]="50"></ngx-datatable-column>
+        <ngx-datatable-column name="E-mail" prop="email" [width]="200"></ngx-datatable-column>
+        <ngx-datatable-column name="Tipo" prop="tipo" [width]="150"></ngx-datatable-column>
       </ngx-datatable>
     </div>
+  </div>
+
+  <div class="buttons-box">
+    <mat-icon class="button-tables p1" routerLink="/unidade/novo">add</mat-icon>
   </div>
 </div>

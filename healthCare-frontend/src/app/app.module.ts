@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxDatatableModule, ColumnMode } from '@swimlane/ngx-datatable';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,6 +19,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { DatePipe } from '@angular/common';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,6 +32,11 @@ import { AtendimentosComponent } from './components/pages/atendimentos/atendimen
 import { PacienteFormComponent } from './components/pages/pacientes/pacienteForm/paciente-form.component';
 import { CpfMaskPipe } from 'src/app/utils/cpf-mask.pipe';
 import { EditPatientComponent } from './components/pages/pacientes/editPatient/edit-patient.component';
+import { UnitFormComponent } from './components/pages/unidades/unitForm/unit-form.component';
+import { EditUnitComponent } from './components/pages/unidades/editUnit/edit-unit.component';
+import { AtendimentoFormComponent } from './components/pages/atendimentos/atendimento-form/atendimento-form.component';
+import { EditAtendComponent } from './components/pages/atendimentos/edit-atend/edit-atend.component';
+import { CnpjMaskPipe } from './utils/cnpj-mask.pipe';
 
 @NgModule({
   declarations: [
@@ -42,6 +49,11 @@ import { EditPatientComponent } from './components/pages/pacientes/editPatient/e
     PacienteFormComponent,
     CpfMaskPipe,
     EditPatientComponent,
+    UnitFormComponent,
+    EditUnitComponent,
+    AtendimentoFormComponent,
+    EditAtendComponent,
+    CnpjMaskPipe,
   ],
   imports: [
     BrowserModule,
@@ -66,9 +78,14 @@ import { EditPatientComponent } from './components/pages/pacientes/editPatient/e
     MatSnackBarModule,
     NgxMaskDirective,
     NgxMaskPipe,
+    MatMenuModule,
   ],
 
-  providers: [provideNgxMask(), DatePipe],
+  providers: [
+    provideNgxMask(),
+    DatePipe,
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

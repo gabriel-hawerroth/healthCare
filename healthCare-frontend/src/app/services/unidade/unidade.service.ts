@@ -15,20 +15,25 @@ export class UnidadeService {
 
   constructor(private http: HttpClient) {}
 
-  createUnidade(formData: FormData): Observable<FormData> {
+  createUnit(formData: FormData): Observable<FormData> {
     return this.http.post<FormData>(this.apiUrl, formData);
   }
 
-  getUnidades(): Observable<Response<Unidade[]>> {
+  getUnits(): Observable<Response<Unidade[]>> {
     return this.http.get<Response<Unidade[]>>(this.apiUrl);
   }
 
-  updateUnidade(id: number, formData: FormData): Observable<FormData> {
+  getById(id: number): Observable<Unidade> {
     const url = `${this.apiUrl}/${id}`;
+    return this.http.get<Unidade>(url);
+  }
+
+  updateUnit(formData: FormData): Observable<FormData> {
+    const url = `${this.apiUrl}`;
     return this.http.put<FormData>(url, formData);
   }
 
-  removeUnidade(id: number) {
+  removeUnit(id: number) {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete<Unidade>(url);
   }

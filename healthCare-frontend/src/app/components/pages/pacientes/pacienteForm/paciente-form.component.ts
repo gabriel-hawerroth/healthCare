@@ -134,7 +134,7 @@ export class PacienteFormComponent implements OnInit {
     }
   }
 
-  savePatient() {
+  newPatient() {
     if (this.patientForm.invalid) {
       console.log(this.patientForm);
       console.log('Formulário inválido.');
@@ -183,23 +183,21 @@ export class PacienteFormComponent implements OnInit {
     }
   }
 
-  removePatient(event: Event) {
-    if (event.type == 'click') {
-      const id = Number(this.route.snapshot.paramMap.get('id'));
+  removePatient() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
 
-      this.patientService.removePatient(id).subscribe({
-        next: (result) => {
-          this.snackBar.open('Paciente removido com sucesso.', '', {
-            duration: 4500,
-          }),
-            this.router.navigate(['/paciente']);
-        },
-        error: (error) => {
-          this.snackBar.open('Não foi possível excluir o paciente.', '', {
-            duration: 4500,
-          });
-        },
-      });
-    }
+    this.patientService.removePatient(id).subscribe({
+      next: (result) => {
+        this.snackBar.open('Paciente removido com sucesso.', '', {
+          duration: 4500,
+        }),
+          this.router.navigate(['/paciente']);
+      },
+      error: (error) => {
+        this.snackBar.open('Não foi possível excluir o paciente.', '', {
+          duration: 4500,
+        });
+      },
+    });
   }
 }

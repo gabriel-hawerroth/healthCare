@@ -1,7 +1,7 @@
-export interface Atendimento {
+export interface AtendsPerson {
   id?: number;
-  id_paciente: number;
-  id_unidade: number;
+  ds_paciente: string;
+  ds_unidade: string;
   dt_atendimento: string;
   status_atend: string;
   medico_responsavel?: string;

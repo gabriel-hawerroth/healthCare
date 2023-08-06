@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 import { Unidade } from 'src/app/Unidade';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 import { environment } from 'src/environments/environment';
 
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,30 +12,49 @@ import { Router } from '@angular/router';
   styleUrls: ['./unidades.component.scss'],
 })
 export class UnidadesComponent implements OnInit {
+  @Output() edit = new EventEmitter(false);
+
   allUnits: Unidade[] = [];
-  units: Unidade[] = [];
+  filteredUnits: Unidade[] = [];
+
+  baseApiUrl = environment.baseApiUrl;
+
+  initialSelectedOption: string = 'A';
 
   constructor(private unidadeService: UnidadeService, private route: Router) {}
   ngOnInit(): void {
-    this.unidadeService.getUnidades().subscribe((items: any) => {
+    this.unidadeService.getUnits().subscribe((items: any) => {
       this.allUnits = items;
-      this.units = items;
+      this.filteredUnits = items;
+    });
+
+    this.filterSituation(this.initialSelectedOption);
+  }
+
+  filterName(e: Event): void {
+    const target = e.target as HTMLInputElement;
+    const value = target.value.toLowerCase();
+
+    this.filteredUnits = this.allUnits.filter((unit) => {
+      return unit.ds_nome.toLowerCase().includes(value);
     });
   }
 
-  search(e: Event): void {
-    const target = e.target as HTMLInputElement;
-    const value = target.value;
+  handleSelectChange(event: any): void {
+    const value = event.value;
+    this.filterSituation(value);
+  }
 
-    this.units = this.allUnits.filter((unidade) => {
-      return unidade.ds_nome.toLowerCase().includes(value);
+  filterSituation(value: string): void {
+    this.filteredUnits = this.allUnits.filter((units) => {
+      return units.ie_situacao === value;
     });
   }
 
   editUnit(event: any) {
     if (event.type == 'click') {
-      const patientId = event.row.id;
-      this.route.navigate([`/paciente/${patientId}`]);
+      const unitId = event.row.id;
+      this.route.navigate([`/unidade/${unitId}`]);
     }
   }
 }

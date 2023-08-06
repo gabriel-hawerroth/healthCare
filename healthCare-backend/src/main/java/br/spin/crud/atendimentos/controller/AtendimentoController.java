@@ -1,10 +1,13 @@
 package br.spin.crud.atendimentos.controller;
 
 import br.spin.crud.atendimentos.models.*;
-import br.spin.crud.atendimentos.models.InterfacesJPA.*;
 import br.spin.crud.atendimentos.repository.*;
+import br.spin.crud.pacientes.models.Paciente;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,73 +23,41 @@ public class AtendimentoController {
     @Autowired
     private AtendimentoRepository atendimentoRepository;
     @Autowired
-    private AtendPersonalizadoRepository atendPersonalizadoRepository;
+    private AtendPersonRepository atendPersonRepository;
 
     @PersistenceContext
     private EntityManager manager;
 
-    @GetMapping("/lista")
-    public List<Atendimento> listaAtendimentos() {
-        if (atendimentoRepository != null) {
-            return atendimentoRepository.findAll();
-        } else {
-            return null;
-        }
+    @GetMapping
+    private List<Atendimento> listaAtendimentos() {
+        return atendimentoRepository.findAll();
     }
 
-    @GetMapping("/listaPersonalizada/view") //método utilizando view criada no banco
-    public List<AtendimentoPersonalizado> atendimentos() {
-        if (atendPersonalizadoRepository != null) {
-            return atendPersonalizadoRepository.findAll();
-        } else {
-            return null;
-        }
+    @GetMapping("/atendsPerson")
+    private List<AtendPerson> listaAtendsPerson() {
+        return atendPersonRepository.findAll();
     }
 
-    @GetMapping("/listaAtendimentosPaciente")
-    public List<AtendimentosPaci> atendimentosPaciente(
-            @RequestParam(name = "id") Integer id,
-            @RequestParam(name = "idDois", required = false) Integer idDois,
-            @RequestParam(name = "idTres", required = false) Integer idTres
-    ) {
-        List<AtendimentosPaciente> listaAtendimentos = atendimentoRepository.atendimentosPacinte(id, idDois, idTres);
-        List<AtendimentosPaci> resposta = new ArrayList<>();
-        for (InterfacesJPA.AtendimentosPaciente linha : listaAtendimentos) {
-            AtendimentosPaci objeto = new AtendimentosPaci();
-            objeto.setIdAtendimento(linha.getId_atendimento());
-            objeto.setDtAtendimento(linha.getDt_atendimento());
-            objeto.setNomeUnidade(linha.getNome_unidade());
-            resposta.add(objeto);
-        }
-        return resposta;
-    }
-
-    @GetMapping("/listaAtendimentosData")
-    public List<AtendimentoPersonalizado> atendimentosData(@RequestParam(name = "data") LocalDate data) {
-        List<RetornoAtendimentoSQLNativo> listaAtendimentos = atendimentoRepository.atendimentosData(data);
-        List<AtendimentoPersonalizado> resposta = new ArrayList<>();
-        for (RetornoAtendimentoSQLNativo linha : listaAtendimentos) {
-            AtendimentoPersonalizado objeto = new AtendimentoPersonalizado();
-            objeto.setId(linha.getId());
-            objeto.setDtAtendimento(linha.getDt_atendimento());
-            objeto.setNomePaciente(linha.getNome_paciente());
-            objeto.setNomeMedico(linha.getNome_medico());
-            objeto.setNomeUnidade(linha.getNome_unidade());
-            objeto.setStatusAtend(linha.getStatus_atend());
-            resposta.add(objeto);
-        }
-        return resposta;
+    @GetMapping("/{id}")
+    private Atendimento listaAtendimentos(@PathVariable(name = "id") Integer id){
+        return atendimentoRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Atendimento não encontrado: " + id)
+        );
     }
 
     @PostMapping
-    private Atendimento salvarAtendimento(@RequestBody Atendimento atendimento) {
-        if (atendimento.getDt_atendimento() == null) {
-            atendimento.setDt_atendimento(LocalDate.now());
-        }
-        return atendimentoRepository.save(atendimento);
+    private ResponseEntity<Atendimento> criarAtendimento(@RequestBody Atendimento atendimento) {
+        atendimento.setDt_criacao(LocalDate.now());
+        return ResponseEntity.status(HttpStatus.CREATED).body(atendimentoRepository.save(atendimento));
     }
 
-    @DeleteMapping("/excluir/{id}")
+    @PutMapping
+    private ResponseEntity<Atendimento> editarAtendimento(@RequestBody Atendimento atendimento) {
+        atendimento.setDt_criacao(atendimentoRepository.findById(atendimento.getId()).get().getDt_criacao());
+        return ResponseEntity.status(HttpStatus.OK).body(atendimentoRepository.save(atendimento));
+    }
+
+    @DeleteMapping("/{id}")
     private void excluirAtendimento(@PathVariable(name = "id") Integer id) {
         atendimentoRepository.deleteById(id);
     }

@@ -47,11 +47,12 @@ public class PacienteController {
     }
 
     @PutMapping
-    private ResponseEntity<Paciente> salvarPaciente(@RequestBody Paciente paciente) {
+    private ResponseEntity<Paciente> editarPaciente(@RequestBody Paciente paciente) {
+        paciente.setDt_criacao(pacienteRepository.findById(paciente.getId()).get().getDt_criacao());
         return ResponseEntity.status(HttpStatus.OK).body(pacienteRepository.save(paciente));
     }
 
-    @DeleteMapping("/excluir/{id}")
+    @DeleteMapping("/{id}")
     private void excluirPaciente(@PathVariable(name = "id") Long id) {
         Paciente paci = pacienteRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Paciente não encontrado: " + id)

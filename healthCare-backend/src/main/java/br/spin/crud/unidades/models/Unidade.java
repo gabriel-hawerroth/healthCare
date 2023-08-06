@@ -1,6 +1,7 @@
 package br.spin.crud.unidades.models;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "unidade")
@@ -8,13 +9,25 @@ public class Unidade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String ds_nome;
 
     private String cnpj;
 
     private String nr_telefone;
+
+    private String email;
+
+    private String ie_situacao;
+
+    private String capacidade_atendimento;
+
+    private String horario_funcionamento;
+
+    private String tipo;
+
+    private String especialidades_oferecidas;
 
     private String nr_cep;
 
@@ -32,22 +45,13 @@ public class Unidade {
 
     private String como_chegar;
 
-    private String capacidade_atendimento;
+    private LocalDate dt_criacao;
 
-    private String horario_funcionamento;
-
-    private String especialidades_oferecidas;
-
-    private String tipo;
-
-    @Column(name = "ie_situacao")
-    private String situacao;
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -73,6 +77,54 @@ public class Unidade {
 
     public void setNr_telefone(String nr_telefone) {
         this.nr_telefone = nr_telefone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getIe_situacao() {
+        return ie_situacao;
+    }
+
+    public void setIe_situacao(String ie_situacao) {
+        this.ie_situacao = ie_situacao;
+    }
+
+    public String getCapacidade_atendimento() {
+        return capacidade_atendimento;
+    }
+
+    public void setCapacidade_atendimento(String capacidade_atendimento) {
+        this.capacidade_atendimento = capacidade_atendimento;
+    }
+
+    public String getHorario_funcionamento() {
+        return horario_funcionamento;
+    }
+
+    public void setHorario_funcionamento(String horario_funcionamento) {
+        this.horario_funcionamento = horario_funcionamento;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getEspecialidades_oferecidas() {
+        return especialidades_oferecidas;
+    }
+
+    public void setEspecialidades_oferecidas(String especialidades_oferecidas) {
+        this.especialidades_oferecidas = especialidades_oferecidas;
     }
 
     public String getNr_cep() {
@@ -139,43 +191,11 @@ public class Unidade {
         this.como_chegar = como_chegar;
     }
 
-    public String getCapacidade_atendimento() {
-        return capacidade_atendimento;
+    public LocalDate getDt_criacao() {
+        return dt_criacao;
     }
 
-    public void setCapacidade_atendimento(String capacidade_atendimento) {
-        this.capacidade_atendimento = capacidade_atendimento;
-    }
-
-    public String getHorario_funcionamento() {
-        return horario_funcionamento;
-    }
-
-    public void setHorario_funcionamento(String horario_funcionamento) {
-        this.horario_funcionamento = horario_funcionamento;
-    }
-
-    public String getEspecialidades_oferecidas() {
-        return especialidades_oferecidas;
-    }
-
-    public void setEspecialidades_oferecidas(String especialidades_oferecidas) {
-        this.especialidades_oferecidas = especialidades_oferecidas;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public String getSituacao() {
-        return situacao;
-    }
-
-    public void setSituacao(String situacao) {
-        this.situacao = situacao;
+    public void setDt_criacao(LocalDate dt_criacao) {
+        this.dt_criacao = dt_criacao;
     }
 }

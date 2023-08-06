@@ -13,33 +13,33 @@ public class Atendimento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer id;
 
+    private Integer id_paciente;
+
+    private Integer id_unidade;
+
     private LocalDate dt_atendimento;
+
+    private String status_atend;
+
+    private String medico_responsavel;
 
     private String hora_inicio;
 
     private String hora_fim;
 
-    @ManyToOne
-    @JoinColumn(name = "id_paciente")
-    private Paciente paciente;
-
-    @ManyToOne
-    @JoinColumn(name = "id_unidade")
-    private Unidade unidade;
-
-    private String medico_responsavel;
-
     private String especialidade;
 
     private String tipo_atendimento;
 
-    private String valor_atendimento;
+    private Integer valor_atendimento;
+
+    private String forma_pagamento;
 
     private String convenio;
 
     private String nr_carteirinha_convenio;
 
-    private String status_atend;
+    private LocalDate dt_criacao;
 
     public Integer getId() {
         return id;
@@ -47,6 +47,22 @@ public class Atendimento {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getId_paciente() {
+        return id_paciente;
+    }
+
+    public void setId_paciente(Integer id_paciente) {
+        this.id_paciente = id_paciente;
+    }
+
+    public Integer getId_unidade() {
+        return id_unidade;
+    }
+
+    public void setId_unidade(Integer id_unidade) {
+        this.id_unidade = id_unidade;
     }
 
     public LocalDate getDt_atendimento() {
@@ -73,22 +89,6 @@ public class Atendimento {
         this.hora_fim = hora_fim;
     }
 
-    public Paciente getPaciente() {
-        return paciente;
-    }
-
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
-    }
-
-    public Unidade getUnidade() {
-        return unidade;
-    }
-
-    public void setUnidade(Unidade unidade) {
-        this.unidade = unidade;
-    }
-
     public String getMedico_responsavel() {
         return medico_responsavel;
     }
@@ -113,12 +113,20 @@ public class Atendimento {
         this.tipo_atendimento = tipo_atendimento;
     }
 
-    public String getValor_atendimento() {
+    public Integer getValor_atendimento() {
         return valor_atendimento;
     }
 
-    public void setValor_atendimento(String valor_atendimento) {
+    public void setValor_atendimento(Integer valor_atendimento) {
         this.valor_atendimento = valor_atendimento;
+    }
+
+    public String getForma_pagamento() {
+        return forma_pagamento;
+    }
+
+    public void setForma_pagamento(String forma_pagamento) {
+        this.forma_pagamento = forma_pagamento;
     }
 
     public String getConvenio() {
@@ -143,5 +151,13 @@ public class Atendimento {
 
     public void setStatus_atend(String status_atend) {
         this.status_atend = status_atend;
+    }
+
+    public LocalDate getDt_criacao() {
+        return dt_criacao;
+    }
+
+    public void setDt_criacao(LocalDate dt_criacao) {
+        this.dt_criacao = dt_criacao;
     }
 }

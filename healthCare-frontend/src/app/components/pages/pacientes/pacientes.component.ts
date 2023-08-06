@@ -4,7 +4,6 @@ import { Patient } from 'src/app/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
 import { environment } from 'src/environments/environment';
 
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,13 +15,9 @@ export class PacientesComponent implements OnInit {
   @Output() edit = new EventEmitter(false);
 
   allPatients: Patient[] = [];
-  patients: Patient[] = [];
-  filteredRows = this.patients;
+  filteredPatients: Patient[] = [];
 
   baseApiUrl = environment.baseApiUrl;
-
-  faSearch = faSearch;
-  searchTerm: string = '';
 
   initialSelectedOption: string = 'A';
 
@@ -30,7 +25,7 @@ export class PacientesComponent implements OnInit {
   ngOnInit(): void {
     this.patientService.getPatients().subscribe((items: any) => {
       this.allPatients = items;
-      this.patients = items;
+      this.filteredPatients = items;
 
       this.filterSituation(this.initialSelectedOption);
     });
@@ -40,7 +35,7 @@ export class PacientesComponent implements OnInit {
     const target = e.target as HTMLInputElement;
     const value = target.value.toLowerCase();
 
-    this.patients = this.allPatients.filter((patient) => {
+    this.filteredPatients = this.allPatients.filter((patient) => {
       return patient.ds_nome.toLowerCase().includes(value);
     });
   }
@@ -51,7 +46,7 @@ export class PacientesComponent implements OnInit {
   }
 
   filterSituation(value: string): void {
-    this.patients = this.allPatients.filter((patient) => {
+    this.filteredPatients = this.allPatients.filter((patient) => {
       return patient.ie_situacao === value;
     });
   }
@@ -60,7 +55,6 @@ export class PacientesComponent implements OnInit {
     if (event.type == 'click') {
       const patientId = event.row.id;
       this.router.navigate([`/paciente/${patientId}`]);
-      this.edit.emit(event);
     }
   }
 
