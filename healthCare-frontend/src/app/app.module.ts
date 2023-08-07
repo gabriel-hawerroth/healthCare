@@ -21,6 +21,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { DatePipe } from '@angular/common';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,6 +38,7 @@ import { EditUnitComponent } from './components/pages/unidades/editUnit/edit-uni
 import { AtendimentoFormComponent } from './components/pages/atendimentos/atendimento-form/atendimento-form.component';
 import { EditAtendComponent } from './components/pages/atendimentos/edit-atend/edit-atend.component';
 import { CnpjMaskPipe } from './utils/cnpj-mask.pipe';
+import { ConfirmationDialogComponent } from './utils/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,7 @@ import { CnpjMaskPipe } from './utils/cnpj-mask.pipe';
     AtendimentoFormComponent,
     EditAtendComponent,
     CnpjMaskPipe,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,6 +82,7 @@ import { CnpjMaskPipe } from './utils/cnpj-mask.pipe';
     NgxMaskDirective,
     NgxMaskPipe,
     MatMenuModule,
+    MatDialogModule,
   ],
 
   providers: [

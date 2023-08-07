@@ -46,8 +46,8 @@ public class UnidadeController {
         return ResponseEntity.status(HttpStatus.OK).body(unidadeRepository.save(unidade));
     }
 
-    @DeleteMapping("/excluir/{id}")
-    private void excluirUnidade(@RequestParam(name = "id") Long id) {
+    @DeleteMapping("/{id}")
+    private void excluirUnidade(@PathVariable(name = "id") Long id) {
         Unidade uni = unidadeRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unidade não encontrada: " + id)
         );

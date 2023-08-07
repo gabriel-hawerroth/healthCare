@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
 
 import { Unidade } from 'src/app/Unidade';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
@@ -22,7 +24,8 @@ export class UnitFormComponent {
     private router: Router,
     private route: ActivatedRoute,
     private unitService: UnidadeService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -82,28 +85,28 @@ export class UnitFormComponent {
   }
 
   newUnit() {
-    // if (this.unitForm.invalid) {
-    //   console.log('Formulário inválido.');
-    //   console.log(this.unitForm.value);
-    //   this.snackBar.open('Não foi possível salvar as informações.', '', {
-    //     duration: 4500,
-    //   });
-    // } else {
-    console.log(this.unitForm.value);
-    this.unitService.createUnit(this.unitForm.value).subscribe({
-      next: (result) => {
-        this.snackBar.open('Unidade criada com sucesso.', '', {
-          duration: 4000,
-        }),
-          this.router.navigate(['/unidade']);
-      },
-      error: (error) => {
-        this.snackBar.open('Não foi possível salvar as informações.', '', {
-          duration: 4500,
-        });
-      },
-    });
-    // }
+    if (this.unitForm.invalid) {
+      console.log('Formulário inválido.');
+      console.log(this.unitForm.value);
+      this.snackBar.open('Não foi possível salvar as informações.', '', {
+        duration: 4500,
+      });
+    } else {
+      console.log(this.unitForm.value);
+      this.unitService.createUnit(this.unitForm.value).subscribe({
+        next: (result) => {
+          this.snackBar.open('Unidade criada com sucesso.', '', {
+            duration: 4000,
+          }),
+            this.router.navigate(['/unidade']);
+        },
+        error: (error) => {
+          this.snackBar.open('Não foi possível salvar as informações.', '', {
+            duration: 4500,
+          });
+        },
+      });
+    }
   }
 
   editUnit() {
@@ -146,6 +149,16 @@ export class UnitFormComponent {
           duration: 4500,
         });
       },
+    });
+  }
+
+  openConfirmationDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.removeUnit();
+      }
     });
   }
 }

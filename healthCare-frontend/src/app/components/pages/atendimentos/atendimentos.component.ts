@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Atendimento } from 'src/app/Atendimento';
+import { AtendsPerson } from 'src/app/AtendsPerson';
 import { AtendimentoService } from 'src/app/services/atendimento/atendimento.service';
-import { PatientService } from 'src/app/services/paciente/patient.service';
-import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 
 import { Router } from '@angular/router';
-import { Patient } from 'src/app/Patient';
-import { Unidade } from 'src/app/Unidade';
 
 @Component({
   selector: 'app-atendimentos',
@@ -15,13 +11,11 @@ import { Unidade } from 'src/app/Unidade';
   styleUrls: ['./atendimentos.component.scss'],
 })
 export class AtendimentosComponent implements OnInit {
-  allAtends: Atendimento[] = [];
-  filteredAtends: Atendimento[] = [];
+  allAtends: AtendsPerson[] = [];
+  filteredAtends: AtendsPerson[] = [];
 
   constructor(
     private atendimentoService: AtendimentoService,
-    private patientService: PatientService,
-    private unitService: UnidadeService,
     private route: Router
   ) {}
   ngOnInit(): void {
@@ -34,11 +28,19 @@ export class AtendimentosComponent implements OnInit {
   filterPatient(e: Event) {
     const target = e.target as HTMLInputElement;
     const value = target.value.toLowerCase();
+
+    this.filteredAtends = this.allAtends.filter((atend) => {
+      return atend.ds_paciente.toLowerCase().includes(value);
+    });
   }
 
   filterUnit(e: Event) {
     const target = e.target as HTMLInputElement;
     const value = target.value.toLowerCase();
+
+    this.filteredAtends = this.allAtends.filter((atend) => {
+      return atend.ds_unidade.toLowerCase().includes(value);
+    });
   }
 
   editAtend(event: any) {

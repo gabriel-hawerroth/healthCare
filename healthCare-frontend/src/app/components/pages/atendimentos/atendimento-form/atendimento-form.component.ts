@@ -8,6 +8,8 @@ import { Unidade } from 'src/app/Unidade';
 import { AtendimentoService } from 'src/app/services/atendimento/atendimento.service';
 import { PatientService } from 'src/app/services/paciente/patient.service';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-atendimento-form',
@@ -30,7 +32,8 @@ export class AtendimentoFormComponent implements OnInit {
     private atendService: AtendimentoService,
     private patientService: PatientService,
     private unitService: UnidadeService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -156,6 +159,16 @@ export class AtendimentoFormComponent implements OnInit {
           duration: 4500,
         });
       },
+    });
+  }
+
+  openConfirmationDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.removeAtend();
+      }
     });
   }
 }

@@ -10,7 +10,7 @@
       <span *ngIf="pageType == 'Novo'" (click)="newPatient()" class="material-symbols-outlined button-forms">save</span>
       <span *ngIf="pageType != 'Novo'" (click)="editPatient()"
         class="material-symbols-outlined button-forms">save</span>
-      <span *ngIf="pageType != 'Novo'" (click)="removePatient()" class="material-symbols-outlined button-forms"
+      <span *ngIf="pageType != 'Novo'" (click)="openConfirmationDialog()" class="material-symbols-outlined button-forms"
         [ngStyle]="{ 'background-color': '#c21f40', color: 'white' }">delete</span>
     </div>
   </div>
