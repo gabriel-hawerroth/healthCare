@@ -10,6 +10,7 @@ import { PatientService } from 'src/app/services/paciente/patient.service';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-atendimento-form',
@@ -39,13 +40,19 @@ export class AtendimentoFormComponent implements OnInit {
   ngOnInit(): void {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
 
-    this.patientService.getPatients().subscribe((patients: any) => {
-      this.patients = patients;
-    });
+    this.patientService
+      .getPatients('', 'A')
+      .toPromise()
+      .then((patients: any) => {
+        this.patients = patients;
+      });
 
-    this.unitService.getUnits().subscribe((units: any) => {
-      this.units = units;
-    });
+    this.unitService
+      .getUnits('', 'A')
+      .toPromise()
+      .then((units: any) => {
+        this.units = units;
+      });
 
     this.atendForm = new FormGroup({
       id: new FormControl(this.atendData ? this.atendData.id : ''),

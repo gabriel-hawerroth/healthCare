@@ -22,7 +22,7 @@
         <mat-label><b>Paciente</b></mat-label>
         <mat-select formControlName="id_paciente">
           <mat-option *ngFor="let patient of patients" [value]="patient.id">
-            {{ patient.ds_nome }}
+            {{ patient.dsNome }}
           </mat-option>
         </mat-select>
       </mat-form-field>

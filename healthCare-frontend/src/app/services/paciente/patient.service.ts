@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Patient } from 'src/app/Patient';
@@ -19,8 +19,15 @@ export class PatientService {
     return this.http.post<Patient>(this.apiUrl, patient);
   }
 
-  getPatients(): Observable<Response<Patient[]>> {
-    return this.http.get<Response<Patient[]>>(this.apiUrl);
+  getPatients(
+    dsNome: string,
+    ieSituacao: string
+  ): Observable<Response<Patient[]>> {
+    let params = new HttpParams();
+    params = params.append('dsNome', dsNome);
+    params = params.append('ieSituacao', ieSituacao);
+
+    return this.http.get<Response<Patient[]>>(this.apiUrl, { params });
   }
 
   getById(id: number): Observable<Patient> {

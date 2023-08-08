@@ -9,7 +9,7 @@ import { AtendimentoService } from 'src/app/services/atendimento/atendimento.ser
   styleUrls: ['./edit-atend.component.scss'],
 })
 export class EditAtendComponent implements OnInit {
-  atend!: Atendimento;
+  atend?: Atendimento;
 
   constructor(
     private atendService: AtendimentoService,
@@ -20,10 +20,13 @@ export class EditAtendComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
     try {
-      this.atendService.getById(id).subscribe((item) => {
-        this.atend = item;
-        console.log(item);
-      });
+      this.atendService
+        .getById(id)
+        .toPromise()
+        .then((item) => {
+          this.atend = item;
+          console.log(item);
+        });
     } catch (error) {
       console.log(error);
     }

@@ -4,7 +4,7 @@ export interface Unidade {
   cnpj: string;
   nr_telefone?: string;
   email: string;
-  ie_situacao: string;
+  ieSituacao: string;
   capacidade_atendimento?: string;
   horario_funcionamento?: string;
   tipo: string;

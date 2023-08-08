@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Unidade } from 'src/app/Unidade';
@@ -19,8 +19,15 @@ export class UnidadeService {
     return this.http.post<FormData>(this.apiUrl, formData);
   }
 
-  getUnits(): Observable<Response<Unidade[]>> {
-    return this.http.get<Response<Unidade[]>>(this.apiUrl);
+  getUnits(
+    dsNome: string,
+    ieSituacao: string
+  ): Observable<Response<Unidade[]>> {
+    let params = new HttpParams();
+    params = params.append('dsNome', dsNome);
+    params = params.append('ieSituacao', ieSituacao);
+
+    return this.http.get<Response<Unidade[]>>(this.apiUrl, { params });
   }
 
   getById(id: number): Observable<Unidade> {

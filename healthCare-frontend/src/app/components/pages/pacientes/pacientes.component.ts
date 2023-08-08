@@ -1,54 +1,67 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  EventEmitter,
+  Output,
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { Patient } from 'src/app/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
 import { environment } from 'src/environments/environment';
-
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pacientes',
   templateUrl: './pacientes.component.html',
   styleUrls: ['./pacientes.component.scss'],
 })
-export class PacientesComponent implements OnInit {
+export class PacientesComponent implements OnInit, OnDestroy {
   @Output() edit = new EventEmitter(false);
 
+  baseApiUrl = environment.baseApiUrl;
+  filterForm!: FormGroup;
   allPatients: Patient[] = [];
   filteredPatients: Patient[] = [];
+  subscriptions!: Subscription;
 
-  baseApiUrl = environment.baseApiUrl;
+  constructor(
+    private patientService: PatientService,
+    private router: Router,
+    private fb: FormBuilder
+  ) {}
 
-  initialSelectedOption: string = 'A';
-
-  constructor(private patientService: PatientService, private router: Router) {}
   ngOnInit(): void {
-    this.patientService.getPatients().subscribe((items: any) => {
-      this.allPatients = items;
-      this.filteredPatients = items;
-
-      this.filterSituation(this.initialSelectedOption);
+    this.filterForm = this.fb.group({
+      dsNome: [''],
+      ieSituacao: ['A'],
     });
+
+    this.subscriptions = this.filterForm.valueChanges.subscribe(() => {
+      this.listaPacientes();
+    });
+
+    this.listaPacientes();
   }
 
-  filterName(e: Event): void {
-    const target = e.target as HTMLInputElement;
-    const value = target.value.toLowerCase();
-
-    this.filteredPatients = this.allPatients.filter((patient) => {
-      return patient.ds_nome.toLowerCase().includes(value);
-    });
+  ngOnDestroy(): void {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
   }
 
-  handleSelectChange(event: any): void {
-    const value = event.value;
-    this.filterSituation(value);
-  }
+  listaPacientes() {
+    const dsNome = this.filterForm.get('dsNome')?.value.toLowerCase();
+    const situacao = this.filterForm.get('ieSituacao')!.value;
 
-  filterSituation(value: string): void {
-    this.filteredPatients = this.allPatients.filter((patient) => {
-      return patient.ie_situacao === value;
-    });
+    this.subscriptions = this.patientService
+      .getPatients(dsNome, situacao)
+      .subscribe((items: any) => {
+        this.allPatients = items;
+        this.filteredPatients = items;
+      });
   }
 
   editPatient(event: any) {
@@ -58,7 +71,7 @@ export class PacientesComponent implements OnInit {
     }
   }
 
-  // public removeAcentos(newStringComAcento): string {
+  // public removeAcentos(newStringComAcento: string): string {
   //   if (!newStringComAcento) {
   //     return "";
   //   } else if (newStringComAcento === null) {

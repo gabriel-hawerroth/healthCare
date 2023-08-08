@@ -1,6 +1,6 @@
 export interface Patient {
   id?: number;
-  ds_nome: string;
+  dsNome: string;
   nr_cpf: string;
   dt_nascimento: Date;
   nr_celular?: string;
@@ -35,6 +35,6 @@ export interface Patient {
   nr_endereco?: string;
   complemento?: string;
   como_chegar?: string;
-  ie_situacao?: string;
+  ieSituacao?: string;
   dt_criacao: Date;
 }

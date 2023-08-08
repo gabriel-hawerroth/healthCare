@@ -11,7 +11,8 @@ public class Unidade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ds_nome;
+    @Column(name = "ds_nome")
+    private String dsNome;
 
     private String cnpj;
 
@@ -19,7 +20,8 @@ public class Unidade {
 
     private String email;
 
-    private String ie_situacao;
+    @Column(name = "ie_situacao")
+    private String ieSituacao;
 
     private String capacidade_atendimento;
 
@@ -56,11 +58,11 @@ public class Unidade {
     }
 
     public String getDs_nome() {
-        return ds_nome;
+        return dsNome;
     }
 
     public void setDs_nome(String ds_nome) {
-        this.ds_nome = ds_nome;
+        this.dsNome = ds_nome;
     }
 
     public String getCnpj() {
@@ -88,11 +90,11 @@ public class Unidade {
     }
 
     public String getIe_situacao() {
-        return ie_situacao;
+        return ieSituacao;
     }
 
     public void setIe_situacao(String ie_situacao) {
-        this.ie_situacao = ie_situacao;
+        this.ieSituacao = ie_situacao;
     }
 
     public String getCapacidade_atendimento() {

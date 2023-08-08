@@ -21,7 +21,7 @@
 
       <mat-form-field fxFlex="30">
         <mat-label><b>Nome do paciente</b></mat-label>
-        <input matInput #nomeInput type="text" maxlength="60" formControlName="ds_nome" autofocus />
+        <input matInput #nomeInput type="text" maxlength="60" formControlName="dsNome" autofocus />
         <mat-hint align="end">{{ nomeInput.value.length }}/60</mat-hint>
       </mat-form-field>
 
@@ -57,7 +57,7 @@
 
       <mat-form-field fxFlex="12">
         <mat-label><b>Situação</b></mat-label>
-        <mat-select formControlName="ie_situacao">
+        <mat-select formControlName="ieSituacao">
           <mat-option value="A">Ativo</mat-option>
           <mat-option value="I">Inativo</mat-option>
         </mat-select>

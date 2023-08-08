@@ -23,8 +23,10 @@ public class UnidadeController {
     private UnidadeRepository unidadeRepository;
 
     @GetMapping
-    private List<Unidade> listaUnidades() {
-        return unidadeRepository.findAll();
+    private List<Unidade> listaUnidadesQuery(
+            @RequestParam String dsNome,
+            @RequestParam String ieSituacao) {
+        return unidadeRepository.findByDsNomeContainingAndIeSituacaoContaining(dsNome, ieSituacao);
     }
 
     @GetMapping("/{id}")

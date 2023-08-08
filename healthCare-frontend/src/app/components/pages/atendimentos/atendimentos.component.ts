@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { AtendsPerson } from 'src/app/AtendsPerson';
 import { AtendimentoService } from 'src/app/services/atendimento/atendimento.service';
@@ -10,19 +11,29 @@ import { Router } from '@angular/router';
   templateUrl: './atendimentos.component.html',
   styleUrls: ['./atendimentos.component.scss'],
 })
-export class AtendimentosComponent implements OnInit {
+export class AtendimentosComponent implements OnInit, OnDestroy {
   allAtends: AtendsPerson[] = [];
   filteredAtends: AtendsPerson[] = [];
+
+  subscriptions!: Subscription;
 
   constructor(
     private atendimentoService: AtendimentoService,
     private route: Router
   ) {}
   ngOnInit(): void {
-    this.atendimentoService.getAtendimentos().subscribe((items: any) => {
-      this.allAtends = items;
-      this.filteredAtends = items;
-    });
+    this.subscriptions = this.atendimentoService
+      .getAtendimentos()
+      .subscribe((items: any) => {
+        this.allAtends = items;
+        this.filteredAtends = items;
+      });
+  }
+
+  ngOnDestroy() {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
   }
 
   filterPatient(e: Event) {

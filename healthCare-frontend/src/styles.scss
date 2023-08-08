@@ -8,11 +8,11 @@
 
 @media (max-width: 1300px) and (max-height: 700px) {}
 
-$primary-color: #2a7869;
+$primary-color: #00897B;
 
-$custom-app-primary: mat-palette($mat-teal, 900);
-$custom-app-secondary: mat-palette($mat-teal, 900);
-$custom-app-warn: mat-palette($mat-teal, 900);
+$custom-app-primary: mat-palette($mat-teal, 700);
+$custom-app-secondary: mat-palette($mat-teal, 500);
+$custom-app-warn: mat-palette($mat-teal, 800);
 
 $custom-theme: mat-light-theme($custom-app-primary,
     $custom-app-secondary,
@@ -104,16 +104,16 @@ mat-form-field {
     background-color: white !important;
 
     &:hover {
-      // background-color: #f5f5f5 !important;
+      background-color: #f5f5f5 !important;
       cursor: pointer;
     }
   }
 
   .datatable-row-even {
-    background-color: #bfe8e1 !important;
+    background-color: #bae9e1 !important;
 
     &:hover {
-      background-color: #aee0d8 !important;
+      background-color: #ade4db !important;
       cursor: pointer;
     }
   }

@@ -1,4 +1,4 @@
-$primary-color: #2a7869;
+$primary-color: #009688;
 
 @media screen and (min-width: 1700px) and (min-height: 880px) {
   #right-header {
@@ -15,7 +15,7 @@ $primary-color: #2a7869;
     flex-direction: row;
     justify-content: space-between;
     width: 100vw;
-    height: 75px;
+    height: 70px;
     padding-left: 3vw;
     background-color: $primary-color;
     box-shadow: 0 1px 8px #0000004f;
@@ -31,7 +31,7 @@ $primary-color: #2a7869;
       float: right;
 
       .material-symbols-outlined {
-        font-size: 0.85em;
+        font-size: 0.8em;
 
         &:hover {
           cursor: pointer;

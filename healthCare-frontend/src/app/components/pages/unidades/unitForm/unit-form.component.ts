@@ -49,7 +49,7 @@ export class UnitFormComponent {
         Validators.required,
       ]),
       ie_situacao: new FormControl(
-        this.unitData ? this.unitData.ie_situacao : 'A',
+        this.unitData ? this.unitData.ieSituacao : 'A',
         [Validators.required]
       ),
       capacidade_atendimento: new FormControl(

@@ -11,7 +11,8 @@ public class Paciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ds_nome;
+    @Column(name = "ds_nome")
+    private String dsNome;
 
     private String nr_cpf;
 
@@ -21,7 +22,8 @@ public class Paciente {
 
     private String status;
 
-    private String ie_situacao;
+    @Column(name = "ie_situacao")
+    private String ieSituacao;
 
     private String nome_mae;
 
@@ -93,12 +95,12 @@ public class Paciente {
         this.id = id;
     }
 
-    public String getDs_nome() {
-        return ds_nome;
+    public String getDsNome() {
+        return dsNome;
     }
 
-    public void setDs_nome(String ds_nome) {
-        this.ds_nome = ds_nome;
+    public void setDsNome(String dsNome) {
+        this.dsNome = dsNome;
     }
 
     public String getNr_cpf() {
@@ -373,12 +375,12 @@ public class Paciente {
         this.como_chegar = como_chegar;
     }
 
-    public String getIe_situacao() {
-        return ie_situacao;
+    public String getIeSituacao() {
+        return ieSituacao;
     }
 
-    public void setIe_situacao(String ie_situacao) {
-        this.ie_situacao = ie_situacao;
+    public void setIeSituacao(String ieSituacao) {
+        this.ieSituacao = ieSituacao;
     }
 
     public LocalDate getDt_criacao() {

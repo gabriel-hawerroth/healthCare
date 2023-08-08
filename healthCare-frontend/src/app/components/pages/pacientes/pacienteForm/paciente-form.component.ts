@@ -33,10 +33,9 @@ export class PacienteFormComponent implements OnInit {
 
     this.patientForm = new FormGroup({
       id: new FormControl(this.patientData ? this.patientData.id : ''),
-      ds_nome: new FormControl(
-        this.patientData ? this.patientData.ds_nome : '',
-        [Validators.required]
-      ),
+      dsNome: new FormControl(this.patientData ? this.patientData.dsNome : '', [
+        Validators.required,
+      ]),
       nr_cpf: new FormControl(this.patientData ? this.patientData.nr_cpf : '', [
         Validators.required,
       ]),
@@ -48,8 +47,8 @@ export class PacienteFormComponent implements OnInit {
         this.patientData ? this.patientData.nr_celular : ''
       ),
       status: new FormControl(this.patientData ? this.patientData.status : ''),
-      ie_situacao: new FormControl(
-        this.patientData ? this.patientData.ie_situacao : 'A',
+      ieSituacao: new FormControl(
+        this.patientData ? this.patientData.ieSituacao : 'A',
         [Validators.required]
       ),
       nome_mae: new FormControl(
