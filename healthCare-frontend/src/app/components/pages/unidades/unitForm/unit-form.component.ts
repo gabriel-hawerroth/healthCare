@@ -13,7 +13,7 @@ import { UnidadeService } from 'src/app/services/unidade/unidade.service';
   templateUrl: './unit-form.component.html',
   styleUrls: ['./unit-form.component.scss'],
 })
-export class UnitFormComponent {
+export class UnitFormComponent implements OnInit {
   @Input() unitData: Unidade | null = null;
 
   unitForm!: FormGroup;

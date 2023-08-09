@@ -1,9 +1,9 @@
 package br.spin.crud.login.controller;
 
 import br.spin.crud.login.models.EmailDTO;
-import br.spin.crud.login.models.Login;
+import br.spin.crud.login.models.Usuario;
 import br.spin.crud.login.models.PasswordReset;
-import br.spin.crud.login.repository.LoginRepository;
+import br.spin.crud.login.repository.UsuarioRepository;
 import br.spin.crud.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,7 +27,7 @@ public class PasswordRecoveryController {
         this.emailService = emailService;
     }
     @Autowired
-    private LoginRepository loginRepository;
+    private UsuarioRepository loginRepository;
     @Autowired
     private PasswordResetRepository passwordResetRepository;
 
@@ -38,11 +38,11 @@ public class PasswordRecoveryController {
 
     @PostMapping("/gerarToken/{nomeUsuario}") //método que solicita o usuário, gera um token e salva no banco
     private void gerarToken(@PathVariable(name = "nomeUsuario") String Usuario) throws MessagingException {
-        if (loginRepository.findByUsuarioEmail(Usuario) == null) {
+        if (loginRepository.findByUsuario(Usuario) == null) {
             throw new BadCredentialsException("Usuario inexistente!");
         } else {
             PasswordReset reset = new PasswordReset();
-            reset.setId_usuario(loginRepository.findByUsuarioEmail(Usuario).getId());
+            reset.setId_usuario(loginRepository.findByUsuario(Usuario).getId());
             reset.setToken(String.valueOf(random.nextInt(900000) + 100000));
             reset.setDt_solicitacao(LocalDate.now());
             passwordResetRepository.save(reset);
@@ -51,9 +51,9 @@ public class PasswordRecoveryController {
     }
 
     private void enviarEmail(PasswordReset reset) throws MessagingException {
-        Login login = loginRepository.findById(reset.getId_usuario()).get();
+        Usuario login = loginRepository.findById(reset.getId_usuario()).get();
         EmailDTO email = new EmailDTO();
-        email.setDestinatario(login.getUsuarioEmail());
+        email.setDestinatario(login.getUsuario());
         email.setAssunto("Token para recuperação de senha HealthCare");
         email.setConteudo("O Token para recuperação da senha é " + reset.getToken());
         emailService.enviarEmail(email.getDestinatario(), email.getAssunto(), email.getConteudo());
@@ -68,9 +68,9 @@ public class PasswordRecoveryController {
         if (passwordResetOpt.isPresent()) {
             PasswordReset passwordReset = passwordResetOpt.get();
             if (token.equals(passwordReset.getToken())) {
-                Optional<Login> loginOpt = loginRepository.findById(passwordReset.getId_usuario());
+                Optional<Usuario> loginOpt = loginRepository.findById(passwordReset.getId_usuario());
                 if (loginOpt.isPresent()) {
-                    Login login = loginOpt.get();
+                    Usuario login = loginOpt.get();
                     encriptedPassword = encoder.encode(novaSenha);
                     login.setSenha(encriptedPassword);
                     loginRepository.save(login);

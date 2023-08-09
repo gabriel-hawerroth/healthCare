@@ -1,0 +1,95 @@
+<div class="user-form">
+    <form class="form" [formGroup]="userForm">
+        <div fxLayout="row" fxLayoutGap="11%">
+            <mat-form-field fxFlex="60">
+                <mat-label>Usuário</mat-label>
+                <input type="text" matInput formControlName="usuario" autofocus autocomplete="off">
+                <mat-error>O usuário precisa ser um email válido</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="27">
+                <mat-label>Situação</mat-label>
+                <mat-select formControlName="situacao">
+                    <mat-option value="A">Ativo</mat-option>
+                    <mat-option value="I">Inativo</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="8%">
+            <mat-form-field fxFlex="55">
+                <mat-label>Senha</mat-label>
+                <input type="password" matInput formControlName="senha" autocomplete="new-password">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="30">
+                <mat-label>Acesso</mat-label>
+                <mat-select formControlName="acesso">
+                    <mat-option value="Adm">Adm</mat-option>
+                    <mat-option value="Cadastro">Cadastro</mat-option>
+                    <mat-option value="Consulta">Consulta</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="5%">
+            <mat-form-field fxFlex="42">
+                <mat-label>Nome</mat-label>
+                <input type="text" matInput formControlName="nome">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="51">
+                <mat-label>Sobrenome</mat-label>
+                <input type="text" matInput formControlName="sobrenome">
+            </mat-form-field>
+        </div>
+    </form>
+
+    <div class="actions">
+        <div class="top">
+            <mat-icon routerLink="/usuario" class="pointer arrow-back">arrow_back</mat-icon>
+            <div *ngIf="pageType == 'Novo'" class="title">
+                <h2>N</h2>
+                <h2>O</h2>
+                <h2>V</h2>
+                <h2>O</h2>
+                <br>
+                <h2>U</h2>
+                <h2>S</h2>
+                <h2>U</h2>
+                <h2>Á</h2>
+                <h2>R</h2>
+                <h2>I</h2>
+                <h2>O</h2>
+            </div>
+            <div *ngIf="pageType != 'Novo'" class="title">
+                <h2>E</h2>
+                <h2>D</h2>
+                <h2>I</h2>
+                <h2>T</h2>
+                <h2>A</h2>
+                <h2>R</h2>
+                <br>
+                <h2>U</h2>
+                <h2>S</h2>
+                <h2>U</h2>
+                <h2>Á</h2>
+                <h2>R</h2>
+                <h2>I</h2>
+                <h2>O</h2>
+            </div>
+        </div>
+
+        <div class="bottom">
+            <span *ngIf="pageType == 'Novo'" (click)="newUser()"
+                class="material-symbols-outlined button-bottom">save</span>
+
+            <span *ngIf="pageType != 'Novo'" (click)="editUser()"
+                class="material-symbols-outlined button-bottom">save</span>
+
+            <span *ngIf="pageType != 'Novo'" (click)="openConfirmationDialog()"
+                class="material-symbols-outlined button-bottom"
+                [ngStyle]="{ 'background-color': '#c21f40', color: 'white' }">delete</span>
+        </div>
+    </div>
+</div>

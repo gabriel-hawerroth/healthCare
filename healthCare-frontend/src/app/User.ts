@@ -1,9 +1,11 @@
 export interface User {
   id?: number;
+  usuario: string;
+  senha: string;
   nome: string;
   sobrenome?: string;
-  email?: string;
-  celular?: number;
-  empresa?: string;
+  acesso: string;
   permissao: boolean;
+  primeiro_acesso: boolean;
+  situacao: string;
 }

@@ -1,7 +1,7 @@
 package br.spin.crud.login.security;
 
-import br.spin.crud.login.models.Login;
-import br.spin.crud.login.repository.LoginRepository;
+import br.spin.crud.login.models.Usuario;
+import br.spin.crud.login.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -20,7 +20,7 @@ public class CustomAuthenticationProvider implements AuthenticationManager {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Autowired
-    private LoginRepository loginRepository;
+    private UsuarioRepository loginRepository;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -38,7 +38,7 @@ public class CustomAuthenticationProvider implements AuthenticationManager {
     }
 
     private Authentication fazerLogin(String username, String password) {
-        Login loginExistente = loginRepository.findByUsuarioEmail(username);
+        Usuario loginExistente = loginRepository.findByUsuario(username);
         if (loginExistente == null) {
             return null;
         }

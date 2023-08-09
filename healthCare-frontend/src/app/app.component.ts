@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from './User';
 
 @Component({
@@ -6,19 +6,25 @@ import { User } from './User';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   user!: User;
 
   constructor() {}
 
   ngOnInit(): void {
     this.user = {
+      usuario: 'gabrielhawerroth04@gmail.com',
+      senha: 'HealthCare123',
       nome: 'Gabriel',
       sobrenome: 'Hawerroth',
-      email: 'gabrielhawerroth04@gmail.com',
-      celular: 47996609550,
-      empresa: 'SpinCare',
+      acesso: 'adm',
       permissao: true,
+      primeiro_acesso: false,
+      situacao: 'A',
     };
+  }
+
+  ngOnDestroy(): void {
+    // set permissao = false
   }
 }

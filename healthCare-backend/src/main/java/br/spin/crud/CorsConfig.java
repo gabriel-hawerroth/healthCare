@@ -10,15 +10,19 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/pacientes/**")
                 .allowedOrigins("*") // Permitir todas as origens. Você pode restringir a lista se preferir.
-                .allowedMethods("*") // Permitir apenas o método DELETE.
+                .allowedMethods("*") // Permitir todos os métodos.
                 .allowedHeaders("*"); // Permitir todos os cabeçalhos.
         registry.addMapping("/unidades/**")
-                .allowedOrigins("*") // Permitir todas as origens. Você pode restringir a lista se preferir.
-                .allowedMethods("*") // Permitir apenas o método DELETE.
-                .allowedHeaders("*"); // Permitir todos os cabeçalhos.
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowedHeaders("*");
         registry.addMapping("/atendimentos/**")
-                .allowedOrigins("*") // Permitir todas as origens. Você pode restringir a lista se preferir.
-                .allowedMethods("*") // Permitir apenas o método DELETE.
-                .allowedHeaders("*"); // Permitir todos os cabeçalhos.
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowedHeaders("*");
+        registry.addMapping("/login/**")
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowedHeaders("*");
     }
 }

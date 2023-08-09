@@ -14,6 +14,7 @@ import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -50,7 +51,8 @@ public class PacienteController {
 
     @PutMapping
     private ResponseEntity<Paciente> editarPaciente(@RequestBody Paciente paciente) {
-        paciente.setDt_criacao(pacienteRepository.findById(paciente.getId()).get().getDt_criacao());
+        Optional<Paciente> optPaciente = pacienteRepository.findById(paciente.getId());
+        optPaciente.ifPresent(value -> paciente.setDt_criacao(value.getDt_criacao()));
         return ResponseEntity.status(HttpStatus.OK).body(pacienteRepository.save(paciente));
     }
 

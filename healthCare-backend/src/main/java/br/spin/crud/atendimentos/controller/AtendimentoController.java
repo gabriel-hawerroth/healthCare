@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -53,7 +54,8 @@ public class AtendimentoController {
 
     @PutMapping
     private ResponseEntity<Atendimento> editarAtendimento(@RequestBody Atendimento atendimento) {
-        atendimento.setDt_criacao(atendimentoRepository.findById(atendimento.getId()).get().getDt_criacao());
+        Optional<Atendimento> optAtendimento = atendimentoRepository.findById(atendimento.getId());
+        optAtendimento.ifPresent(value -> atendimento.setDt_criacao(value.getDt_criacao()));
         return ResponseEntity.status(HttpStatus.OK).body(atendimentoRepository.save(atendimento));
     }
 

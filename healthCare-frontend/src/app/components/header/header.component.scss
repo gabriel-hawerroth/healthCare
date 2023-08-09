@@ -82,5 +82,12 @@ $primary-color: #009688;
         background-color: #a8a8a82f;
       }
     }
+
+    .adm-section {
+      display: flex;
+      flex: 1;
+      align-items: end;
+      padding-bottom: 20px;
+    }
   }
 }

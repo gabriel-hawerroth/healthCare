@@ -1,12 +1,16 @@
 package br.spin.crud.login.controller;
 
 import br.spin.crud.login.models.PasswordReset;
-import br.spin.crud.login.repository.LoginRepository;
-import br.spin.crud.login.models.Login;
+import br.spin.crud.login.repository.UsuarioRepository;
+import br.spin.crud.login.models.Usuario;
 import br.spin.crud.login.repository.PasswordResetRepository;
+import br.spin.crud.unidades.models.Unidade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -19,27 +23,48 @@ public class LoginController {
     String encriptedPassword = "";
 
     @Autowired
-    private LoginRepository loginRepository;
+    private UsuarioRepository usuarioRepository;
     @Autowired
     private PasswordResetRepository passwordResetRepository;
 
-    @GetMapping("/listaUsuarios")
-    private List<Login> listaLogins() {
-        return loginRepository.findAll();
+    @GetMapping("/login")
+    private Boolean login(
+            @RequestParam String usuario,
+            @RequestParam String senha
+    ) {
+        Usuario user = usuarioRepository.findByUsuario(usuario);
+        return user != null && encoder.matches(senha, user.getSenha());
     }
 
-    @GetMapping("/solicitacoesToken") //lista de todas as solicitações de token
-    private List<PasswordReset> listaTokens(){
-        return passwordResetRepository.findAll();
+    @GetMapping
+    private List<Usuario> listaUsuarios(
+            @RequestParam String usuario,
+            @RequestParam String situacao,
+            @RequestParam String acesso
+    ) {
+        return usuarioRepository.findByUsuarioContainingAndSituacaoContainingAndAcessoContaining(usuario, situacao, acesso);
     }
 
-    @PostMapping("/cadastrarUsuario") // método para cadastrar um novo usuário
-    private Login salvarLogin(@RequestBody Login login) {
+    @GetMapping("/{id}")
+    private Usuario findById(@PathVariable(name = "id") Long id) {
+        return usuarioRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não encontrado")
+        );
+    }
+
+    @PostMapping
+    private Usuario criarUsuario(@RequestBody Usuario login) {
         encriptedPassword = encoder.encode(login.getSenha());
         login.setSenha(encriptedPassword);
-        return loginRepository.save(login);
+        return usuarioRepository.save(login);
     }
 
-//    gabrielhawerroth04@gmail.com, Gabriel123
+    @DeleteMapping("/{id}")
+    private void excluirUnidade(@PathVariable(name = "id") Long id) {
+        Usuario user = usuarioRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não encontrado")
+        );
+        usuarioRepository.deleteById(id);
+    }
 
 }

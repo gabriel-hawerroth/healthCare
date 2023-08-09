@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -44,7 +45,8 @@ public class UnidadeController {
 
     @PutMapping
     private ResponseEntity<Unidade> salvarPaciente(@RequestBody Unidade unidade) {
-        unidade.setDt_criacao(unidadeRepository.findById(unidade.getId()).get().getDt_criacao());
+        Optional<Unidade> optUnidade = unidadeRepository.findById(unidade.getId());
+        optUnidade.ifPresent(value -> unidade.setDt_criacao(value.getDt_criacao()));
         return ResponseEntity.status(HttpStatus.OK).body(unidadeRepository.save(unidade));
     }
 

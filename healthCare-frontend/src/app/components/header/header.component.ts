@@ -16,12 +16,14 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = {
+      usuario: 'gabrielhawerroth04@gmail.com',
+      senha: 'HealthCare123',
       nome: 'Gabriel',
       sobrenome: 'Hawerroth',
-      email: 'gabrielhawerroth04@gmail.com',
-      celular: 47996609550,
-      empresa: 'SpinCare',
+      acesso: 'adm',
       permissao: true,
+      primeiro_acesso: false,
+      situacao: 'A',
     };
   }
 }

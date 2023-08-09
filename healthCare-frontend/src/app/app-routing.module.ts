@@ -10,6 +10,9 @@ import { UnitFormComponent } from './components/pages/unidades/unitForm/unit-for
 import { EditUnitComponent } from './components/pages/unidades/editUnit/edit-unit.component';
 import { AtendimentoFormComponent } from './components/pages/atendimentos/atendimento-form/atendimento-form.component';
 import { EditAtendComponent } from './components/pages/atendimentos/edit-atend/edit-atend.component';
+import { UsuariosComponent } from './components/pages/usuarios/usuarios.component';
+import { UserFormComponent } from './components/pages/usuarios/userForm/user-form/user-form.component';
+import { EditUserComponent } from './components/pages/usuarios/editUser/edit-user/edit-user.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,6 +25,9 @@ const routes: Routes = [
   { path: 'atendimento', component: AtendimentosComponent },
   { path: 'atendimento/novo', component: AtendimentoFormComponent },
   { path: 'atendimento/:id', component: EditAtendComponent },
+  { path: 'usuario', component: UsuariosComponent },
+  { path: 'usuario/novo', component: UserFormComponent },
+  { path: 'usuario/:id', component: EditUserComponent },
 ];
 
 @NgModule({
