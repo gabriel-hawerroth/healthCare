@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, lastValueFrom } from 'rxjs';
 
 import { Patient } from 'src/app/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
@@ -21,8 +21,8 @@ export class PacientesComponent implements OnInit, OnDestroy {
   @Output() edit = new EventEmitter(false);
 
   filterForm!: FormGroup;
-  allPatients: Patient[] = [];
   filteredPatients: Patient[] = [];
+
   subscriptions!: Subscription;
 
   constructor(
@@ -45,25 +45,22 @@ export class PacientesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscriptions) {
-      this.subscriptions.unsubscribe();
-    }
+    this.subscriptions.unsubscribe();
   }
 
   listaPacientes() {
     const dsNome = this.filterForm.get('dsNome')?.value.toLowerCase();
     const situacao = this.filterForm.get('ieSituacao')!.value;
 
-    this.subscriptions = this.patientService
-      .getPatients(dsNome, situacao)
-      .subscribe((items: any) => {
-        this.allPatients = items;
-        this.filteredPatients = items;
-      });
+    lastValueFrom(this.patientService.getPatients(dsNome, situacao)).then(
+      (result) => {
+        this.filteredPatients = result;
+      }
+    );
   }
 
   editPatient(event: any) {
-    if (event.type == 'click') {
+    if (event.type === 'click') {
       const patientId = event.row.id;
       this.router.navigate([`/paciente/${patientId}`]);
     }

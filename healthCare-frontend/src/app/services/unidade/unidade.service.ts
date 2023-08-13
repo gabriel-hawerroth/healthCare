@@ -19,15 +19,12 @@ export class UnidadeService {
     return this.http.post<FormData>(this.apiUrl, formData);
   }
 
-  getUnits(
-    dsNome: string,
-    ieSituacao: string
-  ): Observable<Response<Unidade[]>> {
+  getUnits(dsNome: string, ieSituacao: string): Observable<Unidade[]> {
     let params = new HttpParams();
     params = params.append('dsNome', dsNome);
     params = params.append('ieSituacao', ieSituacao);
 
-    return this.http.get<Response<Unidade[]>>(this.apiUrl, { params });
+    return this.http.get<Unidade[]>(this.apiUrl, { params });
   }
 
   getById(id: number): Observable<Unidade> {

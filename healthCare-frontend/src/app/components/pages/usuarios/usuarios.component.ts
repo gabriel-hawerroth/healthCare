@@ -7,11 +7,10 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, lastValueFrom } from 'rxjs';
 
 import { User } from 'src/app/User';
 import { UserService } from 'src/app/services/user/user.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-usuarios',
@@ -21,10 +20,9 @@ import { environment } from 'src/environments/environment';
 export class UsuariosComponent implements OnInit, OnDestroy {
   @Output() edit = new EventEmitter(false);
 
-  baseApiUrl = environment.baseApiUrl;
   filterForm!: FormGroup;
-  allUsers!: User[];
   filteredUsers!: User[];
+
   subscriptions!: Subscription;
 
   constructor(
@@ -48,9 +46,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscriptions) {
-      this.subscriptions.unsubscribe();
-    }
+    this.subscriptions.unsubscribe();
   }
 
   listaUsuarios() {
@@ -58,12 +54,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     const situacao = this.filterForm.get('situacao')!.value;
     const acesso = this.filterForm.get('acesso')?.value;
 
-    this.subscriptions = this.userService
-      .getUsers(usuario, situacao, acesso)
-      .subscribe((items: any) => {
-        this.allUsers = items;
-        this.filteredUsers = items;
-      });
+    lastValueFrom(this.userService.getUsers(usuario, situacao, acesso)).then(
+      (result) => {
+        this.filteredUsers = result;
+      }
+    );
   }
 
   editUser(event: any) {

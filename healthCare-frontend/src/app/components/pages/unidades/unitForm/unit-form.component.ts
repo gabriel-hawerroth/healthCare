@@ -7,6 +7,7 @@ import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/c
 
 import { Unidade } from 'src/app/Unidade';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-unit-form',
@@ -93,19 +94,19 @@ export class UnitFormComponent implements OnInit {
       });
     } else {
       console.log(this.unitForm.value);
-      this.unitService.createUnit(this.unitForm.value).subscribe({
-        next: (result) => {
+
+      lastValueFrom(this.unitService.createUnit(this.unitForm.value))
+        .then((result) => {
           this.snackBar.open('Unidade criada com sucesso.', '', {
             duration: 4000,
-          }),
-            this.router.navigate(['/unidade']);
-        },
-        error: (error) => {
+          });
+          this.router.navigate(['/unidade']);
+        })
+        .catch((error) => {
           this.snackBar.open('Não foi possível salvar as informações.', '', {
             duration: 4500,
           });
-        },
-      });
+        });
     }
   }
 
@@ -118,44 +119,43 @@ export class UnitFormComponent implements OnInit {
       });
     } else {
       console.log(this.unitForm.value);
-      this.unitService.updateUnit(this.unitForm.value).subscribe({
-        next: (result) => {
+
+      lastValueFrom(this.unitService.updateUnit(this.unitForm.value))
+        .then((result) => {
           this.snackBar.open('Unidade salva com sucesso.', '', {
             duration: 4000,
-          }),
-            this.router.navigate(['/unidade']);
-        },
-        error: (error) => {
+          });
+          this.router.navigate(['/unidade']);
+        })
+        .catch((error) => {
           this.snackBar.open('Não foi possível salvar as informações.', '', {
             duration: 4500,
           });
-        },
-      });
+        });
     }
   }
 
   removeUnit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.unitService.removeUnit(id).subscribe({
-      next: (result) => {
+    lastValueFrom(this.unitService.removeUnit(id))
+      .then((result) => {
         this.snackBar.open('Unidade removida com sucesso.', '', {
           duration: 4500,
-        }),
-          this.router.navigate(['/unidade']);
-      },
-      error: (error) => {
+        });
+        this.router.navigate(['/unidade']);
+      })
+      .catch((error) => {
         this.snackBar.open('Não foi possível excluir a unidade.', '', {
           duration: 4500,
         });
-      },
-    });
+      });
   }
 
   openConfirmationDialog(): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent);
 
-    dialogRef.afterClosed().subscribe((result) => {
+    lastValueFrom(dialogRef.afterClosed()).then((result) => {
       if (result === true) {
         this.removeUnit();
       }

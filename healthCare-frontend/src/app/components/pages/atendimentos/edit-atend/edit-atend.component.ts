@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
 import { Atendimento } from 'src/app/Atendimento';
 import { AtendimentoService } from 'src/app/services/atendimento/atendimento.service';
 
@@ -19,16 +20,8 @@ export class EditAtendComponent implements OnInit {
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    try {
-      this.atendService
-        .getById(id)
-        .toPromise()
-        .then((item) => {
-          this.atend = item;
-          console.log(item);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    lastValueFrom(this.atendService.getById(id)).then((result) => {
+      this.atend = result;
+    });
   }
 }

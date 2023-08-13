@@ -40,19 +40,13 @@ export class AtendimentoFormComponent implements OnInit {
   ngOnInit(): void {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
 
-    this.patientService
-      .getPatients('', 'A')
-      .toPromise()
-      .then((patients: any) => {
-        this.patients = patients;
-      });
+    lastValueFrom(this.patientService.getPatients('', 'A')).then((result) => {
+      this.patients = result;
+    });
 
-    this.unitService
-      .getUnits('', 'A')
-      .toPromise()
-      .then((units: any) => {
-        this.units = units;
-      });
+    lastValueFrom(this.unitService.getUnits('', 'A')).then((result) => {
+      this.units = result;
+    });
 
     this.atendForm = new FormGroup({
       id: new FormControl(this.atendData ? this.atendData.id : ''),
@@ -110,20 +104,21 @@ export class AtendimentoFormComponent implements OnInit {
       });
     } else {
       console.log(this.atendForm.value);
-      this.atendService.createAtendimento(this.atendForm.value).subscribe({
-        next: (result) => {
+
+      lastValueFrom(this.atendService.createAtendimento(this.atendForm.value))
+        .then((result) => {
           console.log(result);
           this.snackBar.open('Atendimento criado com sucesso.', '', {
             duration: 4000,
-          }),
-            this.router.navigate(['/atendimento']);
-        },
-        error: (error) => {
+          });
+          this.router.navigate(['/atendimento']);
+        })
+        .catch((error) => {
+          console.log(error);
           this.snackBar.open('Não foi possível salvar as informações.', '', {
             duration: 4500,
           });
-        },
-      });
+        });
     }
   }
 
@@ -135,44 +130,45 @@ export class AtendimentoFormComponent implements OnInit {
       });
     } else {
       console.log(this.atendForm.value);
-      this.atendService.updateAtendimento(this.atendForm.value).subscribe({
-        next: (result) => {
+
+      lastValueFrom(this.atendService.updateAtendimento(this.atendForm.value))
+        .then((result) => {
           this.snackBar.open('Atendimento salvo com sucesso.', '', {
             duration: 4000,
-          }),
-            this.router.navigate(['/atendimento']);
-        },
-        error: (error) => {
+          });
+          this.router.navigate(['/atendimento']);
+        })
+        .catch((error) => {
+          console.log(error);
           this.snackBar.open('Não foi possível salvar as informações.', '', {
             duration: 4500,
           });
-        },
-      });
+        });
     }
   }
 
   removeAtend() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.atendService.removeAtendimento(id).subscribe({
-      next: (result) => {
+    lastValueFrom(this.atendService.removeAtendimento(id))
+      .then((result) => {
         this.snackBar.open('Atendimento removido com sucesso.', '', {
           duration: 4500,
-        }),
-          this.router.navigate(['/atendimento']);
-      },
-      error: (error) => {
+        });
+        this.router.navigate(['/atendimento']);
+      })
+      .catch((error) => {
+        console.log(error);
         this.snackBar.open('Não foi possível excluir o atendimento.', '', {
           duration: 4500,
         });
-      },
-    });
+      });
   }
 
   openConfirmationDialog(): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent);
 
-    dialogRef.afterClosed().subscribe((result) => {
+    lastValueFrom(dialogRef.afterClosed()).then((result) => {
       if (result === true) {
         this.removeAtend();
       }

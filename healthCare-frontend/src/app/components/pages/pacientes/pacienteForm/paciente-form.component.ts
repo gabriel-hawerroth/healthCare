@@ -7,6 +7,7 @@ import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/c
 
 import { Patient } from 'src/app/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-paciente-form',
@@ -145,19 +146,19 @@ export class PacienteFormComponent implements OnInit {
       });
     } else {
       console.log(this.patientForm.value);
-      this.patientService.createPatient(this.patientForm.value).subscribe({
-        next: (result) => {
+
+      lastValueFrom(this.patientService.createPatient(this.patientForm.value))
+        .then((result) => {
           this.snackBar.open('Paciente criado com sucesso.', '', {
             duration: 4000,
-          }),
-            this.router.navigate(['/paciente']);
-        },
-        error: (error) => {
+          });
+          this.router.navigate(['/paciente']);
+        })
+        .catch((error) => {
           this.snackBar.open('Não foi possível salvar as informações.', '', {
             duration: 4500,
           });
-        },
-      });
+        });
     }
   }
 
@@ -169,44 +170,43 @@ export class PacienteFormComponent implements OnInit {
       });
     } else {
       console.log(this.patientForm.value);
-      this.patientService.updatePatient(this.patientForm.value).subscribe({
-        next: (result) => {
+
+      lastValueFrom(this.patientService.updatePatient(this.patientForm.value))
+        .then((result) => {
           this.snackBar.open('Paciente salvo com sucesso.', '', {
             duration: 4000,
-          }),
-            this.router.navigate(['/paciente']);
-        },
-        error: (error) => {
+          });
+          this.router.navigate(['/paciente']);
+        })
+        .catch((error) => {
           this.snackBar.open('Não foi possível salvar as informações.', '', {
             duration: 4500,
           });
-        },
-      });
+        });
     }
   }
 
   removePatient() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.patientService.removePatient(id).subscribe({
-      next: (result) => {
+    lastValueFrom(this.patientService.removePatient(id))
+      .then((result) => {
         this.snackBar.open('Paciente removido com sucesso.', '', {
           duration: 4500,
-        }),
-          this.router.navigate(['/paciente']);
-      },
-      error: (error) => {
+        });
+        this.router.navigate(['/paciente']);
+      })
+      .catch((error) => {
         this.snackBar.open('Não foi possível excluir o paciente.', '', {
           duration: 4500,
         });
-      },
-    });
+      });
   }
 
   openConfirmationDialog(): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent);
 
-    dialogRef.afterClosed().subscribe((result) => {
+    lastValueFrom(dialogRef.afterClosed()).then((result) => {
       if (result === true) {
         this.removePatient();
       }

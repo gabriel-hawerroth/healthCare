@@ -31,9 +31,7 @@ export class AtendimentosComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscriptions) {
-      this.subscriptions.unsubscribe();
-    }
+    this.subscriptions.unsubscribe();
   }
 
   filterPatient(e: Event) {
@@ -55,7 +53,7 @@ export class AtendimentosComponent implements OnInit, OnDestroy {
   }
 
   editAtend(event: any) {
-    if (event.type == 'click') {
+    if (event.type === 'click') {
       const atendId = event.row.id;
       this.route.navigate([`/atendimento/${atendId}`]);
     }

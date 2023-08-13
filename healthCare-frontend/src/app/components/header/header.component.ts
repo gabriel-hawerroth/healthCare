@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
 
 import { User } from 'src/app/User';
 import { UserService } from 'src/app/services/user/user.service';
@@ -16,10 +17,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     const userId = localStorage.getItem('id-usuario');
 
-    this.userService.getById(Number(userId)).subscribe({
-      next: (result) => {
-        this.user = result;
-      },
+    lastValueFrom(this.userService.getById(Number(userId))).then((result) => {
+      this.user = result;
     });
   }
 }

@@ -19,15 +19,12 @@ export class PatientService {
     return this.http.post<Patient>(this.apiUrl, patient);
   }
 
-  getPatients(
-    dsNome: string,
-    ieSituacao: string
-  ): Observable<Response<Patient[]>> {
+  getPatients(dsNome: string, ieSituacao: string): Observable<Patient[]> {
     let params = new HttpParams();
     params = params.append('dsNome', dsNome);
     params = params.append('ieSituacao', ieSituacao);
 
-    return this.http.get<Response<Patient[]>>(this.apiUrl, { params });
+    return this.http.get<Patient[]>(this.apiUrl, { params });
   }
 
   getById(id: number): Observable<Patient> {

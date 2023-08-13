@@ -3,8 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
+import { lastValueFrom } from 'rxjs';
 
+import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
 import { User } from 'src/app/User';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -56,10 +57,6 @@ export class UserFormComponent implements OnInit {
       ),
       situacao: new FormControl(this.userData ? this.userData.situacao : 'A'),
     });
-
-    // if (this.userData) {
-    //   this.userForm.patchValue(this.userData);
-    // }
   }
 
   newUser() {
@@ -71,19 +68,19 @@ export class UserFormComponent implements OnInit {
       });
     } else {
       console.log(this.userForm.value);
-      this.userService.createUser(this.userForm.value).subscribe({
-        next: (result) => {
+
+      lastValueFrom(this.userService.createUser(this.userForm.value))
+        .then((result) => {
           this.snackBar.open('Usuário criado com sucesso.', '', {
             duration: 4000,
-          }),
-            this.router.navigate(['/usuario']);
-        },
-        error: (error) => {
+          });
+          this.router.navigate(['/usuario']);
+        })
+        .catch((error) => {
           this.snackBar.open('Não foi possível salvar as informações.', '', {
             duration: 4500,
           });
-        },
-      });
+        });
     }
   }
 
@@ -96,44 +93,43 @@ export class UserFormComponent implements OnInit {
       });
     } else {
       console.log(this.userForm.value);
-      this.userService.editUser(this.userForm.value).subscribe({
-        next: (result) => {
+
+      lastValueFrom(this.userService.editUser(this.userForm.value))
+        .then((result) => {
           this.snackBar.open('Usuário salvo com sucesso.', '', {
             duration: 4000,
-          }),
-            this.router.navigate(['/usuario']);
-        },
-        error: (error) => {
+          });
+          this.router.navigate(['/usuario']);
+        })
+        .catch((error) => {
           this.snackBar.open('Não foi possível salvar as informações.', '', {
             duration: 4500,
           });
-        },
-      });
+        });
     }
   }
 
   removeUser() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.userService.removeUser(id).subscribe({
-      next: (result) => {
+    lastValueFrom(this.userService.removeUser(id))
+      .then((result) => {
         this.snackBar.open('Usuário removido com sucesso.', '', {
           duration: 4500,
-        }),
-          this.router.navigate(['/usuario']);
-      },
-      error: (error) => {
+        });
+        this.router.navigate(['/usuario']);
+      })
+      .catch((error) => {
         this.snackBar.open('Não foi possível excluir o usuário.', '', {
           duration: 4500,
         });
-      },
-    });
+      });
   }
 
   openConfirmationDialog(): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent);
 
-    dialogRef.afterClosed().subscribe((result) => {
+    lastValueFrom(dialogRef.afterClosed()).then((result) => {
       if (result === true) {
         this.removeUser();
       }

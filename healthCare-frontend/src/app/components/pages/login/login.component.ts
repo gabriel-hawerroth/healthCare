@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
 
 import { UserService } from 'src/app/services/user/user.service';
@@ -38,8 +39,8 @@ export class LoginComponent implements OnInit {
       const usuario = this.loginForm.get('usuario')?.value;
       const senha = this.loginForm.get('senha')?.value;
 
-      this.userService.login(usuario, senha).subscribe({
-        next: (result) => {
+      lastValueFrom(this.userService.login(usuario, senha))
+        .then((result) => {
           this.snackBar.open('Login realizado com sucesso.', '', {
             duration: 4000,
           });
@@ -47,13 +48,12 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('permissao', 'true');
           localStorage.setItem('id-usuario', String(result.id));
           this.router.navigate(['/home']);
-        },
-        error: (error) => {
+        })
+        .catch((error) => {
           this.snackBar.open('Login inválido.', '', {
             duration: 4500,
           });
-        },
-      });
+        });
     }
   }
 }

@@ -27,13 +27,13 @@ export class UserService {
     usuario: string,
     situacao: string,
     acesso: string
-  ): Observable<Response<User[]>> {
+  ): Observable<User[]> {
     let params = new HttpParams();
     params = params.append('usuario', usuario);
     params = params.append('situacao', situacao);
     params = params.append('acesso', acesso);
 
-    return this.http.get<Response<User[]>>(this.apiUrl, { params });
+    return this.http.get<User[]>(this.apiUrl, { params });
   }
 
   getById(id: number): Observable<User> {
