@@ -1,3 +1,21 @@
 <div class="login-page">
-    <h1>login</h1>
+    <div class="login-box">
+        <div fxLayout="row" class="title">
+            <span>HealthCare</span>
+        </div>
+        <form [formGroup]="loginForm">
+            <mat-form-field>
+                <mat-label>Usuário</mat-label>
+                <input type="text" matInput formControlName="usuario" maxlength="50" autocomplete="off" autofocus>
+            </mat-form-field>
+            <br>
+            <mat-form-field [ngStyle]="{'margin-bottom': '40px'}">
+                <mat-label>Senha</mat-label>
+                <input type="password" matInput formControlName="senha" #senhaInput autocomplete="new-password">
+            </mat-form-field>
+            <br>
+            <button mat-raised-button color="primary" fxFlexAlign="center" [ngStyle]="{'padding': '23px 70px'}"
+                (click)="logar()">Logar</button>
+        </form>
+    </div>
 </div>

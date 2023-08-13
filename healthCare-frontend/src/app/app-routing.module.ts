@@ -13,9 +13,11 @@ import { EditAtendComponent } from './components/pages/atendimentos/edit-atend/e
 import { UsuariosComponent } from './components/pages/usuarios/usuarios.component';
 import { UserFormComponent } from './components/pages/usuarios/userForm/user-form/user-form.component';
 import { EditUserComponent } from './components/pages/usuarios/editUser/edit-user/edit-user.component';
+import { LoginComponent } from './components/pages/login/login.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: LoginComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'paciente', component: PacientesComponent },
   { path: 'paciente/novo', component: PacienteFormComponent },
   { path: 'paciente/:id', component: EditPatientComponent },

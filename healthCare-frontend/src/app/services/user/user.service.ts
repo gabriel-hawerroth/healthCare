@@ -15,12 +15,12 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  login(usuario: string, senha: string): Observable<Response<User>> {
+  login(usuario: string, senha: string): Observable<User> {
     let params = new HttpParams();
     params = params.append('usuario', usuario);
     params = params.append('senha', senha);
 
-    return this.http.get<Response<User>>(`${this.apiUrl}/login`, { params });
+    return this.http.get<User>(`${this.apiUrl}/logar`, { params });
   }
 
   getUsers(

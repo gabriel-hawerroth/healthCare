@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs';
 
 import { Patient } from 'src/app/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-pacientes',
@@ -21,7 +20,6 @@ import { environment } from 'src/environments/environment';
 export class PacientesComponent implements OnInit, OnDestroy {
   @Output() edit = new EventEmitter(false);
 
-  baseApiUrl = environment.baseApiUrl;
   filterForm!: FormGroup;
   allPatients: Patient[] = [];
   filteredPatients: Patient[] = [];

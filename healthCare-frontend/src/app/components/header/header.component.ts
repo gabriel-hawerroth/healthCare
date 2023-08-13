@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
 
 import { User } from 'src/app/User';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-header',
@@ -10,20 +10,16 @@ import { User } from 'src/app/User';
 })
 export class HeaderComponent implements OnInit {
   user!: User;
-  faBell = faBell;
 
-  constructor() {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.user = {
-      usuario: 'gabrielhawerroth04@gmail.com',
-      senha: 'HealthCare123',
-      nome: 'Gabriel',
-      sobrenome: 'Hawerroth',
-      acesso: 'adm',
-      permissao: true,
-      primeiro_acesso: false,
-      situacao: 'A',
-    };
+    const userId = localStorage.getItem('id-usuario');
+
+    this.userService.getById(Number(userId)).subscribe({
+      next: (result) => {
+        this.user = result;
+      },
+    });
   }
 }

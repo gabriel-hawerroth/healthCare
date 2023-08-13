@@ -37,8 +37,8 @@ export class UserFormComponent implements OnInit {
         Validators.required,
         Validators.email,
       ]),
-      senha: new FormControl(this.userData ? this.userData.senha : '', [
-        Validators.required,
+      senha: new FormControl('', [
+        Validators.pattern(this.passwordValidator()),
       ]),
       nome: new FormControl(this.userData ? this.userData.nome : '', [
         Validators.required,
@@ -57,9 +57,9 @@ export class UserFormComponent implements OnInit {
       situacao: new FormControl(this.userData ? this.userData.situacao : 'A'),
     });
 
-    if (this.userData) {
-      this.userForm.patchValue(this.userData);
-    }
+    // if (this.userData) {
+    //   this.userForm.patchValue(this.userData);
+    // }
   }
 
   newUser() {
@@ -138,5 +138,20 @@ export class UserFormComponent implements OnInit {
         this.removeUser();
       }
     });
+  }
+
+  passwordValidator() {
+    const passRequirement = {
+      passwordMinNumber: 1,
+      passwordMinUpperCase: 1,
+      passwordMinCharacters: 8,
+    };
+    return [
+      `(?=([^A-Z]*[A-Z])\{${passRequirement.passwordMinUpperCase},\})`,
+      `(?=([^0-9]*[0-9])\{${passRequirement.passwordMinNumber},\})`,
+      `[A-Za-z\\d\$\@\$\!\%\*\?\&\.]{${passRequirement.passwordMinCharacters},}`,
+    ]
+      .map((item) => item.toString())
+      .join('');
   }
 }

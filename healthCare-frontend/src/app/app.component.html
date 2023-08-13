@@ -1,5 +1,6 @@
-<app-login *ngIf="user.permissao === false"></app-login>
-<app-header *ngIf="user.permissao" class="header"></app-header>
-<main *ngIf="user.permissao" class="main">
+<app-login *ngIf="!permissao" class="login-page"></app-login>
+
+<app-header *ngIf="permissao" class="header"></app-header>
+<main *ngIf="permissao" class="main">
   <router-outlet class="body"></router-outlet>
 </main>

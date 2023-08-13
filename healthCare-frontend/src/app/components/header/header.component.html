@@ -6,15 +6,13 @@
     <article class="right-header">
       <span class="material-symbols-outlined"> notifications </span>
       <img src="../../../assets/userImage.jpeg" />
-      <span [ngStyle]="{ 'font-size': '.55em' }">{{
-        user.nome + " " + user.sobrenome
-        }}</span>
+      <span [ngStyle]="{ 'font-size': '.55em' }">{{ user.nome }}</span>
       <span class="material-symbols-outlined logout"> logout </span>
     </article>
   </div>
 
   <div class="nav">
-    <span class="material-symbols-outlined" [ngStyle]="{ 'margin-bottom': '27px' }" routerLink="">
+    <span class="material-symbols-outlined" [ngStyle]="{ 'margin-bottom': '27px' }" routerLink="/home">
       home
     </span>
     <span routerLink="/paciente" class="material-symbols-outlined">
@@ -26,7 +24,7 @@
     <span routerLink="/atendimento" class="material-symbols-outlined">
       demography
     </span>
-    <div class="adm-section" *ngIf="user.acesso === 'adm'">
+    <div class="adm-section" *ngIf="user.acesso === 'Adm'">
       <span routerLink="/usuario" class="material-symbols-outlined">
         manage_accounts
       </span>

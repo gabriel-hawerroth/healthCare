@@ -22,6 +22,7 @@ import { DatePipe } from '@angular/common';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -91,6 +92,7 @@ import { LoginComponent } from './components/pages/login/login.component';
     NgxMaskPipe,
     MatMenuModule,
     MatDialogModule,
+    MatTooltipModule,
   ],
 
   providers: [

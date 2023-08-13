@@ -13,27 +13,31 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/login")
 public class LoginController {
 
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    String encriptedPassword = "";
-
+    @Autowired
+    private BCryptPasswordEncoder bcrypt;
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
     private PasswordResetRepository passwordResetRepository;
 
-    @GetMapping("/login")
-    private Boolean login(
+    @GetMapping("/logar")
+    private Usuario login(
             @RequestParam String usuario,
             @RequestParam String senha
     ) {
         Usuario user = usuarioRepository.findByUsuario(usuario);
-        return user != null && encoder.matches(senha, user.getSenha());
+        if (user != null && bcrypt.matches(senha, user.getSenha())) {
+            return user;
+        } else {
+            throw new IllegalArgumentException("Bad Credentials");
+        }
     }
 
     @GetMapping
@@ -54,8 +58,12 @@ public class LoginController {
 
     @PostMapping
     private Usuario criarUsuario(@RequestBody Usuario login) {
-        encriptedPassword = encoder.encode(login.getSenha());
-        login.setSenha(encriptedPassword);
+        Usuario user = usuarioRepository.findById(login.getId()).get();
+        if (login.getSenha() == null || login.getSenha().equals("")) {
+            login.setSenha(user.getSenha());
+        } else {
+            login.setSenha(bcrypt.encode(login.getSenha()));
+        }
         return usuarioRepository.save(login);
     }
 
