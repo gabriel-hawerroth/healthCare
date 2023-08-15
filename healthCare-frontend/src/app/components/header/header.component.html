@@ -7,12 +7,12 @@
       <span class="material-symbols-outlined"> notifications </span>
       <img src="../../../assets/userImage.jpeg" />
       <span [ngStyle]="{ 'font-size': '.55em' }">{{ user.nome }}</span>
-      <span class="material-symbols-outlined logout"> logout </span>
+      <span class="material-symbols-outlined logout" (click)="logout()"> logout </span>
     </article>
   </div>
 
   <div class="nav">
-    <span class="material-symbols-outlined" [ngStyle]="{ 'margin-bottom': '27px' }" routerLink="/home">
+    <span class="material-symbols-outlined" [ngStyle]="{ 'margin-bottom': '27px' }" routerLink="/">
       home
     </span>
     <span routerLink="/paciente" class="material-symbols-outlined">

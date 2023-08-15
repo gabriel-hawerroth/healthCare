@@ -21,6 +21,11 @@
       <mat-form-field fxFlex="22">
         <mat-label><b>Paciente</b></mat-label>
         <mat-select formControlName="id_paciente">
+          <mat-option>
+            <ngx-mat-select-search [formControl]="patientsList" placeholderLabel="Informe o nome do paciente"
+              noEntriesFoundLabel="Nenhum paciente encontrado">
+            </ngx-mat-select-search>
+          </mat-option>
           <mat-option *ngFor="let patient of patients" [value]="patient.id">
             {{ patient.dsNome }}
           </mat-option>
@@ -30,6 +35,11 @@
       <mat-form-field fxFlex="22">
         <mat-label><b>Unidade</b></mat-label>
         <mat-select formControlName="id_unidade">
+          <mat-option>
+            <ngx-mat-select-search [formControl]="unitsList" placeholderLabel="Informe o nome da unidade"
+              noEntriesFoundLabel="Nenhuma unidade encontrada">
+            </ngx-mat-select-search>
+          </mat-option>
           <mat-option *ngFor="let unit of units" [value]="unit.id">
             {{ unit.ds_nome }}
           </mat-option>

@@ -1,5 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,7 +20,7 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./user-form.component.scss'],
 })
 export class UserFormComponent implements OnInit {
-  @Input() userData: User | null = null;
+  @Input() userData?: User | null;
 
   userForm!: FormGroup;
   pageType?: string;
@@ -26,36 +31,30 @@ export class UserFormComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
 
-    this.userForm = new FormGroup({
-      id: new FormControl(this.userData ? this.userData.id : ''),
-      usuario: new FormControl(this.userData ? this.userData.usuario : '', [
+    this.userForm = this.fb.group({
+      id: this.userData ? this.userData.id : '',
+      usuario: [
+        this.userData ? this.userData.usuario : '',
         Validators.required,
         Validators.email,
-      ]),
-      senha: new FormControl('', [
-        Validators.pattern(this.passwordValidator()),
-      ]),
-      nome: new FormControl(this.userData ? this.userData.nome : '', [
-        Validators.required,
-      ]),
-      sobrenome: new FormControl(this.userData ? this.userData.sobrenome : ''),
-      acesso: new FormControl(
+      ],
+      senha: ['', Validators.pattern(this.passwordValidator())],
+      nome: [this.userData ? this.userData.nome : '', [Validators.required]],
+      sobrenome: this.userData ? this.userData.sobrenome : '',
+      acesso: [
         this.userData ? this.userData.acesso : 'consulta',
-        [Validators.required]
-      ),
-      permissao: new FormControl(
-        this.userData ? this.userData.permissao : false
-      ),
-      primeiro_acesso: new FormControl(
-        this.userData ? this.userData.primeiro_acesso : true
-      ),
-      situacao: new FormControl(this.userData ? this.userData.situacao : 'A'),
+        [Validators.required],
+      ],
+      permissao: this.userData ? this.userData.permissao : false,
+      primeiro_acesso: this.userData ? this.userData.primeiro_acesso : true,
+      situacao: this.userData ? this.userData.situacao : 'A',
     });
   }
 

@@ -16,8 +16,7 @@ import { EditUserComponent } from './components/pages/usuarios/editUser/edit-use
 import { LoginComponent } from './components/pages/login/login.component';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'paciente', component: PacientesComponent },
   { path: 'paciente/novo', component: PacienteFormComponent },
   { path: 'paciente/:id', component: EditPatientComponent },

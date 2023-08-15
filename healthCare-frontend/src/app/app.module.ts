@@ -23,6 +23,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -93,6 +94,7 @@ import { LoginComponent } from './components/pages/login/login.component';
     MatMenuModule,
     MatDialogModule,
     MatTooltipModule,
+    NgxMatSelectSearchModule,
   ],
 
   providers: [

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
@@ -26,58 +26,32 @@ export class UnitFormComponent implements OnInit {
     private route: ActivatedRoute,
     private unitService: UnidadeService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
 
-    this.unitForm = new FormGroup({
-      id: new FormControl(this.unitData ? this.unitData.id : ''),
-      ds_nome: new FormControl(this.unitData ? this.unitData.ds_nome : '', [
-        Validators.required,
-      ]),
-      cnpj: new FormControl(this.unitData ? this.unitData.cnpj : '', [
-        Validators.required,
-      ]),
-      nr_telefone: new FormControl(
-        this.unitData ? this.unitData.nr_telefone : ''
-      ),
-      nr_cep: new FormControl(this.unitData ? this.unitData.nr_cep : '', [
-        Validators.required,
-      ]),
-      email: new FormControl(this.unitData ? this.unitData.email : '', [
-        Validators.required,
-      ]),
-      ie_situacao: new FormControl(
-        this.unitData ? this.unitData.ieSituacao : 'A',
-        [Validators.required]
-      ),
-      capacidade_atendimento: new FormControl(
-        this.unitData ? this.unitData.capacidade_atendimento : ''
-      ),
-      horario_funcionamento: new FormControl(
-        this.unitData ? this.unitData.horario_funcionamento : ''
-      ),
-      tipo: new FormControl(this.unitData ? this.unitData.tipo : '', [
-        Validators.required,
-      ]),
-      especialidades_oferecidas: new FormControl(
-        this.unitData ? this.unitData.especialidades_oferecidas : ''
-      ),
-      estado: new FormControl(this.unitData ? this.unitData.estado : ''),
-      cidade: new FormControl(this.unitData ? this.unitData.cidade : ''),
-      bairro: new FormControl(this.unitData ? this.unitData.bairro : ''),
-      endereco: new FormControl(this.unitData ? this.unitData.endereco : ''),
-      nr_endereco: new FormControl(
-        this.unitData ? this.unitData.nr_endereco : ''
-      ),
-      complemento: new FormControl(
-        this.unitData ? this.unitData.complemento : ''
-      ),
-      como_chegar: new FormControl(
-        this.unitData ? this.unitData.como_chegar : ''
-      ),
+    this.unitForm = this.fb.group({
+      id: '',
+      ds_nome: ['', Validators.required],
+      cnpj: ['', Validators.required],
+      nr_telefone: '',
+      nr_cep: ['', Validators.required],
+      email: ['', Validators.required],
+      ie_situacao: ['', Validators.required],
+      capacidade_atendimento: '',
+      horario_funcionamento: '',
+      tipo: ['', Validators.required],
+      especialidades_oferecidas: '',
+      estado: '',
+      cidade: '',
+      bairro: '',
+      endereco: '',
+      nr_endereco: '',
+      complemento: '',
+      como_chegar: '',
     });
 
     if (this.unitData) {

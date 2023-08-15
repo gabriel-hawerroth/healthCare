@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
@@ -19,13 +19,14 @@ export class LoginComponent implements OnInit {
     private appComponent: AppComponent,
     private snackBar: MatSnackBar,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.loginForm = new FormGroup({
-      usuario: new FormControl(''),
-      senha: new FormControl(''),
+    this.loginForm = this.fb.group({
+      usuario: '',
+      senha: '',
     });
   }
 
