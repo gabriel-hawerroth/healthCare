@@ -14,7 +14,7 @@ Atuais funcionalidades do sistema:
 
 Linguagens/ferramentas utilizadas: java com Spring, html, sccs e typescript com Angular, criação e gerenciamento do banco de dados e SQL.
 
-Versões:
-Angular - 16
-Java - 20
-Spring - 5.3
+Versões:  
+Angular - 16  
+Java - 20  
+Spring - 5.3  
