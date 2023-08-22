@@ -46,9 +46,8 @@ export class LoginComponent implements OnInit {
             duration: 4000,
           });
           this.appComponent.permissao = true;
-          localStorage.setItem('permissao', 'true');
           localStorage.setItem('id-usuario', String(result.id));
-          this.router.navigate(['/home']);
+          this.router.navigate(['/']);
         })
         .catch((error) => {
           this.snackBar.open('Login inválido.', '', {

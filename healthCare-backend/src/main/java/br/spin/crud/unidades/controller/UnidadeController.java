@@ -45,8 +45,10 @@ public class UnidadeController {
 
     @PutMapping
     private ResponseEntity<Unidade> salvarPaciente(@RequestBody Unidade unidade) {
-        Optional<Unidade> optUnidade = unidadeRepository.findById(unidade.getId());
-        optUnidade.ifPresent(value -> unidade.setDt_criacao(value.getDt_criacao()));
+        Unidade uni = unidadeRepository.findById(unidade.getId()).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unidade não encontrada: " + unidade.getId())
+        );
+        unidade.setDt_criacao(uni.getDt_criacao());
         return ResponseEntity.status(HttpStatus.OK).body(unidadeRepository.save(unidade));
     }
 

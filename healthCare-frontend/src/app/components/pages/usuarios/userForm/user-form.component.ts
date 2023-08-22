@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { lastValueFrom } from 'rxjs';
 
 import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
-import { User } from 'src/app/User';
+import { User } from 'src/app/models/User';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -35,36 +35,32 @@ export class UserFormComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
 
     this.userForm = this.fb.group({
-      id: this.userData ? this.userData.id : '',
-      usuario: [
-        this.userData ? this.userData.usuario : '',
-        Validators.required,
-        Validators.email,
-      ],
+      id: '',
+      usuario: ['', [Validators.required, Validators.email]],
       senha: ['', Validators.pattern(this.passwordValidator())],
-      nome: [this.userData ? this.userData.nome : '', [Validators.required]],
-      sobrenome: this.userData ? this.userData.sobrenome : '',
-      acesso: [
-        this.userData ? this.userData.acesso : 'consulta',
-        [Validators.required],
-      ],
-      permissao: this.userData ? this.userData.permissao : false,
-      primeiro_acesso: this.userData ? this.userData.primeiro_acesso : true,
-      situacao: this.userData ? this.userData.situacao : 'A',
+      nome: ['', [Validators.required]],
+      sobrenome: '',
+      acesso: ['consulta', [Validators.required]],
+      permissao: false,
+      primeiro_acesso: true,
+      situacao: 'A',
     });
+
+    if (this.userData) {
+      this.userForm.patchValue(this.userData);
+      this.userForm.get('senha')?.setValue('');
+    }
   }
 
   newUser() {
     if (this.userForm.invalid) {
       console.log('Formulário inválido.');
       console.log(this.userForm.value);
-      this.snackBar.open('Não foi possível salvar as informações.', '', {
-        duration: 4500,
-      });
+      return;
     } else {
       console.log(this.userForm.value);
 
@@ -76,7 +72,7 @@ export class UserFormComponent implements OnInit {
           this.router.navigate(['/usuario']);
         })
         .catch((error) => {
-          this.snackBar.open('Não foi possível salvar as informações.', '', {
+          this.snackBar.open('Erro ao salvar as informações.', '', {
             duration: 4500,
           });
         });
@@ -87,9 +83,7 @@ export class UserFormComponent implements OnInit {
     if (this.userForm.invalid) {
       console.log('Formulário inválido.');
       console.log(this.userForm.value);
-      this.snackBar.open('Não foi possível salvar as informações.', '', {
-        duration: 4500,
-      });
+      return;
     } else {
       console.log(this.userForm.value);
 
@@ -101,7 +95,7 @@ export class UserFormComponent implements OnInit {
           this.router.navigate(['/usuario']);
         })
         .catch((error) => {
-          this.snackBar.open('Não foi possível salvar as informações.', '', {
+          this.snackBar.open('Erro ao salvar as informações.', '', {
             duration: 4500,
           });
         });

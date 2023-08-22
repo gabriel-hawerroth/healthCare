@@ -107,6 +107,14 @@ mat-form-field {
       background-color: #f5f5f5 !important;
       cursor: pointer;
     }
+
+    &:focus {
+      background-color: #f5f5f5 !important;
+    }
+
+    &:active {
+      background-color: #f5f5f5 !important;
+    }
   }
 
   .datatable-row-even {
@@ -115,6 +123,14 @@ mat-form-field {
     &:hover {
       background-color: #ade4db !important;
       cursor: pointer;
+    }
+
+    &:focus {
+      background-color: #ade4db !important;
+    }
+
+    &:active {
+      background-color: #ade4db !important;
     }
   }
 }
@@ -241,12 +257,33 @@ form {
 .mat-menu-title {
   background-color: $primary-color;
   color: white;
-  height: 28px;
+  height: 32px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding-left: 8px;
+  padding-right: 12px;
+
+  .clearFilters {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      background-color: #4343436a;
+    }
+  }
 }
 
 .align-right {
   text-align: right;
+}
+
+.deleteButton {
+  color: white !important;
+  background-color: red !important;
 }

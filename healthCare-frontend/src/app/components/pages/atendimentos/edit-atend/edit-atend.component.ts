@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
-import { Atendimento } from 'src/app/Atendimento';
+import { Atendimento } from 'src/app/models/Atendimento';
 import { AtendimentoService } from 'src/app/services/atendimento/atendimento.service';
 
 @Component({

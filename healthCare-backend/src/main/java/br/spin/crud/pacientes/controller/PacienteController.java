@@ -51,8 +51,10 @@ public class PacienteController {
 
     @PutMapping
     private ResponseEntity<Paciente> editarPaciente(@RequestBody Paciente paciente) {
-        Optional<Paciente> optPaciente = pacienteRepository.findById(paciente.getId());
-        optPaciente.ifPresent(value -> paciente.setDt_criacao(value.getDt_criacao()));
+        Paciente paci = pacienteRepository.findById(paciente.getId()).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Paciente não encontrado: " + paciente.getId())
+        );
+        paciente.setDt_criacao(paci.getDt_criacao());
         return ResponseEntity.status(HttpStatus.OK).body(pacienteRepository.save(paciente));
     }
 

@@ -11,9 +11,8 @@ import { EditUnitComponent } from './components/pages/unidades/editUnit/edit-uni
 import { AtendimentoFormComponent } from './components/pages/atendimentos/atendimento-form/atendimento-form.component';
 import { EditAtendComponent } from './components/pages/atendimentos/edit-atend/edit-atend.component';
 import { UsuariosComponent } from './components/pages/usuarios/usuarios.component';
-import { UserFormComponent } from './components/pages/usuarios/userForm/user-form/user-form.component';
-import { EditUserComponent } from './components/pages/usuarios/editUser/edit-user/edit-user.component';
-import { LoginComponent } from './components/pages/login/login.component';
+import { UserFormComponent } from './components/pages/usuarios/userForm/user-form.component';
+import { EditUserComponent } from './components/pages/usuarios/editUser/edit-user.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

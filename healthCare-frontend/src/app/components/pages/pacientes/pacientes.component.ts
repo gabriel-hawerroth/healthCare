@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subscription, lastValueFrom } from 'rxjs';
+import { lastValueFrom, Subject, takeUntil } from 'rxjs';
 
-import { Patient } from 'src/app/Patient';
+import { Patient } from 'src/app/models/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
 
 @Component({
@@ -23,29 +23,34 @@ export class PacientesComponent implements OnInit, OnDestroy {
   filterForm!: FormGroup;
   filteredPatients: Patient[] = [];
 
-  subscriptions!: Subscription;
+  private _unsubscribeAll: Subject<any>;
 
   constructor(
     private patientService: PatientService,
     private router: Router,
     private fb: FormBuilder
-  ) {}
+  ) {
+    this._unsubscribeAll = new Subject();
+  }
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
-      dsNome: [''],
-      ieSituacao: ['A'],
+      dsNome: '',
+      ieSituacao: 'A',
     });
 
-    this.subscriptions = this.filterForm.valueChanges.subscribe(() => {
-      this.listaPacientes();
-    });
+    this.filterForm.valueChanges
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(() => {
+        this.listaPacientes();
+      });
 
     this.listaPacientes();
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this._unsubscribeAll.next('');
+    this._unsubscribeAll.complete();
   }
 
   listaPacientes() {

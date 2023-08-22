@@ -1,45 +1,48 @@
 <div class="unidades-container">
   <div class="top-actions">
-    <div class="left" fxLayoutGap="15px">
-      <div fxLayoutGap="10xp" fxLayout="column" fxLayoutAlign="center center">
-        <button mat-button [matMenuTriggerFor]="menu">
-          Filtros adicionais
-          <mat-icon>filter_list</mat-icon>
-        </button>
+    <form fxFlex="70" [formGroup]="filterForm">
+      <div fxLayoutGap="15px">
+        <div fxLayoutGap="10xp" fxLayout="column" fxLayoutAlign="center center">
+          <button mat-button [matMenuTriggerFor]="menu">
+            Filtros adicionais
+            <mat-icon>filter_list</mat-icon>
+          </button>
 
-        <mat-menu #menu="matMenu">
-          <div fxLayout="row" class="mat-menu-title">
-            <span>Filtros adicionais</span>
-          </div>
+          <mat-menu #menu="matMenu">
+            <div fxLayout="row" class="mat-menu-title">
+              <span>Filtros adicionais</span>
+              <span (click)="clearDateFilters()" class="material-symbols-outlined clearFilters">delete</span>
+            </div>
 
-          <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="30px">
-            <mat-form-field fxFlex="44">
-              <mat-label>Data inicial</mat-label>
-              <input matInput [matDatepicker]="pickerDtInicial" />
-              <mat-datepicker-toggle matIconSuffix [for]="pickerDtInicial"></mat-datepicker-toggle>
-              <mat-datepicker #pickerDtInicial></mat-datepicker>
-            </mat-form-field>
+            <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="30px">
+              <mat-form-field fxFlex="44">
+                <mat-label>Data inicial</mat-label>
+                <input matInput [matDatepicker]="pickerDtInicial" formControlName="dt_inicial" />
+                <mat-datepicker-toggle matIconSuffix [for]="pickerDtInicial"></mat-datepicker-toggle>
+                <mat-datepicker #pickerDtInicial></mat-datepicker>
+              </mat-form-field>
 
-            <mat-form-field fxFlex="44">
-              <mat-label>Data final</mat-label>
-              <input matInput [matDatepicker]="pickerDtFinal" />
-              <mat-datepicker-toggle matIconSuffix [for]="pickerDtFinal"></mat-datepicker-toggle>
-              <mat-datepicker #pickerDtFinal></mat-datepicker>
-            </mat-form-field>
-          </div>
-        </mat-menu>
+              <mat-form-field fxFlex="44">
+                <mat-label>Data final</mat-label>
+                <input matInput [matDatepicker]="pickerDtFinal" formControlName="dt_final" />
+                <mat-datepicker-toggle matIconSuffix [for]="pickerDtFinal"></mat-datepicker-toggle>
+                <mat-datepicker #pickerDtFinal></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </mat-menu>
+        </div>
+
+        <mat-form-field fxFlex="32">
+          <mat-label>Filtrar por paciente</mat-label>
+          <input type="text" matInput formControlName="nm_paciente">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="32">
+          <mat-label>Filtrar por unidade</mat-label>
+          <input type="text" matInput formControlName="nm_unidade">
+        </mat-form-field>
       </div>
-
-      <mat-form-field fxFlex="32">
-        <mat-label>Filtrar por paciente</mat-label>
-        <input type="text" matInput (input)="filterPatient($event)">
-      </mat-form-field>
-
-      <mat-form-field fxFlex="32">
-        <mat-label>Filtrar por unidade</mat-label>
-        <input type="text" matInput (input)="filterUnit($event)">
-      </mat-form-field>
-    </div>
+    </form>
 
     <div class="rigth">
       <h1 class="title-table-page">Cadastro de atendimento</h1>

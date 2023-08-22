@@ -58,13 +58,26 @@ public class LoginController {
 
     @PostMapping
     private Usuario criarUsuario(@RequestBody Usuario login) {
-        Usuario user = usuarioRepository.findById(login.getId()).get();
+
         if (login.getSenha() == null || login.getSenha().equals("")) {
-            login.setSenha(user.getSenha());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A senha é obrigatória");
         } else {
             login.setSenha(bcrypt.encode(login.getSenha()));
         }
         return usuarioRepository.save(login);
+    }
+
+    @PutMapping
+    private ResponseEntity<Usuario> editarUsuario(@RequestBody Usuario usuario) {
+        Usuario user = usuarioRepository.findById(usuario.getId()).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não encontrado: " + usuario.getId())
+        );
+        if (usuario.getSenha() == null || usuario.getSenha().equals("")) {
+            usuario.setSenha(user.getSenha());
+        } else {
+            usuario.setSenha(bcrypt.encode(usuario.getSenha()));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuario));
     }
 
     @DeleteMapping("/{id}")

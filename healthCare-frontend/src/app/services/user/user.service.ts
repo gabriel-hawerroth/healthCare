@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { User } from 'src/app/User';
-import { Response } from 'src/app/Response';
+import { User } from 'src/app/models/User';
+import { Response } from 'src/app/models/Response';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -46,7 +46,7 @@ export class UserService {
   }
 
   editUser(user: User) {
-    return this.http.post<User>(this.apiUrl, user);
+    return this.http.put<User>(this.apiUrl, user);
   }
 
   removeUser(id: number) {

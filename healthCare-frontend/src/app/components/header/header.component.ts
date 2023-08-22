@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { Router } from '@angular/router';
 
-import { User } from 'src/app/User';
+import { User } from 'src/app/models/User';
 import { UserService } from 'src/app/services/user/user.service';
 import { AppComponent } from 'src/app/app.component';
 
@@ -16,19 +15,20 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private appComponent: AppComponent,
-    private router: Router
+    private appComponent: AppComponent
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     if (localStorage.getItem('id-usuario') == null) {
-      localStorage.setItem('id-usuario', '2');
+      localStorage.setItem('id-usuario', '9');
     }
     const userId = localStorage.getItem('id-usuario');
 
     lastValueFrom(this.userService.getById(Number(userId))).then((result) => {
       this.user = result;
     });
+
+    console.log(this.user);
   }
 
   logout() {

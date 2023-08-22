@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
-import { Unidade } from 'src/app/Unidade';
+import { Unidade } from 'src/app/models/Unidade';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 
 @Component({
@@ -22,7 +22,6 @@ export class EditUnitComponent implements OnInit {
 
     lastValueFrom(this.unitService.getById(id)).then((result) => {
       this.unit = result;
-      console.log(result);
     });
   }
 }

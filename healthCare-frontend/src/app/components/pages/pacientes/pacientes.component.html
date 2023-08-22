@@ -24,8 +24,7 @@
 
   <div class="table-pacientes">
     <ngx-datatable [rows]="filteredPatients" class="material striped custom-datatable" [headerHeight]="48"
-      [rowHeight]="52" [footerHeight]="50" [columnMode]="'force'" [limit]="6" [reorderable]="false"
-      [selectAllRowsOnPage]="false" [messages]="{
+      [rowHeight]="52" [footerHeight]="50" [columnMode]="'force'" [limit]="6" [reorderable]="false" [messages]="{
         totalMessage: 'registros encontrados.'
       }" (activate)="editPatient($event)">
       <ngx-datatable-column name="Nome" prop="dsNome" [width]="250">

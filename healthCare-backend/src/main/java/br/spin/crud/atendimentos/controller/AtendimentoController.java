@@ -11,8 +11,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +38,26 @@ public class AtendimentoController {
     }
 
     @GetMapping("/atendsPerson")
-    private List<AtendPerson> listaAtendsPerson() {
-        return atendPersonRepository.findAll();
+    private List<AtendPerson> listaAtendsPerson(
+            @RequestParam String nm_paciente,
+            @RequestParam String nm_unidade,
+            @RequestParam String dt_inicial,
+            @RequestParam String dt_final
+    ) {
+        DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_INSTANT;
+        Date dtInicial = null;
+        Date dtFinal = null;
+
+        if (dt_inicial != null && !dt_inicial.equals("null")) {
+            Instant instant = Instant.from(isoFormatter.parse(dt_inicial));
+            dtInicial = Date.from(instant);
+        }
+        if (dt_final != null && !dt_final.equals("null")) {
+            Instant secondInstant = Instant.from(isoFormatter.parse(dt_final));
+            dtFinal = Date.from(secondInstant);
+        }
+
+        return atendPersonRepository.listAtends(nm_paciente, nm_unidade, dtInicial, dtFinal);
     }
 
     @GetMapping("/{id}")
@@ -54,14 +75,18 @@ public class AtendimentoController {
 
     @PutMapping
     private ResponseEntity<Atendimento> editarAtendimento(@RequestBody Atendimento atendimento) {
-        Optional<Atendimento> optAtendimento = atendimentoRepository.findById(atendimento.getId());
-        optAtendimento.ifPresent(value -> atendimento.setDt_criacao(value.getDt_criacao()));
+        Atendimento atend = atendimentoRepository.findById(atendimento.getId()).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Atendimento não encontrado: " + atendimento.getId())
+        );
+        atendimento.setDt_criacao(atend.getDt_criacao());
         return ResponseEntity.status(HttpStatus.OK).body(atendimentoRepository.save(atendimento));
     }
 
     @DeleteMapping("/{id}")
     private void excluirAtendimento(@PathVariable(name = "id") Integer id) {
+        Atendimento atend = atendimentoRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Atendimento não encontrado: " + id)
+        );
         atendimentoRepository.deleteById(id);
     }
-
 }

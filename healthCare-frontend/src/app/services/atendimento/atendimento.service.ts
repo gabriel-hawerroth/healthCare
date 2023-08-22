@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
 
-import { Atendimento } from 'src/app/Atendimento';
-import { AtendsPerson } from 'src/app/AtendsPerson';
-import { Response } from 'src/app/Response';
+import { Atendimento } from 'src/app/models/Atendimento';
+import { AtendsPerson } from 'src/app/models/AtendsPerson';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -20,10 +20,21 @@ export class AtendimentoService {
     return this.http.post<FormData>(this.apiUrl, formData);
   }
 
-  getAtendimentos(): Observable<Response<AtendsPerson[]>> {
-    return this.http.get<Response<AtendsPerson[]>>(
-      `${this.apiUrl}/atendsPerson`
-    );
+  getAtendimentos(
+    nm_paciente: string,
+    nm_unidade: string,
+    dt_inicial: Date,
+    dt_final: Date
+  ): Observable<AtendsPerson[]> {
+    let params = new HttpParams();
+    params = params.set('nm_paciente', nm_paciente);
+    params = params.set('nm_unidade', nm_unidade);
+    params = params.set('dt_inicial', moment(dt_inicial).toISOString());
+    params = params.set('dt_final', moment(dt_final).toISOString());
+
+    return this.http.get<AtendsPerson[]>(`${this.apiUrl}/atendsPerson`, {
+      params,
+    });
   }
 
   getById(id: number): Observable<Atendimento> {

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Patient } from 'src/app/Patient';
-import { Response } from 'src/app/Response';
+import { Patient } from 'src/app/models/Patient';
+import { Response } from 'src/app/models/Response';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

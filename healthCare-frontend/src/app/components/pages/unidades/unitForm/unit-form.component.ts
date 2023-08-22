@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
 
-import { Unidade } from 'src/app/Unidade';
+import { Unidade } from 'src/app/models/Unidade';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 import { lastValueFrom } from 'rxjs';
 

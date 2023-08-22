@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subscription, lastValueFrom } from 'rxjs';
+import { Subject, lastValueFrom, takeUntil } from 'rxjs';
 
-import { User } from 'src/app/User';
+import { User } from 'src/app/models/User';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -23,30 +23,35 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   filterForm!: FormGroup;
   filteredUsers!: User[];
 
-  subscriptions!: Subscription;
+  private _unsubscribeAll: Subject<any>;
 
   constructor(
     private userService: UserService,
     private router: Router,
     private fb: FormBuilder
-  ) {}
+  ) {
+    this._unsubscribeAll = new Subject();
+  }
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
-      usuario: [''],
-      situacao: ['A'],
-      acesso: [''],
+      usuario: '',
+      situacao: 'A',
+      acesso: '',
     });
 
-    this.subscriptions = this.filterForm.valueChanges.subscribe(() => {
-      this.listaUsuarios();
-    });
+    this.filterForm.valueChanges
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(() => {
+        this.listaUsuarios();
+      });
 
     this.listaUsuarios();
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this._unsubscribeAll.next('');
+    this._unsubscribeAll.complete();
   }
 
   listaUsuarios() {

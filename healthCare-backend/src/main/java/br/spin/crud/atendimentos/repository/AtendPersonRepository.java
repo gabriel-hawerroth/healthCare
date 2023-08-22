@@ -4,33 +4,40 @@ import br.spin.crud.atendimentos.models.AtendPerson;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public interface AtendPersonRepository extends JpaRepository<AtendPerson, Integer> {
 
     @Query(value =
-            "select\n" +
-                    " a.id,\n" +
-                    " p.ds_nome ds_paciente,\n" +
-                    " u.ds_nome ds_unidade,\n" +
-                    " a.dt_atendimento,\n" +
-                    " a.status_atend,\n" +
-                    " a.medico_responsavel,\n" +
-                    " a.hora_inicio,\n" +
-                    " a.hora_fim,\n" +
-                    " a.especialidade,\n" +
-                    " a.tipo_atendimento,\n" +
-                    " a.valor_atendimento,\n" +
-                    " a.forma_pagamento,\n" +
-                    " a.convenio,\n" +
-                    " a.nr_carteirinha_convenio,\n" +
-                    " a.dt_criacao\n" +
-            "from\n" +
-                    " atendimento a\n" +
-                    " left join paciente p on a.id_paciente = p.id\n" +
-                    " left join unidade u on a.id_unidade = u.id",
-            nativeQuery = true
-    )
-    List<AtendPerson> atendimentosPerson();
+            """
+                    select
+                        a.id,
+                        p.ds_nome ds_paciente,
+                        u.ds_nome ds_unidade,
+                        a.dt_atendimento,
+                        a.status_atend,
+                        a.medico_responsavel,
+                        a.hora_inicio,
+                        a.hora_fim,
+                        a.especialidade,
+                        a.tipo_atendimento,
+                        a.valor_atendimento,
+                        a.forma_pagamento,
+                        a.convenio,
+                        a.nr_carteirinha_convenio,
+                        a.dt_criacao
+                    from
+                        atendimento a
+                        left join paciente p on a.id_paciente = p.id
+                        left join unidade u on a.id_unidade = u.id
+                    where
+                        p.ds_nome like CONCAT('%', :nm_paciente, '%')
+                        and u.ds_nome like CONCAT('%', :nm_unidade, '%')
+                        and ((a.dt_atendimento >= :dt_inicial) or (:dt_inicial is null))
+                        and ((a.dt_atendimento <= :dt_final) or (:dt_final is null))
+                    """, nativeQuery = true)
+    List<AtendPerson> listAtends(String nm_paciente, String nm_unidade, Date dt_inicial, Date dt_final);
 
 }

@@ -9,14 +9,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 import { MatDialog } from '@angular/material/dialog';
-import { lastValueFrom, Subscription } from 'rxjs';
+import { lastValueFrom, Subject, takeUntil } from 'rxjs';
 
-import { Atendimento } from 'src/app/Atendimento';
-import { Patient } from 'src/app/Patient';
-import { Unidade } from 'src/app/Unidade';
+import { Atendimento } from 'src/app/models/Atendimento';
+import { Patient } from 'src/app/models/Patient';
+import { Unidade } from 'src/app/models/Unidade';
 import { AtendimentoService } from 'src/app/services/atendimento/atendimento.service';
 import { PatientService } from 'src/app/services/paciente/patient.service';
 import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-atendimento-form',
   templateUrl: './atendimento-form.component.html',
@@ -35,7 +37,7 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
   patientsList: FormControl = new FormControl();
   unitsList: FormControl = new FormControl();
 
-  subscriptions!: Subscription;
+  private _unsubscribeAll: Subject<any>;
 
   constructor(
     private router: Router,
@@ -46,12 +48,12 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private fb: FormBuilder
-  ) {}
+  ) {
+    this._unsubscribeAll = new Subject();
+  }
 
   ngOnInit() {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
-
-    this.subscriptions = new Subscription();
 
     lastValueFrom(this.patientService.getPatients('', 'A')).then((result) => {
       this.patients = result;
@@ -61,26 +63,23 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
       this.units = result;
     });
 
-    const patientSubscription = this.patientsList.valueChanges.subscribe(
-      (word: string) => {
+    this.patientsList.valueChanges
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((word: string) => {
         lastValueFrom(this.patientService.getPatients(word, 'A')).then(
           (result) => {
             this.patients = result;
           }
         );
-      }
-    );
+      });
 
-    const unitSubscription = this.unitsList.valueChanges.subscribe(
-      (word: string) => {
+    this.unitsList.valueChanges
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((word: string) => {
         lastValueFrom(this.unitService.getUnits(word, 'A')).then((result) => {
           this.units = result;
         });
-      }
-    );
-
-    this.subscriptions.add(patientSubscription);
-    this.subscriptions.add(unitSubscription);
+      });
 
     this.atendForm = this.fb.group({
       id: '',
@@ -101,11 +100,15 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
 
     if (this.atendData) {
       this.atendForm.patchValue(this.atendData);
+      this.atendForm
+        .get('dt_atendimento')
+        ?.setValue(moment(this.atendForm.value.dt_atendimento).toDate());
     }
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this._unsubscribeAll.next('');
+    this._unsubscribeAll.complete();
   }
 
   newAtend() {

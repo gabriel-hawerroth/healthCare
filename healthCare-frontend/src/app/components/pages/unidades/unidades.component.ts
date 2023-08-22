@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subscription, lastValueFrom } from 'rxjs';
+import { Subject, lastValueFrom, takeUntil } from 'rxjs';
 
-import { Unidade } from 'src/app/Unidade';
+import { Unidade } from 'src/app/models/Unidade';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 
 @Component({
@@ -23,29 +23,34 @@ export class UnidadesComponent implements OnInit, OnDestroy {
   filterForm!: FormGroup;
   filteredUnits: Unidade[] = [];
 
-  subscriptions!: Subscription;
+  private _unsubscribeAll: Subject<any>;
 
   constructor(
     private unidadeService: UnidadeService,
     private router: Router,
     private fb: FormBuilder
-  ) {}
+  ) {
+    this._unsubscribeAll = new Subject();
+  }
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
-      dsNome: [''],
-      ieSituacao: ['A'],
+      dsNome: '',
+      ieSituacao: 'A',
     });
 
-    this.subscriptions = this.filterForm.valueChanges.subscribe(() => {
-      this.listaUnidades();
-    });
+    this.filterForm.valueChanges
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(() => {
+        this.listaUnidades();
+      });
 
     this.listaUnidades();
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this._unsubscribeAll.next('');
+    this._unsubscribeAll.complete();
   }
 
   listaUnidades() {
