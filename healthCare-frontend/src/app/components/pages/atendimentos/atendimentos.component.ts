@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subject, lastValueFrom, takeUntil } from 'rxjs';
 
-import { AtendsPerson } from 'src/app/models/AtendsPerson';
+import { AtendsPerson } from 'src/app/interfaces/AtendsPerson';
 import { AtendimentoService } from 'src/app/services/atendimento/atendimento.service';
 
 @Component({

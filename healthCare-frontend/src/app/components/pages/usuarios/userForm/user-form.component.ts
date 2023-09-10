@@ -11,8 +11,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { lastValueFrom } from 'rxjs';
 
 import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
-import { User } from 'src/app/models/User';
+import { User } from 'src/app/interfaces/User';
 import { UserService } from 'src/app/services/user/user.service';
+import { UtilsService } from 'src/app/utils/utils.service';
 
 @Component({
   selector: 'app-user-form',
@@ -32,7 +33,8 @@ export class UserFormComponent implements OnInit {
     private userService: UserService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private utilsService: UtilsService
   ) {}
 
   ngOnInit() {
@@ -41,12 +43,10 @@ export class UserFormComponent implements OnInit {
     this.userForm = this.fb.group({
       id: '',
       usuario: ['', [Validators.required, Validators.email]],
-      senha: ['', Validators.pattern(this.passwordValidator())],
+      senha: ['', Validators.pattern(this.utilsService.passwordValidator())],
       nome: ['', [Validators.required]],
       sobrenome: '',
-      acesso: ['consulta', [Validators.required]],
-      permissao: false,
-      primeiro_acesso: true,
+      acesso: ['Consulta', [Validators.required]],
       situacao: 'A',
     });
 
@@ -58,12 +58,13 @@ export class UserFormComponent implements OnInit {
 
   newUser() {
     if (this.userForm.invalid) {
-      console.log('Formulário inválido.');
-      console.log(this.userForm.value);
+      for (const controlName in this.userForm.controls) {
+        if (this.userForm.controls[controlName].invalid) {
+          console.log(`Campo inválido: ${controlName}`);
+        }
+      }
       return;
     } else {
-      console.log(this.userForm.value);
-
       lastValueFrom(this.userService.createUser(this.userForm.value))
         .then((result) => {
           this.snackBar.open('Usuário criado com sucesso.', '', {
@@ -72,6 +73,7 @@ export class UserFormComponent implements OnInit {
           this.router.navigate(['/usuario']);
         })
         .catch((error) => {
+          console.log(error);
           this.snackBar.open('Erro ao salvar as informações.', '', {
             duration: 4500,
           });
@@ -81,12 +83,13 @@ export class UserFormComponent implements OnInit {
 
   editUser() {
     if (this.userForm.invalid) {
-      console.log('Formulário inválido.');
-      console.log(this.userForm.value);
+      for (const controlName in this.userForm.controls) {
+        if (this.userForm.controls[controlName].invalid) {
+          console.log(`Campo inválido: ${controlName}`);
+        }
+      }
       return;
     } else {
-      console.log(this.userForm.value);
-
       lastValueFrom(this.userService.editUser(this.userForm.value))
         .then((result) => {
           this.snackBar.open('Usuário salvo com sucesso.', '', {
@@ -95,6 +98,7 @@ export class UserFormComponent implements OnInit {
           this.router.navigate(['/usuario']);
         })
         .catch((error) => {
+          console.log(error);
           this.snackBar.open('Erro ao salvar as informações.', '', {
             duration: 4500,
           });
@@ -113,6 +117,7 @@ export class UserFormComponent implements OnInit {
         this.router.navigate(['/usuario']);
       })
       .catch((error) => {
+        console.log(error);
         this.snackBar.open('Não foi possível excluir o usuário.', '', {
           duration: 4500,
         });
@@ -127,20 +132,5 @@ export class UserFormComponent implements OnInit {
         this.removeUser();
       }
     });
-  }
-
-  passwordValidator() {
-    const passRequirement = {
-      passwordMinNumber: 1,
-      passwordMinUpperCase: 1,
-      passwordMinCharacters: 8,
-    };
-    return [
-      `(?=([^A-Z]*[A-Z])\{${passRequirement.passwordMinUpperCase},\})`,
-      `(?=([^0-9]*[0-9])\{${passRequirement.passwordMinNumber},\})`,
-      `[A-Za-z\\d\$\@\$\!\%\*\?\&\.]{${passRequirement.passwordMinCharacters},}`,
-    ]
-      .map((item) => item.toString())
-      .join('');
   }
 }

@@ -11,9 +11,9 @@ import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 import { MatDialog } from '@angular/material/dialog';
 import { lastValueFrom, Subject, takeUntil } from 'rxjs';
 
-import { Atendimento } from 'src/app/models/Atendimento';
-import { Patient } from 'src/app/models/Patient';
-import { Unidade } from 'src/app/models/Unidade';
+import { Atendimento } from 'src/app/interfaces/Atendimento';
+import { Patient } from 'src/app/interfaces/Patient';
+import { Unidade } from 'src/app/interfaces/Unidade';
 import { AtendimentoService } from 'src/app/services/atendimento/atendimento.service';
 import { PatientService } from 'src/app/services/paciente/patient.service';
 import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
@@ -113,17 +113,17 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
 
   newAtend() {
     if (this.atendForm.invalid) {
-      console.log(this.atendForm.value);
-      console.log('Formulário inválido.');
+      for (const controlName in this.atendForm.controls) {
+        if (this.atendForm.controls[controlName].invalid) {
+          console.log(`Campo inválido: ${controlName}`);
+        }
+      }
       this.snackBar.open('Não foi possível salvar as informações.', '', {
         duration: 4500,
       });
     } else {
-      console.log(this.atendForm.value);
-
       lastValueFrom(this.atendService.createAtendimento(this.atendForm.value))
         .then((result) => {
-          console.log(result);
           this.snackBar.open('Atendimento criado com sucesso.', '', {
             duration: 4000,
           });
@@ -140,13 +140,15 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
 
   editAtend() {
     if (this.atendForm.invalid) {
-      console.log('Formulário inválido.');
+      for (const controlName in this.atendForm.controls) {
+        if (this.atendForm.controls[controlName].invalid) {
+          console.log(`Campo inválido: ${controlName}`);
+        }
+      }
       this.snackBar.open('Não foi possível salvar as informações.', '', {
         duration: 4500,
       });
     } else {
-      console.log(this.atendForm.value);
-
       lastValueFrom(this.atendService.updateAtendimento(this.atendForm.value))
         .then((result) => {
           this.snackBar.open('Atendimento salvo com sucesso.', '', {

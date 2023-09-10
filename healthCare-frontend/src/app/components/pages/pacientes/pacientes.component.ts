@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { lastValueFrom, Subject, takeUntil } from 'rxjs';
 
-import { Patient } from 'src/app/models/Patient';
+import { Patient } from 'src/app/interfaces/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
 
 @Component({

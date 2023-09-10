@@ -31,15 +31,13 @@ body {
   width: 100%;
   height: 100%;
   user-select: none;
-}
-
-app-root {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
   color: black;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+
+  app-root {
+    display: flex;
+    height: 100%;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -191,7 +189,7 @@ mat-form-field {
   align-items: center;
   background-color: white;
   margin-bottom: 15px;
-  box-shadow: 1px 2px 10px rgb(0 0 0/ 22%);
+  box-shadow: 1px 2px 7px #0000004d;
   border-radius: 3px;
   padding: 0 1.5em 0 1em;
 
@@ -201,6 +199,10 @@ mat-form-field {
     display: flex;
     align-items: center;
     padding-top: .3em;
+
+    .filter-form {
+      width: 100%;
+    }
   }
 
   .rigth {
@@ -286,4 +288,11 @@ form {
 .deleteButton {
   color: white !important;
   background-color: red !important;
+}
+
+.simple-page {
+  width: 100%;
+  height: 100%;
+  padding: 1em;
+  // background-color: #e2e2e29f;
 }

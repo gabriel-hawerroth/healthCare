@@ -13,21 +13,93 @@ import { EditAtendComponent } from './components/pages/atendimentos/edit-atend/e
 import { UsuariosComponent } from './components/pages/usuarios/usuarios.component';
 import { UserFormComponent } from './components/pages/usuarios/userForm/user-form.component';
 import { EditUserComponent } from './components/pages/usuarios/editUser/edit-user.component';
+import { NewUserComponent } from './components/pages/login/components/new-user/new-user.component';
+import { ResetPasswordComponent } from './components/pages/login/components/reset-password/reset-password.component';
+import { LoginComponent } from './components/pages/login/login.component';
+import { unauthenticatedUserGuard } from './services/guards/unauthenticated-user.guard';
+import { authenticatedUserGuard } from './services/guards/authenticated-user.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'paciente', component: PacientesComponent },
-  { path: 'paciente/novo', component: PacienteFormComponent },
-  { path: 'paciente/:id', component: EditPatientComponent },
-  { path: 'unidade', component: UnidadesComponent },
-  { path: 'unidade/novo', component: UnitFormComponent },
-  { path: 'unidade/:id', component: EditUnitComponent },
-  { path: 'atendimento', component: AtendimentosComponent },
-  { path: 'atendimento/novo', component: AtendimentoFormComponent },
-  { path: 'atendimento/:id', component: EditAtendComponent },
-  { path: 'usuario', component: UsuariosComponent },
-  { path: 'usuario/novo', component: UserFormComponent },
-  { path: 'usuario/:id', component: EditUserComponent },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [unauthenticatedUserGuard],
+  },
+  {
+    path: 'novo-usuario',
+    component: NewUserComponent,
+    canActivate: [unauthenticatedUserGuard],
+  },
+  {
+    path: 'esqueci-minha-senha',
+    component: ResetPasswordComponent,
+    canActivate: [unauthenticatedUserGuard],
+  },
+  {
+    path: '',
+    component: HomeComponent,
+    canActivate: [authenticatedUserGuard],
+  },
+  {
+    path: 'paciente',
+    component: PacientesComponent,
+    canActivate: [authenticatedUserGuard],
+  },
+  {
+    path: 'paciente/novo',
+    component: PacienteFormComponent,
+    canActivate: [authenticatedUserGuard],
+  },
+  {
+    path: 'paciente/:id',
+    component: EditPatientComponent,
+    canActivate: [authenticatedUserGuard],
+  },
+  {
+    path: 'unidade',
+    component: UnidadesComponent,
+    canActivate: [authenticatedUserGuard],
+  },
+  {
+    path: 'unidade/novo',
+    component: UnitFormComponent,
+    canActivate: [authenticatedUserGuard],
+  },
+  {
+    path: 'unidade/:id',
+    component: EditUnitComponent,
+    canActivate: [authenticatedUserGuard],
+  },
+  {
+    path: 'atendimento',
+    component: AtendimentosComponent,
+    canActivate: [authenticatedUserGuard],
+  },
+  {
+    path: 'atendimento/novo',
+    component: AtendimentoFormComponent,
+    canActivate: [authenticatedUserGuard],
+  },
+  {
+    path: 'atendimento/:id',
+    component: EditAtendComponent,
+    canActivate: [authenticatedUserGuard],
+  },
+  {
+    path: 'usuario',
+    component: UsuariosComponent,
+    canActivate: [authenticatedUserGuard],
+  },
+  {
+    path: 'usuario/novo',
+    component: UserFormComponent,
+    canActivate: [authenticatedUserGuard],
+  },
+  {
+    path: 'usuario/:id',
+    component: EditUserComponent,
+    canActivate: [authenticatedUserGuard],
+  },
 ];
 
 @NgModule({

@@ -3,8 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 
-import { Atendimento } from 'src/app/models/Atendimento';
-import { AtendsPerson } from 'src/app/models/AtendsPerson';
+import { Atendimento } from 'src/app/interfaces/Atendimento';
+import { AtendsPerson } from 'src/app/interfaces/AtendsPerson';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

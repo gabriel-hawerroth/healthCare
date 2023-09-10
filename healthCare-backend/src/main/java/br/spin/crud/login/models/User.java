@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +19,6 @@ public class Usuario {
     private String sobrenome;
 
     private String acesso;
-
-    private Boolean permissao;
-
-    private Boolean primeiro_acesso;
 
     private String situacao;
 
@@ -72,22 +68,6 @@ public class Usuario {
 
     public void setAcesso(String acesso) {
         this.acesso = acesso;
-    }
-
-    public Boolean getPermissao() {
-        return permissao;
-    }
-
-    public void setPermissao(Boolean permissao) {
-        this.permissao = permissao;
-    }
-
-    public Boolean getPrimeiro_acesso() {
-        return primeiro_acesso;
-    }
-
-    public void setPrimeiro_acesso(Boolean primeiro_acesso) {
-        this.primeiro_acesso = primeiro_acesso;
     }
 
     public String getSituacao() {

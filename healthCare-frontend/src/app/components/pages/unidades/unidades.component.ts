@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject, lastValueFrom, takeUntil } from 'rxjs';
 
-import { Unidade } from 'src/app/models/Unidade';
+import { Unidade } from 'src/app/interfaces/Unidade';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 
 @Component({

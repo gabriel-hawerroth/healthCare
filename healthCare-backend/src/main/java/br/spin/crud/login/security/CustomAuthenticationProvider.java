@@ -1,7 +1,7 @@
 package br.spin.crud.login.security;
 
-import br.spin.crud.login.models.Usuario;
-import br.spin.crud.login.repository.UsuarioRepository;
+import br.spin.crud.login.models.User;
+import br.spin.crud.login.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -20,25 +20,25 @@ public class CustomAuthenticationProvider implements AuthenticationManager {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Autowired
-    private UsuarioRepository loginRepository;
+    private UserRepository loginRepository;
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String username = authentication.getPrincipal().toString();
-        String password = authentication.getCredentials().toString();
+    public Authentication authenticate(Authentication sendedCredentials) throws AuthenticationException {
+        String username = sendedCredentials.getPrincipal().toString();
+        String password = sendedCredentials.getCredentials().toString();
 
-        Authentication usuario = this.fazerLogin(username, password);
-        if (usuario == null) {
+        Authentication authentication = this.fazerLogin(username, password);
+        if (authentication == null) {
             throw new BadCredentialsException("Bad credentials");
         }
 
-        ((AbstractAuthenticationToken) usuario).setDetails(authentication.getDetails());
+        ((AbstractAuthenticationToken) authentication).setDetails(authentication.getDetails());
 
-        return usuario;
+        return authentication;
     }
 
     private Authentication fazerLogin(String username, String password) {
-        Usuario loginExistente = loginRepository.findByUsuario(username);
+        User loginExistente = loginRepository.findByUsuario(username);
         if (loginExistente == null) {
             return null;
         }

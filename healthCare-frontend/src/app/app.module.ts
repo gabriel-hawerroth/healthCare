@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -24,6 +24,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,6 +46,9 @@ import { UsuariosComponent } from './components/pages/usuarios/usuarios.componen
 import { UserFormComponent } from './components/pages/usuarios/userForm/user-form.component';
 import { EditUserComponent } from './components/pages/usuarios/editUser/edit-user.component';
 import { LoginComponent } from './components/pages/login/login.component';
+import { NewUserComponent } from './components/pages/login/components/new-user/new-user.component';
+import { ResetPasswordComponent } from './components/pages/login/components/reset-password/reset-password.component';
+import { TokenInterceptor } from './services/interceptors/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -67,6 +71,8 @@ import { LoginComponent } from './components/pages/login/login.component';
     UserFormComponent,
     EditUserComponent,
     LoginComponent,
+    NewUserComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,12 +101,13 @@ import { LoginComponent } from './components/pages/login/login.component';
     MatDialogModule,
     MatTooltipModule,
     NgxMatSelectSearchModule,
+    MatToolbarModule,
   ],
-
   providers: [
     provideNgxMask(),
     DatePipe,
     { provide: MAT_DATE_LOCALE, useValue: 'pt-br' },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

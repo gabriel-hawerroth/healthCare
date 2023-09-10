@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
 
-import { Unidade } from 'src/app/models/Unidade';
+import { Unidade } from 'src/app/interfaces/Unidade';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 import { lastValueFrom } from 'rxjs';
 
@@ -61,14 +61,15 @@ export class UnitFormComponent implements OnInit {
 
   newUnit() {
     if (this.unitForm.invalid) {
-      console.log('Formulário inválido.');
-      console.log(this.unitForm.value);
+      for (const controlName in this.unitForm.controls) {
+        if (this.unitForm.controls[controlName].invalid) {
+          console.log(`Campo inválido: ${controlName}`);
+        }
+      }
       this.snackBar.open('Não foi possível salvar as informações.', '', {
         duration: 4500,
       });
     } else {
-      console.log(this.unitForm.value);
-
       lastValueFrom(this.unitService.createUnit(this.unitForm.value))
         .then((result) => {
           this.snackBar.open('Unidade criada com sucesso.', '', {
@@ -77,6 +78,7 @@ export class UnitFormComponent implements OnInit {
           this.router.navigate(['/unidade']);
         })
         .catch((error) => {
+          console.log(error);
           this.snackBar.open('Não foi possível salvar as informações.', '', {
             duration: 4500,
           });
@@ -86,14 +88,15 @@ export class UnitFormComponent implements OnInit {
 
   editUnit() {
     if (this.unitForm.invalid) {
-      console.log('Formulário inválido.');
-      console.log(this.unitForm.value);
+      for (const controlName in this.unitForm.controls) {
+        if (this.unitForm.controls[controlName].invalid) {
+          console.log(`Campo inválido: ${controlName}`);
+        }
+      }
       this.snackBar.open('Não foi possível salvar as informações.', '', {
         duration: 4500,
       });
     } else {
-      console.log(this.unitForm.value);
-
       lastValueFrom(this.unitService.updateUnit(this.unitForm.value))
         .then((result) => {
           this.snackBar.open('Unidade salva com sucesso.', '', {
@@ -102,6 +105,7 @@ export class UnitFormComponent implements OnInit {
           this.router.navigate(['/unidade']);
         })
         .catch((error) => {
+          console.log(error);
           this.snackBar.open('Não foi possível salvar as informações.', '', {
             duration: 4500,
           });
@@ -120,6 +124,7 @@ export class UnitFormComponent implements OnInit {
         this.router.navigate(['/unidade']);
       })
       .catch((error) => {
+        console.log(error);
         this.snackBar.open('Não foi possível excluir a unidade.', '', {
           duration: 4500,
         });

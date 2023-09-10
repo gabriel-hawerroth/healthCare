@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
-import { Unidade } from 'src/app/models/Unidade';
+import { Unidade } from 'src/app/interfaces/Unidade';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 
 @Component({

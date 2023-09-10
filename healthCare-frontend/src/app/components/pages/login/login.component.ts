@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { lastValueFrom } from 'rxjs';
-import { AppComponent } from 'src/app/app.component';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UtilsService } from 'src/app/utils/utils.service';
 
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -16,44 +13,23 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
   constructor(
-    private appComponent: AppComponent,
-    private snackBar: MatSnackBar,
+    private utilsService: UtilsService,
     private userService: UserService,
-    private router: Router,
     private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      usuario: '',
-      senha: '',
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
     });
   }
 
-  logar() {
+  login() {
     if (this.loginForm.invalid) {
-      console.log('Formulário inválido!');
-      this.snackBar.open('Login inválido', '', {
-        duration: 4000,
-      });
+      this.utilsService.showSimpleMessage('Login inválido');
     } else {
-      const usuario = this.loginForm.get('usuario')?.value;
-      const senha = this.loginForm.get('senha')?.value;
-
-      lastValueFrom(this.userService.login(usuario, senha))
-        .then((result) => {
-          this.snackBar.open('Login realizado com sucesso.', '', {
-            duration: 4000,
-          });
-          this.appComponent.permissao = true;
-          localStorage.setItem('id-usuario', String(result.id));
-          this.router.navigate(['/']);
-        })
-        .catch((error) => {
-          this.snackBar.open('Login inválido.', '', {
-            duration: 4500,
-          });
-        });
+      this.userService.login(this.loginForm.value);
     }
   }
 }

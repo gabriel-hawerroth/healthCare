@@ -1,6 +1,4 @@
-<app-login *ngIf="!permissao" class="login-page"></app-login>
-
-<app-header *ngIf="permissao" class="header"></app-header>
-<main *ngIf="permissao" class="main">
+<app-header *ngIf="userService.logged" class="header"></app-header>
+<main class="main" [class]="userService.logged ? 'change-height' : ''">
   <router-outlet class="body"></router-outlet>
 </main>

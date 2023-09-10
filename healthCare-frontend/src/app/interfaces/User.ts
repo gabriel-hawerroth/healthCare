@@ -5,7 +5,5 @@ export interface User {
   nome: string;
   sobrenome?: string;
   acesso: string;
-  permissao: boolean;
-  primeiro_acesso: boolean;
   situacao: string;
 }

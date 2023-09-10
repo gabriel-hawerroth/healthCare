@@ -1,4 +1,6 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from './services/user/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,14 +8,15 @@ import { Component, OnInit, HostListener } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  permissao: boolean = true;
+  logged = this.userService.logged;
 
-  constructor() {}
+  constructor(public userService: UserService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.logged = this.userService.logged;
+  }
 
-  @HostListener('window:beforeunload', ['$event'])
-  beforeUnloadHandler($event: any) {
-    localStorage.clear();
+  showHeader() {
+    return this.logged;
   }
 }

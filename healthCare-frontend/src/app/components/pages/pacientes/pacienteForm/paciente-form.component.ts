@@ -7,7 +7,7 @@ import { lastValueFrom } from 'rxjs';
 import * as moment from 'moment-timezone';
 import { HttpClient } from '@angular/common/http';
 
-import { Patient } from 'src/app/models/Patient';
+import { Patient } from 'src/app/interfaces/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
 import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
 
@@ -111,8 +111,6 @@ export class PacienteFormComponent implements OnInit {
         duration: 4500,
       });
     } else {
-      console.log(this.patientForm.value);
-
       lastValueFrom(this.patientService.createPatient(this.patientForm.value))
         .then((result) => {
           this.snackBar.open('Paciente criado com sucesso.', '', {
@@ -121,6 +119,7 @@ export class PacienteFormComponent implements OnInit {
           this.router.navigate(['/paciente']);
         })
         .catch((error) => {
+          console.log(error);
           this.snackBar.open('Não foi possível salvar as informações.', '', {
             duration: 4500,
           });
@@ -139,8 +138,6 @@ export class PacienteFormComponent implements OnInit {
         duration: 4500,
       });
     } else {
-      console.log(this.patientForm.value);
-
       lastValueFrom(this.patientService.updatePatient(this.patientForm.value))
         .then((result) => {
           this.snackBar.open('Paciente salvo com sucesso.', '', {
@@ -149,6 +146,7 @@ export class PacienteFormComponent implements OnInit {
           this.router.navigate(['/paciente']);
         })
         .catch((error) => {
+          console.log(error);
           this.snackBar.open('Não foi possível salvar as informações.', '', {
             duration: 4500,
           });
@@ -167,6 +165,7 @@ export class PacienteFormComponent implements OnInit {
         this.router.navigate(['/paciente']);
       })
       .catch((error) => {
+        console.log(error);
         this.snackBar.open('Não foi possível excluir o paciente.', '', {
           duration: 4500,
         });

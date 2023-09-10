@@ -1,21 +1,29 @@
-<div class="login-page">
+<div class="simple-page">
     <div class="login-box">
-        <div fxLayout="row" class="title">
+        <div class="title">
             <span>HealthCare</span>
         </div>
         <form [formGroup]="loginForm">
-            <mat-form-field>
-                <mat-label>Usuário</mat-label>
-                <input type="text" matInput formControlName="usuario" maxlength="50" autocomplete="off" autofocus>
-            </mat-form-field>
-            <br>
-            <mat-form-field [ngStyle]="{'margin-bottom': '40px'}">
-                <mat-label>Senha</mat-label>
-                <input type="password" matInput formControlName="senha" #senhaInput autocomplete="new-password">
-            </mat-form-field>
-            <br>
-            <button mat-raised-button color="primary" fxFlexAlign="center" [ngStyle]="{'padding': '23px 70px'}"
-                (click)="logar()">Logar</button>
+            <div>
+                <mat-form-field fxFlex="85">
+                    <mat-label>Usuário</mat-label>
+                    <input type="text" matInput formControlName="username" maxlength="50" autocomplete="off" autofocus>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field fxFlex="85">
+                    <mat-label>Senha</mat-label>
+                    <input type="password" matInput formControlName="password" #senhaInput autocomplete="new-password">
+                </mat-form-field>
+            </div>
+            <div fxLayoutAlign="space-between" class="account-actions">
+                <span routerLink="/novo-usuario">Criar uma conta</span>
+                <span routerLink="/esqueci-minha-senha">Esqueci minha senha</span>
+            </div>
+            <div>
+                <button mat-raised-button color="primary" fxFlexAlign="center" [ngStyle]="{'padding': '23px 70px'}"
+                    (click)="login()">Logar</button>
+            </div>
         </form>
     </div>
 </div>

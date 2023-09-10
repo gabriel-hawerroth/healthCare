@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
-import { Patient } from 'src/app/models/Patient';
+import { Patient } from 'src/app/interfaces/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
 
 @Component({

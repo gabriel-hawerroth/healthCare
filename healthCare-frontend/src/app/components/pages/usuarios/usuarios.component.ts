@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject, lastValueFrom, takeUntil } from 'rxjs';
 
-import { User } from 'src/app/models/User';
+import { User } from 'src/app/interfaces/User';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({

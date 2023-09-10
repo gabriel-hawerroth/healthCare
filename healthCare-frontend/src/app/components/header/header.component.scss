@@ -1,13 +1,12 @@
 $primary-color: #009688;
 
-@media screen and (min-width: 1700px) and (min-height: 880px) {
-  #right-header {
-    width: 10%;
-  }
-}
-
 .header-nav {
+  width: 80px;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 10;
 
   .header {
     display: flex;
@@ -18,17 +17,14 @@ $primary-color: #009688;
     height: 70px;
     padding-left: 3vw;
     background-color: $primary-color;
-    box-shadow: 0 1px 8px #0000004f;
+    // box-shadow: 0 1px 6px #00000081;
     color: white;
     font-size: 2.3em;
 
     .right-header {
-      width: 400px;
+      width: 300px;
       height: 100%;
       display: flex;
-      align-items: center;
-      justify-content: space-around;
-      float: right;
 
       .material-symbols-outlined {
         font-size: 0.8em;
@@ -38,34 +34,43 @@ $primary-color: #009688;
         }
       }
 
-      img {
-        border-radius: 50%;
-        width: 47px;
-        height: 47px;
-        margin-right: -30px;
+      .info {
+        width: 78%;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        img {
+          border-radius: 50%;
+          width: 47px;
+          height: 47px;
+          margin-right: -30px;
+        }
       }
 
       .logout {
+        flex: 1;
         height: 100%;
         display: flex;
-        align-items: center;
         justify-content: center;
-        padding-left: 22px;
+        align-items: center;
         border-left: 1px solid #0000002d;
+        padding-right: 1%;
       }
     }
   }
 
   .nav {
     width: 100%;
-    height: calc(100% - 75px);
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background-color: white;
+    background-color: #fff;
     padding-top: 23px;
-    box-shadow: 1px 0 8px #0000002d;
+    box-shadow: 1px 2px 6px #0000004e;
 
     span {
       width: 50px;
