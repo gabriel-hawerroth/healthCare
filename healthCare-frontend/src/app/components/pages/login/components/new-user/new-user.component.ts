@@ -67,11 +67,12 @@ export class NewUserComponent {
 
             const credentials = {
               username: this.newUserForm.get('usuario')!.value,
-              password: this.newUserForm.get('password')!.value,
+              password: this.newUserForm.get('senha')!.value,
             };
             this.userService.login(credentials);
           })
-          .catch(() => {
+          .catch((error) => {
+            console.log(error);
             this.utilsService.showSimpleMessage(
               'Erro ao criar o usuário, tente novamente mais tarde'
             );

@@ -25,6 +25,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatListModule } from '@angular/material/list';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -49,6 +51,7 @@ import { LoginComponent } from './components/pages/login/login.component';
 import { NewUserComponent } from './components/pages/login/components/new-user/new-user.component';
 import { ResetPasswordComponent } from './components/pages/login/components/reset-password/reset-password.component';
 import { TokenInterceptor } from './services/interceptors/token.interceptor';
+import { BottomSheetComponent } from './utils/bottom-sheet/bottom-sheet.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +76,7 @@ import { TokenInterceptor } from './services/interceptors/token.interceptor';
     LoginComponent,
     NewUserComponent,
     ResetPasswordComponent,
+    BottomSheetComponent,
   ],
   imports: [
     BrowserModule,
@@ -102,6 +106,8 @@ import { TokenInterceptor } from './services/interceptors/token.interceptor';
     MatTooltipModule,
     NgxMatSelectSearchModule,
     MatToolbarModule,
+    MatBottomSheetModule,
+    MatListModule,
   ],
   providers: [
     provideNgxMask(),

@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  baseApiUrl: 'http://localhost:8080/',
+  baseApiUrl: 'http://3.144.152.77:8080/healthcare/',
 };

@@ -17,12 +17,13 @@ $primary-color: #009688;
     height: 70px;
     padding-left: 3vw;
     background-color: $primary-color;
-    // box-shadow: 0 1px 6px #00000081;
     color: white;
     font-size: 2.3em;
 
+    .left-header {}
+
     .right-header {
-      width: 300px;
+      // width: 300px;
       height: 100%;
       display: flex;
 
@@ -34,29 +35,36 @@ $primary-color: #009688;
         }
       }
 
+      .developer-details {
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
       .info {
-        width: 78%;
+        // width: 240px;  
         height: 100%;
         display: flex;
-        justify-content: space-around;
         align-items: center;
+        padding: 0 20px;
+        gap: 20px;
 
         img {
           border-radius: 50%;
           width: 47px;
           height: 47px;
-          margin-right: -30px;
+          // margin-right: -30px;
         }
       }
 
       .logout {
-        flex: 1;
+        width: 55px;
         height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         border-left: 1px solid #0000002d;
-        padding-right: 1%;
       }
     }
   }

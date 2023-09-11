@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 import { User } from 'src/app/interfaces/User';
 import { UserService } from 'src/app/services/user/user.service';
+import { BottomSheetComponent } from 'src/app/utils/bottom-sheet/bottom-sheet.component';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -14,7 +16,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private bottomSheet: MatBottomSheet
   ) {}
 
   ngOnInit() {
@@ -27,5 +30,9 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.userService.logout();
+  }
+
+  openBottomSheet() {
+    this.bottomSheet.open(BottomSheetComponent);
   }
 }
