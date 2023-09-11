@@ -11,6 +11,7 @@ import { Subject, lastValueFrom, takeUntil } from 'rxjs';
 
 import { Unidade } from 'src/app/interfaces/Unidade';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-unidades',
@@ -27,6 +28,7 @@ export class UnidadesComponent implements OnInit, OnDestroy {
 
   constructor(
     private unidadeService: UnidadeService,
+    private userService: UserService,
     private router: Router,
     private fb: FormBuilder
   ) {
@@ -57,11 +59,15 @@ export class UnidadesComponent implements OnInit, OnDestroy {
     const dsNome = this.filterForm.get('dsNome')?.value.toLowerCase();
     const situacao = this.filterForm.get('ieSituacao')!.value;
 
-    lastValueFrom(this.unidadeService.getUnits(dsNome, situacao)).then(
-      (result) => {
-        this.filteredUnits = result;
-      }
-    );
+    lastValueFrom(
+      this.unidadeService.getUnits(
+        dsNome,
+        situacao,
+        this.userService.getLoggedUserId!
+      )
+    ).then((result) => {
+      this.filteredUnits = result;
+    });
   }
 
   editUnit(event: any) {

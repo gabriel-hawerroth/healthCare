@@ -23,20 +23,25 @@
   </div>
 
   <div class="nav">
-    <span class="material-symbols-outlined" [ngStyle]="{ 'margin-bottom': '27px' }" routerLink="/">
+    <span class="material-symbols-outlined" [ngStyle]="{ 'margin-bottom': '27px' }" routerLink="/"
+      matTooltip="Página inicial" matTooltipPosition="below" matTooltipShowDelay="300">
       home
     </span>
-    <span (click)="navigate('/paciente')" class="material-symbols-outlined">
+    <span routerLink="/paciente" class="material-symbols-outlined" matTooltip="Cadastro de pacientes"
+      matTooltipPosition="below" matTooltipShowDelay="300">
       personal_injury
     </span>
-    <span routerLink="/unidade" class="material-symbols-outlined">
+    <span routerLink="/unidade" class="material-symbols-outlined" matTooltip="Cadastro de unidades"
+      matTooltipPosition="below" matTooltipShowDelay="300">
       apartment
     </span>
-    <span routerLink="/atendimento" class="material-symbols-outlined">
+    <span routerLink="/atendimento" class="material-symbols-outlined" matTooltip="Cadastro de atendimentos"
+      matTooltipPosition="below" matTooltipShowDelay="300">
       demography
     </span>
     <div class="adm-section" *ngIf="user.acesso === 'Adm'">
-      <span routerLink="/usuario" class="material-symbols-outlined">
+      <span routerLink="/usuario" class="material-symbols-outlined" matTooltip="Cadastro de usuários"
+        matTooltipPosition="below" matTooltipShowDelay="300">
         manage_accounts
       </span>
     </div>

@@ -73,9 +73,15 @@ export class NewUserComponent {
           })
           .catch((error) => {
             console.log(error);
-            this.utilsService.showSimpleMessage(
-              'Erro ao criar o usuário, tente novamente mais tarde'
-            );
+            if (error.status === 406) {
+              this.utilsService.showSimpleMessage(
+                'Este usuário usuário já existe'
+              );
+            } else {
+              this.utilsService.showSimpleMessage(
+                'Erro ao criar o usuário, entre em contato com nosso suporte'
+              );
+            }
           });
       } else {
         this.utilsService.showSimpleMessage('Token inválido');

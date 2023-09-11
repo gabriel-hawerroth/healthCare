@@ -1,6 +1,6 @@
 export interface Unidade {
   id?: number;
-  ds_nome: string;
+  dsNome: string;
   cnpj: string;
   nr_telefone?: string;
   email: string;
@@ -18,4 +18,5 @@ export interface Unidade {
   complemento?: string;
   como_chegar?: string;
   dt_criacao: string;
+  userId: number;
 }

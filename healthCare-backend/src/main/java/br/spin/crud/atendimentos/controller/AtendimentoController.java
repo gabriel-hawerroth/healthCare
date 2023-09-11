@@ -33,8 +33,8 @@ public class AtendimentoController {
     private EntityManager manager;
 
     @GetMapping
-    private List<Atendimento> listaAtendimentos() {
-        return atendimentoRepository.findAll();
+    private List<Atendimento> listaAtendimentos(@RequestParam Long userId) {
+        return atendimentoRepository.findAllByUserId(userId);
     }
 
     @GetMapping("/atendsPerson")
@@ -42,7 +42,8 @@ public class AtendimentoController {
             @RequestParam String nm_paciente,
             @RequestParam String nm_unidade,
             @RequestParam String dt_inicial,
-            @RequestParam String dt_final
+            @RequestParam String dt_final,
+            @RequestParam Long userId
     ) {
         DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_INSTANT;
         Date dtInicial = null;
@@ -57,7 +58,7 @@ public class AtendimentoController {
             dtFinal = Date.from(secondInstant);
         }
 
-        return atendPersonRepository.listAtends(nm_paciente, nm_unidade, dtInicial, dtFinal);
+        return atendPersonRepository.listAtends(nm_paciente, nm_unidade, dtInicial, dtFinal, userId);
     }
 
     @GetMapping("/{id}")

@@ -41,6 +41,9 @@ public class Atendimento {
 
     private LocalDate dt_criacao;
 
+    @Column(name = "user_id")
+    private Long userId;
+
     public Integer getId() {
         return id;
     }
@@ -159,5 +162,13 @@ public class Atendimento {
 
     public void setDt_criacao(LocalDate dt_criacao) {
         this.dt_criacao = dt_criacao;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

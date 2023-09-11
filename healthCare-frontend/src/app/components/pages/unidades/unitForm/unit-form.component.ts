@@ -4,10 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
+import { lastValueFrom } from 'rxjs';
 
 import { Unidade } from 'src/app/interfaces/Unidade';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
-import { lastValueFrom } from 'rxjs';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-unit-form',
@@ -25,6 +26,7 @@ export class UnitFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private unitService: UnidadeService,
+    private userService: UserService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private fb: FormBuilder
@@ -35,12 +37,12 @@ export class UnitFormComponent implements OnInit {
 
     this.unitForm = this.fb.group({
       id: '',
-      ds_nome: ['', Validators.required],
+      dsNome: ['', Validators.required],
       cnpj: ['', Validators.required],
       nr_telefone: '',
       nr_cep: ['', Validators.required],
       email: ['', Validators.required],
-      ie_situacao: ['', Validators.required],
+      ieSituacao: ['', Validators.required],
       capacidade_atendimento: '',
       horario_funcionamento: '',
       tipo: ['', Validators.required],
@@ -52,6 +54,7 @@ export class UnitFormComponent implements OnInit {
       nr_endereco: '',
       complemento: '',
       como_chegar: '',
+      userId: this.userService.getLoggedUserId,
     });
 
     if (this.unitData) {

@@ -31,7 +31,7 @@
             <div fxLayout="row" fxLayoutGap="10px">
                 <mat-form-field fxFlex="35">
                     <mat-label>Nome</mat-label>
-                    <input matInput formControlName="nome" autocomplete="new-password">
+                    <input matInput formControlName="nome">
                 </mat-form-field>
 
                 <mat-form-field fxFlex="51">
@@ -46,15 +46,15 @@
                     <input type="text" matInput mask="000000" id="typedToken">
                 </mat-form-field>
 
-                <span (click)="sendToken()" id="send-token">Enviar token</span>
+                <span (click)="sendToken()" id="send-token">Solicitar token</span>
                 <span class="material-symbols-outlined"
                     matTooltip="O token será enviado para o email informado no campo de usuário"
                     matTooltipShowDelay="200">info</span>
             </div>
 
             <div>
-                <button mat-raised-button color="primary" [ngStyle]="{'padding': '23px 70px'}"
-                    (click)="createUser()">Criar</button>
+                <button mat-raised-button color="primary" [ngStyle]="{'padding': '23px 70px'}" (click)="createUser()"
+                    [disabled]="newUserForm.invalid">Criar</button>
             </div>
         </form>
     </div>

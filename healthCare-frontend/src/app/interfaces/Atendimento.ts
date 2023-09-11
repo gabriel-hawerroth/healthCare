@@ -14,4 +14,5 @@ export interface Atendimento {
   convenio?: string;
   nr_carteirinha_convenio?: string;
   dt_criacao: Date;
+  userId: number;
 }

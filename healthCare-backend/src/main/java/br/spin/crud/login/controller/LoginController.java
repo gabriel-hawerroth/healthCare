@@ -58,6 +58,9 @@ public class LoginController {
 
     @PostMapping("/new-user")
     private User novoUsuario(@RequestBody User user) {
+        if (userRepository.findByUsuario(user.getUsuario()) != null) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "User already exists");
+        };
         user.setSenha(bcrypt.encode(user.getSenha()));
         return userRepository.save(user);
     }
@@ -89,7 +92,7 @@ public class LoginController {
         email.setDestinatario(token.getUser());
         email.setAssunto("Token HealthCare");
         email.setConteudo("Seu token de confirmação é " + token.getToken()
-                + ". Agradeço pelo seu tempo dedicado ao teste do sistema, sinta-se a vontade"
+                + "\n\n. Agradeço pelo seu tempo dedicado ao teste do sistema, sinta-se a vontade"
                 + " para enviar um email com sugestões de melhoria, dúvidas ou qualquer outro assunto.");
         emailService.enviarEmail(email.getDestinatario(), email.getAssunto(), email.getConteudo());
     }

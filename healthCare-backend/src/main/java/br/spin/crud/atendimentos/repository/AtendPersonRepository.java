@@ -10,7 +10,8 @@ import java.util.List;
 
 public interface AtendPersonRepository extends JpaRepository<AtendPerson, Integer> {
 
-    @Query(value = "select\n" +
+    @Query(value =
+            "select\n" +
             "   a.id,\n" +
             "   p.ds_nome ds_paciente,\n" +
             "   u.ds_nome ds_unidade,\n" +
@@ -25,16 +26,19 @@ public interface AtendPersonRepository extends JpaRepository<AtendPerson, Intege
             "   a.forma_pagamento,\n" +
             "   a.convenio,\n" +
             "   a.nr_carteirinha_convenio,\n" +
-            "   a.dt_criacao\n" +
-            "       from\n" +
+            "   a.dt_criacao,\n" +
+            "   a.user_id\n" +
+            "from\n" +
             "   atendimento a\n" +
             "   left join paciente p on a.id_paciente = p.id\n" +
             "   left join unidade u on a.id_unidade = u.id\n" +
-            "        where\n" +
+            "where\n" +
             "   p.ds_nome like CONCAT('%', :nm_paciente, '%')\n" +
             "   and u.ds_nome like CONCAT('%', :nm_unidade, '%')\n" +
             "   and ((a.dt_atendimento >= :dt_inicial) or (:dt_inicial is null))\n" +
-            "   and ((a.dt_atendimento <= :dt_final) or (:dt_final is null))", nativeQuery = true)
-    List<AtendPerson> listAtends(String nm_paciente, String nm_unidade, Date dt_inicial, Date dt_final);
+            "   and ((a.dt_atendimento <= :dt_final) or (:dt_final is null))\n" +
+            "   and a.user_id = :userId",
+            nativeQuery = true)
+    List<AtendPerson> listAtends(String nm_paciente, String nm_unidade, Date dt_inicial, Date dt_final, Long userId);
 
 }

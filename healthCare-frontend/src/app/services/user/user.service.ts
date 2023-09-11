@@ -74,9 +74,9 @@ export class UserService {
       : null;
   }
 
-  get getLoggedUserId(): string {
+  get getLoggedUserId() {
     return localStorage.getItem('user')
-      ? JSON.parse(atob(localStorage.getItem('user')!)).id
+      ? Number(JSON.parse(atob(localStorage.getItem('user')!)).id)
       : null;
   }
 

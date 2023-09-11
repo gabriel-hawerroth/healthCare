@@ -24,10 +24,6 @@ export class HeaderComponent implements OnInit {
     this.user = this.userService.getLoggedUser;
   }
 
-  navigate(route: string) {
-    this.router.navigate([route], { relativeTo: this.route });
-  }
-
   logout() {
     this.userService.logout();
   }

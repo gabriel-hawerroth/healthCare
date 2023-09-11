@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 import { MatDialog } from '@angular/material/dialog';
 import { lastValueFrom, Subject, takeUntil } from 'rxjs';
+import * as moment from 'moment';
 
 import { Atendimento } from 'src/app/interfaces/Atendimento';
 import { Patient } from 'src/app/interfaces/Patient';
@@ -17,7 +18,7 @@ import { Unidade } from 'src/app/interfaces/Unidade';
 import { AtendimentoService } from 'src/app/services/atendimento/atendimento.service';
 import { PatientService } from 'src/app/services/paciente/patient.service';
 import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
-import * as moment from 'moment';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-atendimento-form',
@@ -45,6 +46,7 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
     private atendService: AtendimentoService,
     private patientService: PatientService,
     private unitService: UnidadeService,
+    private userService: UserService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private fb: FormBuilder
@@ -54,19 +56,22 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
+    const userId = this.userService.getLoggedUserId!;
 
-    lastValueFrom(this.patientService.getPatients('', 'A')).then((result) => {
-      this.patients = result;
-    });
+    lastValueFrom(this.patientService.getPatients('', 'A', userId)).then(
+      (result) => {
+        this.patients = result;
+      }
+    );
 
-    lastValueFrom(this.unitService.getUnits('', 'A')).then((result) => {
+    lastValueFrom(this.unitService.getUnits('', 'A', userId)).then((result) => {
       this.units = result;
     });
 
     this.patientsList.valueChanges
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((word: string) => {
-        lastValueFrom(this.patientService.getPatients(word, 'A')).then(
+        lastValueFrom(this.patientService.getPatients(word, 'A', userId)).then(
           (result) => {
             this.patients = result;
           }
@@ -76,9 +81,11 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
     this.unitsList.valueChanges
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((word: string) => {
-        lastValueFrom(this.unitService.getUnits(word, 'A')).then((result) => {
-          this.units = result;
-        });
+        lastValueFrom(this.unitService.getUnits(word, 'A', userId)).then(
+          (result) => {
+            this.units = result;
+          }
+        );
       });
 
     this.atendForm = this.fb.group({
@@ -96,6 +103,7 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
       forma_pagamento: '',
       convenio: '',
       nr_carteirinha_convenio: '',
+      userId: this.userService.getLoggedUserId,
     });
 
     if (this.atendData) {

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
 
-    List<Unidade> findByDsNomeContainingAndIeSituacaoContaining(String dsNome, String ieSituacao);
+    List<Unidade> findByDsNomeContainingAndIeSituacaoContainingAndUserId(String dsNome, String ieSituacao, Long userId);
 
 }

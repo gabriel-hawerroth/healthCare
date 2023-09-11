@@ -37,4 +37,5 @@ export interface Patient {
   como_chegar?: string;
   ieSituacao?: string;
   dt_criacao: Date;
+  userId: number;
 }

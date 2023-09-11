@@ -11,6 +11,7 @@ import { lastValueFrom, Subject, takeUntil } from 'rxjs';
 
 import { Patient } from 'src/app/interfaces/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-pacientes',
@@ -27,6 +28,7 @@ export class PacientesComponent implements OnInit, OnDestroy {
 
   constructor(
     private patientService: PatientService,
+    private userService: UserService,
     private router: Router,
     private fb: FormBuilder
   ) {
@@ -57,11 +59,15 @@ export class PacientesComponent implements OnInit, OnDestroy {
     const dsNome = this.filterForm.get('dsNome')?.value.toLowerCase();
     const situacao = this.filterForm.get('ieSituacao')!.value;
 
-    lastValueFrom(this.patientService.getPatients(dsNome, situacao)).then(
-      (result) => {
-        this.filteredPatients = result;
-      }
-    );
+    lastValueFrom(
+      this.patientService.getPatients(
+        dsNome,
+        situacao,
+        this.userService.getLoggedUserId!
+      )
+    ).then((result) => {
+      this.filteredPatients = result;
+    });
   }
 
   editPatient(event: any) {

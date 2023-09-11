@@ -10,6 +10,8 @@ import { HttpClient } from '@angular/common/http';
 import { Patient } from 'src/app/interfaces/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
 import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
+import { UserService } from 'src/app/services/user/user.service';
+import { UtilsService } from 'src/app/utils/utils.service';
 
 @Component({
   selector: 'app-paciente-form',
@@ -20,7 +22,7 @@ export class PacienteFormComponent implements OnInit {
   @Input() patientData: Patient | null = null;
 
   patientForm!: FormGroup;
-  pageType?: string;
+  pageType!: string;
   patient?: Patient;
 
   endereco?: any;
@@ -29,14 +31,17 @@ export class PacienteFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private patientService: PatientService,
+    private userService: UserService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private utilsService: UtilsService
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
+    const loggedUserId = this.userService.getLoggedUserId!;
 
     this.patientForm = this.fb.group({
       id: '',
@@ -76,6 +81,7 @@ export class PacienteFormComponent implements OnInit {
       nr_endereco: '',
       complemento: '',
       como_chegar: '',
+      userId: loggedUserId,
     });
 
     if (this.patientData) {
@@ -107,22 +113,25 @@ export class PacienteFormComponent implements OnInit {
           console.log(`Campo inválido: ${controlName}`);
         }
       }
-      this.snackBar.open('Não foi possível salvar as informações.', '', {
-        duration: 4500,
-      });
+      this.utilsService.showSimpleMessageWithDuration(
+        'Não foi possível salvar as informações.',
+        4500
+      );
     } else {
       lastValueFrom(this.patientService.createPatient(this.patientForm.value))
         .then((result) => {
-          this.snackBar.open('Paciente criado com sucesso.', '', {
-            duration: 4000,
-          });
+          this.utilsService.showSimpleMessageWithDuration(
+            'Paciente criado com sucesso.',
+            4000
+          );
           this.router.navigate(['/paciente']);
         })
         .catch((error) => {
           console.log(error);
-          this.snackBar.open('Não foi possível salvar as informações.', '', {
-            duration: 4500,
-          });
+          this.utilsService.showSimpleMessageWithDuration(
+            'Não foi possível salvar as informações.',
+            500
+          );
         });
     }
   }
@@ -134,22 +143,25 @@ export class PacienteFormComponent implements OnInit {
           console.log(`Campo inválido: ${controlName}`);
         }
       }
-      this.snackBar.open('Não foi possível salvar as informações.', '', {
-        duration: 4500,
-      });
+      this.utilsService.showSimpleMessageWithDuration(
+        'Não foi possível salvar as informações.',
+        4500
+      );
     } else {
       lastValueFrom(this.patientService.updatePatient(this.patientForm.value))
         .then((result) => {
-          this.snackBar.open('Paciente salvo com sucesso.', '', {
-            duration: 4000,
-          });
+          this.utilsService.showSimpleMessageWithDuration(
+            'Paciente salvo com sucesso.',
+            4000
+          );
           this.router.navigate(['/paciente']);
         })
         .catch((error) => {
           console.log(error);
-          this.snackBar.open('Não foi possível salvar as informações.', '', {
-            duration: 4500,
-          });
+          this.utilsService.showSimpleMessageWithDuration(
+            'Não foi possível salvar as informações.',
+            4500
+          );
         });
     }
   }
@@ -159,16 +171,18 @@ export class PacienteFormComponent implements OnInit {
 
     lastValueFrom(this.patientService.removePatient(id))
       .then((result) => {
-        this.snackBar.open('Paciente removido com sucesso.', '', {
-          duration: 4500,
-        });
+        this.utilsService.showSimpleMessageWithDuration(
+          'Paciente removido com sucesso.',
+          4500
+        );
         this.router.navigate(['/paciente']);
       })
       .catch((error) => {
         console.log(error);
-        this.snackBar.open('Não foi possível excluir o paciente.', '', {
-          duration: 4500,
-        });
+        this.utilsService.showSimpleMessageWithDuration(
+          'Não foi possível excluir o paciente.',
+          4500
+        );
       });
   }
 

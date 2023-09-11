@@ -49,6 +49,9 @@ public class Unidade {
 
     private LocalDate dt_criacao;
 
+    @Column(name = "user_id")
+    private Long userId;
+
     public Long getId() {
         return id;
     }
@@ -57,12 +60,12 @@ public class Unidade {
         this.id = id;
     }
 
-    public String getDs_nome() {
+    public String getDsNome() {
         return dsNome;
     }
 
-    public void setDs_nome(String ds_nome) {
-        this.dsNome = ds_nome;
+    public void setDsNome(String dsNome) {
+        this.dsNome = dsNome;
     }
 
     public String getCnpj() {
@@ -89,12 +92,12 @@ public class Unidade {
         this.email = email;
     }
 
-    public String getIe_situacao() {
+    public String getIeSituacao() {
         return ieSituacao;
     }
 
-    public void setIe_situacao(String ie_situacao) {
-        this.ieSituacao = ie_situacao;
+    public void setIeSituacao(String ieSituacao) {
+        this.ieSituacao = ieSituacao;
     }
 
     public String getCapacidade_atendimento() {
@@ -199,5 +202,13 @@ public class Unidade {
 
     public void setDt_criacao(LocalDate dt_criacao) {
         this.dt_criacao = dt_criacao;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

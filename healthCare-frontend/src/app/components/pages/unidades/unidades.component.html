@@ -28,7 +28,7 @@
       [messages]="{
           totalMessage: 'registros encontrados.'
         }" (activate)="editUnit($event)">
-      <ngx-datatable-column name="Nome" prop="ds_nome" [width]="150"></ngx-datatable-column>
+      <ngx-datatable-column name="Nome" prop="dsNome" [width]="150"></ngx-datatable-column>
       <ngx-datatable-column name="CNPJ" prop="cnpj" [width]="140">
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.cnpj | cnpjMask }}</ng-template>

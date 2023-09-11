@@ -5,6 +5,7 @@ import { Subject, lastValueFrom, takeUntil } from 'rxjs';
 
 import { AtendsPerson } from 'src/app/interfaces/AtendsPerson';
 import { AtendimentoService } from 'src/app/services/atendimento/atendimento.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-atendimentos',
@@ -21,6 +22,7 @@ export class AtendimentosComponent implements OnInit, OnDestroy {
 
   constructor(
     private atendimentoService: AtendimentoService,
+    private userService: UserService,
     private router: Router,
     private fb: FormBuilder
   ) {
@@ -56,11 +58,12 @@ export class AtendimentosComponent implements OnInit, OnDestroy {
     const dt_final = this.filterForm.get('dt_final')?.value;
 
     lastValueFrom(
-      this.atendimentoService.getAtendimentos(
+      this.atendimentoService.getAtendsPerson(
         nm_paciente,
         nm_unidade,
         dt_inicial,
-        dt_final
+        dt_final,
+        this.userService.getLoggedUserId!
       )
     ).then((result) => {
       this.filteredAtends = result;
