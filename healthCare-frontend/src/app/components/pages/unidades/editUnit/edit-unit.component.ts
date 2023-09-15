@@ -27,7 +27,7 @@ export class EditUnitComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
     lastValueFrom(
-      this.unitService.getUnits('', '', this.userService.getLoggedUserId!)
+      this.unitService.getUnits(this.userService.getLoggedUserId!)
     ).then((result) => {
       const units: Unidade[] = result;
       const unitsId = units.map((unit) => unit.id);
@@ -36,11 +36,11 @@ export class EditUnitComponent implements OnInit {
         this.utilsService.showSimpleMessage('Unidade não encontrada');
         this.router.navigate(['/unidade']);
         return;
+      } else {
+        lastValueFrom(this.unitService.getById(id)).then((result) => {
+          this.unit = result;
+        });
       }
-    });
-
-    lastValueFrom(this.unitService.getById(id)).then((result) => {
-      this.unit = result;
     });
   }
 }

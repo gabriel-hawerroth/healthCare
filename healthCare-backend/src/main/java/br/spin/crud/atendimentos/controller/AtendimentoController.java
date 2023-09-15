@@ -38,27 +38,21 @@ public class AtendimentoController {
     }
 
     @GetMapping("/atendsPerson")
-    private List<AtendPerson> listaAtendsPerson(
-            @RequestParam String nm_paciente,
-            @RequestParam String nm_unidade,
-            @RequestParam String dt_inicial,
-            @RequestParam String dt_final,
-            @RequestParam Long userId
-    ) {
-        DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_INSTANT;
-        Date dtInicial = null;
-        Date dtFinal = null;
+    private List<AtendPerson> listaAtendsPerson(@RequestParam Long userId) {
+//        DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_INSTANT;
+//        Date dtInicial = null;
+//        Date dtFinal = null;
+//
+//        if (dt_inicial != null && !dt_inicial.equals("null")) {
+//            Instant instant = Instant.from(isoFormatter.parse(dt_inicial));
+//            dtInicial = Date.from(instant);
+//        }
+//        if (dt_final != null && !dt_final.equals("null")) {
+//            Instant secondInstant = Instant.from(isoFormatter.parse(dt_final));
+//            dtFinal = Date.from(secondInstant);
+//        }
 
-        if (dt_inicial != null && !dt_inicial.equals("null")) {
-            Instant instant = Instant.from(isoFormatter.parse(dt_inicial));
-            dtInicial = Date.from(instant);
-        }
-        if (dt_final != null && !dt_final.equals("null")) {
-            Instant secondInstant = Instant.from(isoFormatter.parse(dt_final));
-            dtFinal = Date.from(secondInstant);
-        }
-
-        return atendPersonRepository.listAtends(nm_paciente, nm_unidade, dtInicial, dtFinal, userId);
+        return atendPersonRepository.listAtends(userId);
     }
 
     @GetMapping("/{id}")

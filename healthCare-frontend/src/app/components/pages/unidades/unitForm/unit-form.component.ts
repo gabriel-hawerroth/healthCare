@@ -1,14 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, takeUntil } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
+import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
 import { Unidade } from 'src/app/interfaces/Unidade';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { UtilsService } from 'src/app/utils/utils.service';
 
 @Component({
   selector: 'app-unit-form',
@@ -22,14 +23,17 @@ export class UnitFormComponent implements OnInit {
   pageType?: string;
   unit?: Unidade;
 
+  invalidCep: boolean = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private unitService: UnidadeService,
     private userService: UserService,
-    private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private utilsService: UtilsService
   ) {}
 
   ngOnInit() {
@@ -69,22 +73,25 @@ export class UnitFormComponent implements OnInit {
           console.log(`Campo inválido: ${controlName}`);
         }
       }
-      this.snackBar.open('Não foi possível salvar as informações.', '', {
-        duration: 4500,
-      });
+      this.utilsService.showSimpleMessageWithDuration(
+        'Não foi possível salvar as informações.',
+        4500
+      );
     } else {
       lastValueFrom(this.unitService.createUnit(this.unitForm.value))
-        .then((result) => {
-          this.snackBar.open('Unidade criada com sucesso.', '', {
-            duration: 4000,
-          });
+        .then(() => {
+          this.utilsService.showSimpleMessageWithDuration(
+            'Unidade criada com sucesso.',
+            4000
+          );
           this.router.navigate(['/unidade']);
         })
         .catch((error) => {
           console.log(error);
-          this.snackBar.open('Não foi possível salvar as informações.', '', {
-            duration: 4500,
-          });
+          this.utilsService.showSimpleMessageWithDuration(
+            'Não foi possível salvar as informações.',
+            4500
+          );
         });
     }
   }
@@ -96,22 +103,25 @@ export class UnitFormComponent implements OnInit {
           console.log(`Campo inválido: ${controlName}`);
         }
       }
-      this.snackBar.open('Não foi possível salvar as informações.', '', {
-        duration: 4500,
-      });
+      this.utilsService.showSimpleMessageWithDuration(
+        'Não foi possível salvar as informações.',
+        4500
+      );
     } else {
       lastValueFrom(this.unitService.updateUnit(this.unitForm.value))
-        .then((result) => {
-          this.snackBar.open('Unidade salva com sucesso.', '', {
-            duration: 4000,
-          });
+        .then(() => {
+          this.utilsService.showSimpleMessageWithDuration(
+            'Unidade salva com sucesso.',
+            4000
+          );
           this.router.navigate(['/unidade']);
         })
         .catch((error) => {
           console.log(error);
-          this.snackBar.open('Não foi possível salvar as informações.', '', {
-            duration: 4500,
-          });
+          this.utilsService.showSimpleMessageWithDuration(
+            'Não foi possível salvar as informações.',
+            4500
+          );
         });
     }
   }
@@ -121,16 +131,18 @@ export class UnitFormComponent implements OnInit {
 
     lastValueFrom(this.unitService.removeUnit(id))
       .then((result) => {
-        this.snackBar.open('Unidade removida com sucesso.', '', {
-          duration: 4500,
-        });
+        this.utilsService.showSimpleMessageWithDuration(
+          'Unidade removida com sucesso.',
+          4500
+        );
         this.router.navigate(['/unidade']);
       })
       .catch((error) => {
         console.log(error);
-        this.snackBar.open('Não foi possível excluir a unidade.', '', {
-          duration: 4500,
-        });
+        this.utilsService.showSimpleMessageWithDuration(
+          'Não foi possível excluir a unidade.',
+          4500
+        );
       });
   }
 
@@ -142,5 +154,41 @@ export class UnitFormComponent implements OnInit {
         this.removeUnit();
       }
     });
+  }
+
+  getAddress(cep: string) {
+    if (cep.length === 9) {
+      const url = `https://brasilapi.com.br/api/cep/v2/${cep}`;
+
+      lastValueFrom(this.http.get(url))
+        .then((result: any) => {
+          if (result) {
+            this.unitForm.get('estado')?.setValue(result.state);
+            this.unitForm.get('cidade')?.setValue(result.city);
+            this.unitForm.get('bairro')?.setValue(result.neighborhood);
+            this.unitForm.get('endereco')?.setValue(result.street);
+            this.invalidCep = false;
+          } else {
+            this.unitForm.get('estado')?.setValue('');
+            this.unitForm.get('cidade')?.setValue('');
+            this.unitForm.get('bairro')?.setValue('');
+            this.unitForm.get('endereco')?.setValue('');
+            this.invalidCep = true;
+          }
+        })
+        .catch(() => {
+          this.unitForm.get('estado')?.setValue('');
+          this.unitForm.get('cidade')?.setValue('');
+          this.unitForm.get('bairro')?.setValue('');
+          this.unitForm.get('endereco')?.setValue('');
+          this.invalidCep = true;
+        });
+    } else {
+      this.unitForm.get('estado')?.setValue('');
+      this.unitForm.get('cidade')?.setValue('');
+      this.unitForm.get('bairro')?.setValue('');
+      this.unitForm.get('endereco')?.setValue('');
+      this.invalidCep = true;
+    }
   }
 }

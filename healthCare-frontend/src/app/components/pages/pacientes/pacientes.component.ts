@@ -1,17 +1,12 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { lastValueFrom, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, lastValueFrom, Subject, takeUntil } from 'rxjs';
 
 import { Patient } from 'src/app/interfaces/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { UtilsService } from 'src/app/utils/utils.service';
 
 @Component({
   selector: 'app-pacientes',
@@ -19,10 +14,9 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./pacientes.component.scss'],
 })
 export class PacientesComponent implements OnInit, OnDestroy {
-  @Output() edit = new EventEmitter(false);
-
   filterForm!: FormGroup;
-  filteredPatients: Patient[] = [];
+  patients: Patient[] = [];
+  filteredPatients: BehaviorSubject<Patient[]>;
 
   private _unsubscribeAll: Subject<any>;
 
@@ -30,24 +24,26 @@ export class PacientesComponent implements OnInit, OnDestroy {
     private patientService: PatientService,
     private userService: UserService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private utilsService: UtilsService
   ) {
+    this.filteredPatients = new BehaviorSubject<Patient[]>([]);
     this._unsubscribeAll = new Subject();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.filterForm = this.fb.group({
       dsNome: '',
       ieSituacao: 'A',
     });
 
+    this.listaPacientes();
+
     this.filterForm.valueChanges
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(() => {
-        this.listaPacientes();
+        this.filterList();
       });
-
-    this.listaPacientes();
   }
 
   ngOnDestroy(): void {
@@ -56,17 +52,12 @@ export class PacientesComponent implements OnInit, OnDestroy {
   }
 
   listaPacientes() {
-    const dsNome = this.filterForm.get('dsNome')?.value.toLowerCase();
-    const situacao = this.filterForm.get('ieSituacao')!.value;
-
     lastValueFrom(
-      this.patientService.getPatients(
-        dsNome,
-        situacao,
-        this.userService.getLoggedUserId!
-      )
+      this.patientService.getPatients(this.userService.getLoggedUserId!)
     ).then((result) => {
-      this.filteredPatients = result;
+      this.patients = result;
+      this.filteredPatients.next(result);
+      this.filterList();
     });
   }
 
@@ -77,37 +68,19 @@ export class PacientesComponent implements OnInit, OnDestroy {
     }
   }
 
-  // public removeAcentos(newStringComAcento: string): string {
-  //   if (!newStringComAcento) {
-  //     return "";
-  //   } else if (newStringComAcento === null) {
-  //     alert("Campo descrição nulo");
-  //   }
+  filterList() {
+    let rows = this.patients.slice();
+    const dsNome = this.filterForm.get('dsNome')!.value;
+    const ieSituacao = this.filterForm.get('ieSituacao')!.value;
 
-  //   let str = newStringComAcento;
+    if (dsNome) {
+      rows = this.utilsService.filterList(rows, 'dsNome', dsNome);
+    }
 
-  //   const mapaAcentosHex = {
-  //     a: /[\xE0-\xE6]/g,
-  //     A: /[\xC0-\xC6]/g,
-  //     e: /[\xE8-\xEB]/g,
-  //     E: /[\xC8-\xCB]/g,
-  //     i: /[\xEC-\xEF]/g,
-  //     I: /[\xCC-\xCF]/g,
-  //     o: /[\xF2-\xF6]/g,
-  //     O: /[\xD2-\xD6]/g,
-  //     u: /[\xF9-\xFC]/g,
-  //     U: /[\xD9-\xDC]/g,
-  //     c: /\xE7/g,
-  //     C: /\xC7/g,
-  //     n: /\xF1/g,
-  //     N: /\xD1/g,
-  //   };
+    if (ieSituacao) {
+      rows = this.utilsService.filterList(rows, 'ieSituacao', ieSituacao);
+    }
 
-  //   for (const letra in mapaAcentosHex) {
-  //     const expressaoRegular = mapaAcentosHex[letra];
-  //     str = str.replace(expressaoRegular, letra);
-  //   }
-
-  //   return str;
-  // }
+    this.filteredPatients.next(rows);
+  }
 }

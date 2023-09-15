@@ -27,7 +27,7 @@ export class EditPatientComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
     lastValueFrom(
-      this.patientService.getPatients('', '', this.userService.getLoggedUserId!)
+      this.patientService.getPatients(this.userService.getLoggedUserId!)
     ).then((result) => {
       const patients: Patient[] = result;
       const patientsId = patients.map((patient) => patient.id);
@@ -36,11 +36,11 @@ export class EditPatientComponent implements OnInit {
         this.utilsService.showSimpleMessage('Paciente não encontrado');
         this.router.navigate(['/paciente']);
         return;
+      } else {
+        lastValueFrom(this.patientService.getById(id)).then((result) => {
+          this.patient = result;
+        });
       }
-    });
-
-    lastValueFrom(this.patientService.getById(id)).then((result) => {
-      this.patient = result;
     });
   }
 }

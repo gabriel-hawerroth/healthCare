@@ -24,12 +24,8 @@ public class UnidadeController {
     private UnidadeRepository unidadeRepository;
 
     @GetMapping
-    private List<Unidade> listaUnidadesQuery(
-            @RequestParam String dsNome,
-            @RequestParam String ieSituacao,
-            @RequestParam Long userId
-        ) {
-        return unidadeRepository.findByDsNomeContainingAndIeSituacaoContainingAndUserId(dsNome, ieSituacao, userId);
+    private List<Unidade> listaUnidadesQuery(@RequestParam Long userId) {
+        return unidadeRepository.findByUserId(userId);
     }
 
     @GetMapping("/{id}")

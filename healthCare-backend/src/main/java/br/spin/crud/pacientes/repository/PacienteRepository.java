@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface PacienteRepository extends JpaRepository<Paciente, Long> {
 
-    List<Paciente> findByDsNomeContainingAndIeSituacaoContainingAndUserId(String dsNome, String ieSituacao, Long userId);
+    List<Paciente> findByUserId(Long userId);
 
 }

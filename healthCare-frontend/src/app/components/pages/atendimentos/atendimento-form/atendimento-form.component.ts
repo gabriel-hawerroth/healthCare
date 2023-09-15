@@ -58,20 +58,18 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
     const userId = this.userService.getLoggedUserId!;
 
-    lastValueFrom(this.patientService.getPatients('', 'A', userId)).then(
-      (result) => {
-        this.patients = result;
-      }
-    );
+    lastValueFrom(this.patientService.getPatients(userId)).then((result) => {
+      this.patients = result;
+    });
 
-    lastValueFrom(this.unitService.getUnits('', 'A', userId)).then((result) => {
+    lastValueFrom(this.unitService.getUnits(userId)).then((result) => {
       this.units = result;
     });
 
     this.patientsList.valueChanges
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((word: string) => {
-        lastValueFrom(this.patientService.getPatients(word, 'A', userId)).then(
+        lastValueFrom(this.patientService.getPatients(userId)).then(
           (result) => {
             this.patients = result;
           }
@@ -81,11 +79,9 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
     this.unitsList.valueChanges
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((word: string) => {
-        lastValueFrom(this.unitService.getUnits(word, 'A', userId)).then(
-          (result) => {
-            this.units = result;
-          }
-        );
+        lastValueFrom(this.unitService.getUnits(userId)).then((result) => {
+          this.units = result;
+        });
       });
 
     this.atendForm = this.fb.group({

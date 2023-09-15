@@ -1,17 +1,12 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subject, lastValueFrom, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, lastValueFrom, takeUntil } from 'rxjs';
 
 import { Unidade } from 'src/app/interfaces/Unidade';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { UtilsService } from 'src/app/utils/utils.service';
 
 @Component({
   selector: 'app-unidades',
@@ -19,10 +14,9 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./unidades.component.scss'],
 })
 export class UnidadesComponent implements OnInit, OnDestroy {
-  @Output() edit = new EventEmitter(false);
-
   filterForm!: FormGroup;
-  filteredUnits: Unidade[] = [];
+  units: Unidade[] = [];
+  filteredUnits: BehaviorSubject<Unidade[]>;
 
   private _unsubscribeAll: Subject<any>;
 
@@ -30,8 +24,10 @@ export class UnidadesComponent implements OnInit, OnDestroy {
     private unidadeService: UnidadeService,
     private userService: UserService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private utilsService: UtilsService
   ) {
+    this.filteredUnits = new BehaviorSubject<Unidade[]>([]);
     this._unsubscribeAll = new Subject();
   }
 
@@ -41,13 +37,13 @@ export class UnidadesComponent implements OnInit, OnDestroy {
       ieSituacao: 'A',
     });
 
+    this.listaUnidades();
+
     this.filterForm.valueChanges
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(() => {
-        this.listaUnidades();
+        this.filterList();
       });
-
-    this.listaUnidades();
   }
 
   ngOnDestroy(): void {
@@ -56,17 +52,12 @@ export class UnidadesComponent implements OnInit, OnDestroy {
   }
 
   listaUnidades() {
-    const dsNome = this.filterForm.get('dsNome')?.value.toLowerCase();
-    const situacao = this.filterForm.get('ieSituacao')!.value;
-
     lastValueFrom(
-      this.unidadeService.getUnits(
-        dsNome,
-        situacao,
-        this.userService.getLoggedUserId!
-      )
+      this.unidadeService.getUnits(this.userService.getLoggedUserId!)
     ).then((result) => {
-      this.filteredUnits = result;
+      this.units = result;
+      this.filteredUnits.next(result);
+      this.filterList();
     });
   }
 
@@ -75,5 +66,21 @@ export class UnidadesComponent implements OnInit, OnDestroy {
       const unitId = event.row.id;
       this.router.navigate([`/unidade/${unitId}`]);
     }
+  }
+
+  filterList() {
+    let rows = this.units.slice();
+    const dsNome = this.filterForm.get('dsNome')!.value;
+    const ieSituacao = this.filterForm.get('ieSituacao')!.value;
+
+    if (dsNome) {
+      rows = this.utilsService.filterList(rows, 'dsNome', dsNome);
+    }
+
+    if (ieSituacao) {
+      rows = this.utilsService.filterList(rows, 'ieSituacao', ieSituacao);
+    }
+
+    this.filteredUnits.next(rows);
   }
 }

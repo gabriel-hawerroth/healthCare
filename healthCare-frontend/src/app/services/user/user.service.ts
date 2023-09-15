@@ -103,17 +103,8 @@ export class UserService {
     );
   }
 
-  getUsers(
-    usuario: string,
-    situacao: string,
-    acesso: string
-  ): Observable<User[]> {
-    let params = new HttpParams();
-    params = params.append('email', usuario);
-    params = params.append('situacao', situacao);
-    params = params.append('acesso', acesso);
-
-    return this.http.get<User[]>(this.apiUrl, { params });
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl);
   }
 
   getById(id: number): Promise<User> {

@@ -33,12 +33,14 @@ public interface AtendPersonRepository extends JpaRepository<AtendPerson, Intege
             "   left join paciente p on a.id_paciente = p.id\n" +
             "   left join unidade u on a.id_unidade = u.id\n" +
             "where\n" +
-            "   p.ds_nome like CONCAT('%', :nm_paciente, '%')\n" +
-            "   and u.ds_nome like CONCAT('%', :nm_unidade, '%')\n" +
-            "   and ((a.dt_atendimento >= :dt_inicial) or (:dt_inicial is null))\n" +
-            "   and ((a.dt_atendimento <= :dt_final) or (:dt_final is null))\n" +
-            "   and a.user_id = :userId",
+//            "   p.ds_nome like CONCAT('%', :nm_paciente, '%')\n" +
+//            "   and u.ds_nome like CONCAT('%', :nm_unidade, '%')\n" +
+//            "   and ((a.dt_atendimento >= :dt_inicial) or (:dt_inicial is null))\n" +
+//            "   and ((a.dt_atendimento <= :dt_final) or (:dt_final is null))\n" +
+            "   a.user_id = :userId",
             nativeQuery = true)
-    List<AtendPerson> listAtends(String nm_paciente, String nm_unidade, Date dt_inicial, Date dt_final, Long userId);
+    List<AtendPerson> listAtends(Long userId);
+
+    List<AtendPerson> findByUserId(Long userId);
 
 }

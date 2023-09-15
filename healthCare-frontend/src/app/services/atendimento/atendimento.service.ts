@@ -27,18 +27,8 @@ export class AtendimentoService {
     return this.http.get<Atendimento[]>(this.apiUrl, { params });
   }
 
-  getAtendsPerson(
-    nm_paciente: string,
-    nm_unidade: string,
-    dt_inicial: Date,
-    dt_final: Date,
-    userId: number
-  ): Observable<AtendsPerson[]> {
+  getAtendsPerson(userId: number): Observable<AtendsPerson[]> {
     let params = new HttpParams();
-    params = params.set('nm_paciente', nm_paciente);
-    params = params.set('nm_unidade', nm_unidade);
-    params = params.set('dt_inicial', moment(dt_inicial).toISOString());
-    params = params.set('dt_final', moment(dt_final).toISOString());
     params = params.append('userId', userId);
 
     return this.http.get<AtendsPerson[]>(`${this.apiUrl}/atendsPerson`, {

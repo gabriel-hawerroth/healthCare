@@ -39,12 +39,8 @@ public class LoginController {
     private final EmailService emailService;
 
     @GetMapping
-    private List<User> listaUsuarios(
-            @RequestParam String email,
-            @RequestParam String situacao,
-            @RequestParam String acesso
-    ) {
-        return userRepository.findByEmailContainingAndSituacaoContainingAndAcessoContaining(email, situacao, acesso);
+    private List<User> listaUsuarios() {
+        return userRepository.findAll();
     }
 
     @GetMapping("/{id}")

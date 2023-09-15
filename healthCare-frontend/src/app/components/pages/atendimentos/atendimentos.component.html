@@ -11,21 +11,39 @@
           <mat-menu #menu="matMenu">
             <div fxLayout="row" class="mat-menu-title">
               <span>Filtros adicionais</span>
-              <span (click)="clearDateFilters()" class="material-symbols-outlined clearFilters">delete</span>
+              <span
+                (click)="clearDateFilters()"
+                class="material-symbols-outlined clearFilters"
+                >delete</span
+              >
             </div>
 
             <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="30px">
               <mat-form-field fxFlex="44">
                 <mat-label>Data inicial</mat-label>
-                <input matInput [matDatepicker]="pickerDtInicial" formControlName="dt_inicial" />
-                <mat-datepicker-toggle matIconSuffix [for]="pickerDtInicial"></mat-datepicker-toggle>
+                <input
+                  matInput
+                  [matDatepicker]="pickerDtInicial"
+                  formControlName="dt_inicial"
+                />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="pickerDtInicial"
+                ></mat-datepicker-toggle>
                 <mat-datepicker #pickerDtInicial></mat-datepicker>
               </mat-form-field>
 
               <mat-form-field fxFlex="44">
                 <mat-label>Data final</mat-label>
-                <input matInput [matDatepicker]="pickerDtFinal" formControlName="dt_final" />
-                <mat-datepicker-toggle matIconSuffix [for]="pickerDtFinal"></mat-datepicker-toggle>
+                <input
+                  matInput
+                  [matDatepicker]="pickerDtFinal"
+                  formControlName="dt_final"
+                />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="pickerDtFinal"
+                ></mat-datepicker-toggle>
                 <mat-datepicker #pickerDtFinal></mat-datepicker>
               </mat-form-field>
             </div>
@@ -34,12 +52,12 @@
 
         <mat-form-field fxFlex="32">
           <mat-label>Filtrar por paciente</mat-label>
-          <input type="text" matInput formControlName="nm_paciente">
+          <input type="text" matInput formControlName="ds_paciente" />
         </mat-form-field>
 
         <mat-form-field fxFlex="32">
           <mat-label>Filtrar por unidade</mat-label>
-          <input type="text" matInput formControlName="nm_unidade">
+          <input type="text" matInput formControlName="ds_unidade" />
         </mat-form-field>
       </div>
     </form>
@@ -50,25 +68,61 @@
   </div>
 
   <div class="table-atendimentos">
-    <ngx-datatable [rows]="filteredAtends" class="material striped custom-datatable" [headerHeight]="48"
-      [rowHeight]="52" [footerHeight]="50" [columnMode]="'force'" [limit]="6" [reorderable]="false"
-      [selectAllRowsOnPage]="false" [messages]="{
-          totalMessage: 'registros encontrados.'
-        }" (activate)="editAtend($event)">
-      <ngx-datatable-column name="Data do atendimento" prop="dt_atendimento" [width]="140">
+    <ngx-datatable
+      [rows]="filteredAtends | async"
+      class="material striped custom-datatable"
+      [headerHeight]="48"
+      [rowHeight]="52"
+      [footerHeight]="50"
+      [columnMode]="'force'"
+      [limit]="6"
+      [reorderable]="false"
+      [selectAllRowsOnPage]="false"
+      [messages]="{
+        totalMessage: 'registros encontrados.'
+      }"
+      (activate)="editAtend($event)"
+    >
+      <ngx-datatable-column
+        name="Data do atendimento"
+        prop="dt_atendimento"
+        [width]="140"
+      >
         <ng-template let-row="row" ngx-datatable-cell-template>
           {{ row.dt_atendimento | date : "dd/MM/yyyy" }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Nome do paciente" prop="ds_paciente" [width]="200"></ngx-datatable-column>
-      <ngx-datatable-column name="Unidade" prop="ds_unidade" [width]="200"></ngx-datatable-column>
-      <ngx-datatable-column name="Especialidade" prop="especialidade" [width]="150"></ngx-datatable-column>
-      <ngx-datatable-column name="Tipo" prop="tipo_atendimento" [width]="150"></ngx-datatable-column>
-      <ngx-datatable-column name="Status" prop="status_atend" [width]="150"></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Nome do paciente"
+        prop="ds_paciente"
+        [width]="200"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Unidade"
+        prop="ds_unidade"
+        [width]="200"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Especialidade"
+        prop="especialidade"
+        [width]="150"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Tipo"
+        prop="tipo_atendimento"
+        [width]="150"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Status"
+        prop="status_atend"
+        [width]="150"
+      ></ngx-datatable-column>
     </ngx-datatable>
   </div>
 
   <div class="buttons-box">
-    <mat-icon class="button-tables p1" routerLink="/atendimento/novo">add</mat-icon>
+    <mat-icon class="button-tables p1" routerLink="/atendimento/novo"
+      >add</mat-icon
+    >
   </div>
 </div>

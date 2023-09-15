@@ -25,11 +25,8 @@ public class PacienteController {
     private PacienteRepository pacienteRepository;
 
     @GetMapping
-    private List<Paciente> listaPacientesQuery(
-            @RequestParam String dsNome,
-            @RequestParam String ieSituacao,
-            @RequestParam Long userId) {
-        return pacienteRepository.findByDsNomeContainingAndIeSituacaoContainingAndUserId(dsNome, ieSituacao, userId);
+    private List<Paciente> listPatients(@RequestParam Long userId) {
+        return pacienteRepository.findByUserId(userId);
     }
 
     @GetMapping("/paginados")

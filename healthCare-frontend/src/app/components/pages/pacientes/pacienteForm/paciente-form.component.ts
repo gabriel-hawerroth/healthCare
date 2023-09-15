@@ -1,15 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { lastValueFrom } from 'rxjs';
-import * as moment from 'moment-timezone';
 import { HttpClient } from '@angular/common/http';
+import * as moment from 'moment-timezone';
 
+import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
 import { Patient } from 'src/app/interfaces/Patient';
 import { PatientService } from 'src/app/services/paciente/patient.service';
-import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
 import { UserService } from 'src/app/services/user/user.service';
 import { UtilsService } from 'src/app/utils/utils.service';
 
@@ -25,14 +24,11 @@ export class PacienteFormComponent implements OnInit {
   pageType!: string;
   patient?: Patient;
 
-  endereco?: any;
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private patientService: PatientService,
     private userService: UserService,
-    private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private fb: FormBuilder,
     private http: HttpClient,
@@ -41,7 +37,6 @@ export class PacienteFormComponent implements OnInit {
 
   ngOnInit() {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
-    const loggedUserId = this.userService.getLoggedUserId!;
 
     this.patientForm = this.fb.group({
       id: '',
@@ -81,11 +76,12 @@ export class PacienteFormComponent implements OnInit {
       nr_endereco: '',
       complemento: '',
       como_chegar: '',
-      userId: loggedUserId,
+      userId: this.userService.getLoggedUserId,
     });
 
     if (this.patientData) {
       this.patientForm.patchValue(this.patientData);
+
       if (this.patientForm.get('dt_nascimento')?.value) {
         this.patientForm
           .get('dt_nascimento')
@@ -196,35 +192,34 @@ export class PacienteFormComponent implements OnInit {
     });
   }
 
-  async getAddress(event: Event) {
-    const cep: string = this.patientForm.value.nr_cep;
-    if (cep.length === 8) {
+  async getAddress(cep: string) {
+    if (cep.length === 9) {
       const url = `https://brasilapi.com.br/api/cep/v2/${cep}`;
       await lastValueFrom(this.http.get(url))
-        .then((result) => {
-          this.endereco = result;
-          if (!result) {
+        .then((result: any) => {
+          if (result) {
+            this.patientForm.get('estado')?.setValue(result.state);
+            this.patientForm.get('cidade')?.setValue(result.city);
+            this.patientForm.get('bairro')?.setValue(result.neighborhood);
+            this.patientForm.get('endereco')?.setValue(result.street);
+          } else {
             this.patientForm.get('estado')?.setValue('');
             this.patientForm.get('cidade')?.setValue('');
             this.patientForm.get('bairro')?.setValue('');
             this.patientForm.get('endereco')?.setValue('');
-            this.endereco = null;
-            return;
           }
         })
-        .catch(() => {});
-
-      this.patientForm.get('estado')?.setValue(this.endereco.state);
-      this.patientForm.get('cidade')?.setValue(this.endereco.city);
-      this.patientForm.get('bairro')?.setValue(this.endereco.neighborhood);
-      this.patientForm.get('endereco')?.setValue(this.endereco.street);
-      return;
+        .catch(() => {
+          this.patientForm.get('estado')?.setValue('');
+          this.patientForm.get('cidade')?.setValue('');
+          this.patientForm.get('bairro')?.setValue('');
+          this.patientForm.get('endereco')?.setValue('');
+        });
     } else {
-      this.patientForm.get(['estado'])?.setValue('');
+      this.patientForm.get('estado')?.setValue('');
       this.patientForm.get('cidade')?.setValue('');
       this.patientForm.get('bairro')?.setValue('');
       this.patientForm.get('endereco')?.setValue('');
-      this.endereco = null;
     }
   }
 }

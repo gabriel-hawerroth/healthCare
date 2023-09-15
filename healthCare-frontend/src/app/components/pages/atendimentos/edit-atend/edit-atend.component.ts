@@ -36,11 +36,11 @@ export class EditAtendComponent implements OnInit {
         this.utilsService.showSimpleMessage('Atendimento não encontrado');
         this.router.navigate(['/atendimento']);
         return;
+      } else {
+        lastValueFrom(this.atendService.getById(id)).then((result) => {
+          this.atend = result;
+        });
       }
-    });
-
-    lastValueFrom(this.atendService.getById(id)).then((result) => {
-      this.atend = result;
     });
   }
 }
