@@ -20,7 +20,7 @@ public class CustomAuthenticationProvider implements AuthenticationManager {
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Autowired
-    private UserRepository loginRepository;
+    private UserRepository userRepository;
 
     @Override
     public Authentication authenticate(Authentication sendedCredentials) throws AuthenticationException {
@@ -38,7 +38,7 @@ public class CustomAuthenticationProvider implements AuthenticationManager {
     }
 
     private Authentication fazerLogin(String username, String password) {
-        User loginExistente = loginRepository.findByUsuario(username);
+        User loginExistente = userRepository.findByEmail(username);
         if (loginExistente == null) {
             return null;
         }

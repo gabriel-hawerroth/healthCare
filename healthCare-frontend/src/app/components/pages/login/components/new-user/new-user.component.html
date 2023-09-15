@@ -1,61 +1,74 @@
 <div class="simple-page">
-    <div class="login-box">
-        <div class="title">
-            <span>HealthCare</span>
-        </div>
-
-        <div fxLayout="row" class="sub-title">
-            <h2>Novo usuário</h2>
-        </div>
-
-        <form [formGroup]="newUserForm">
-            <div fxLayout="row">
-                <mat-form-field fxFlex="83">
-                    <mat-label>Usuário</mat-label>
-                    <input type="text" matInput formControlName="usuario" maxlength="50" autocomplete="off">
-                </mat-form-field>
-                <span class="material-symbols-outlined" matTooltip="O usuário deve ser um email válido"
-                    matTooltipShowDelay="200">info</span>
-            </div>
-
-            <div fxLayout="row">
-                <mat-form-field fxFlex="83">
-                    <mat-label>Senha</mat-label>
-                    <input type="password" matInput formControlName="senha" autocomplete="new-password">
-                </mat-form-field>
-                <span class="material-symbols-outlined"
-                    matTooltip="A senha deve conter pelo menos 8 dígitos, 1 número e 1 letra maiúscula"
-                    matTooltipShowDelay="200">info</span>
-            </div>
-
-            <div fxLayout="row" fxLayoutGap="10px">
-                <mat-form-field fxFlex="35">
-                    <mat-label>Nome</mat-label>
-                    <input matInput formControlName="nome">
-                </mat-form-field>
-
-                <mat-form-field fxFlex="51">
-                    <mat-label>Sobrenome</mat-label>
-                    <input type="text" matInput formControlName="sobrenome">
-                </mat-form-field>
-            </div>
-
-            <div fxLayout="row" fxLayoutGap="20px">
-                <mat-form-field fxFlex="30">
-                    <mat-label>Token</mat-label>
-                    <input type="text" matInput mask="000000" id="typedToken">
-                </mat-form-field>
-
-                <span (click)="sendToken()" id="send-token">Solicitar token</span>
-                <span class="material-symbols-outlined"
-                    matTooltip="O token será enviado para o email informado no campo de usuário"
-                    matTooltipShowDelay="200">info</span>
-            </div>
-
-            <div>
-                <button mat-raised-button color="primary" [ngStyle]="{'padding': '23px 70px'}" (click)="createUser()"
-                    [disabled]="newUserForm.invalid">Criar</button>
-            </div>
-        </form>
+  <div class="login-box">
+    <div class="title">
+      <span>HealthCare</span>
     </div>
+
+    <div fxLayout="row" class="sub-title">
+      <h2>Novo usuário</h2>
+    </div>
+
+    <form [formGroup]="newUserForm">
+      <div fxLayout="row">
+        <mat-form-field fxFlex="83">
+          <mat-label>Email</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="email"
+            maxlength="50"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <span
+          class="material-symbols-outlined"
+          matTooltip="É necessário ser um email válido"
+          matTooltipShowDelay="200"
+          >info</span
+        >
+      </div>
+
+      <div fxLayout="row">
+        <mat-form-field fxFlex="83">
+          <mat-label>Senha</mat-label>
+          <input
+            type="password"
+            matInput
+            formControlName="senha"
+            autocomplete="new-password"
+          />
+        </mat-form-field>
+        <span
+          class="material-symbols-outlined"
+          matTooltip="A senha deve conter pelo menos 8 dígitos, 1 número e 1 letra maiúscula"
+          matTooltipShowDelay="200"
+          >info</span
+        >
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field fxFlex="35">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="nome" />
+        </mat-form-field>
+
+        <mat-form-field fxFlex="51">
+          <mat-label>Sobrenome</mat-label>
+          <input type="text" matInput formControlName="sobrenome" />
+        </mat-form-field>
+      </div>
+
+      <div>
+        <button
+          mat-raised-button
+          color="primary"
+          [ngStyle]="{ padding: '23px 70px' }"
+          (click)="createUser()"
+          [disabled]="newUserForm.invalid"
+        >
+          Criar
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

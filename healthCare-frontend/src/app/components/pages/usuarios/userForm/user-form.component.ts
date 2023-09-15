@@ -1,12 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  FormBuilder,
-} from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { lastValueFrom } from 'rxjs';
 
@@ -31,7 +25,6 @@ export class UserFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService,
-    private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private fb: FormBuilder,
     private utilsService: UtilsService
@@ -42,12 +35,13 @@ export class UserFormComponent implements OnInit {
 
     this.userForm = this.fb.group({
       id: '',
-      usuario: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       senha: ['', Validators.pattern(this.utilsService.passwordValidator())],
       nome: ['', [Validators.required]],
       sobrenome: '',
       acesso: ['Consulta', [Validators.required]],
       situacao: 'A',
+      canChangePassword: false,
     });
 
     if (this.userData) {
@@ -65,18 +59,21 @@ export class UserFormComponent implements OnInit {
       }
       return;
     } else {
-      lastValueFrom(this.userService.createUser(this.userForm.value))
-        .then((result) => {
-          this.snackBar.open('Usuário criado com sucesso.', '', {
-            duration: 4000,
-          });
+      this.userService
+        .createUser(this.userForm.value)
+        .then(() => {
+          this.utilsService.showSimpleMessageWithDuration(
+            'Usuário criado com sucesso.',
+            4000
+          );
           this.router.navigate(['/usuario']);
         })
         .catch((error) => {
           console.log(error);
-          this.snackBar.open('Erro ao salvar as informações.', '', {
-            duration: 4500,
-          });
+          this.utilsService.showSimpleMessageWithDuration(
+            'Erro ao salvar as informações.',
+            4500
+          );
         });
     }
   }
@@ -90,18 +87,21 @@ export class UserFormComponent implements OnInit {
       }
       return;
     } else {
-      lastValueFrom(this.userService.editUser(this.userForm.value))
-        .then((result) => {
-          this.snackBar.open('Usuário salvo com sucesso.', '', {
-            duration: 4000,
-          });
+      this.userService
+        .editUser(this.userForm.value)
+        .then(() => {
+          this.utilsService.showSimpleMessageWithDuration(
+            'Usuário salvo com sucesso.',
+            4000
+          );
           this.router.navigate(['/usuario']);
         })
         .catch((error) => {
           console.log(error);
-          this.snackBar.open('Erro ao salvar as informações.', '', {
-            duration: 4500,
-          });
+          this.utilsService.showSimpleMessageWithDuration(
+            'Erro ao salvar as informações.',
+            4500
+          );
         });
     }
   }
@@ -109,18 +109,21 @@ export class UserFormComponent implements OnInit {
   removeUser() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    lastValueFrom(this.userService.removeUser(id))
-      .then((result) => {
-        this.snackBar.open('Usuário removido com sucesso.', '', {
-          duration: 4500,
-        });
+    this.userService
+      .removeUser(id)
+      .then(() => {
+        this.utilsService.showSimpleMessageWithDuration(
+          'Usuário removido com sucesso.',
+          4500
+        );
         this.router.navigate(['/usuario']);
       })
       .catch((error) => {
         console.log(error);
-        this.snackBar.open('Não foi possível excluir o usuário.', '', {
-          duration: 4500,
-        });
+        this.utilsService.showSimpleMessageWithDuration(
+          'Não foi possível excluir o usuário.',
+          4500
+        );
       });
   }
 

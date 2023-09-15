@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UtilsService } from 'src/app/utils/utils.service';
-import { lastValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { UserService } from 'src/app/services/user/user.service';
@@ -11,7 +10,7 @@ import { UserService } from 'src/app/services/user/user.service';
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss'],
 })
-export class ResetPasswordComponent {
+export class ResetPasswordComponent implements OnInit {
   resetPasswordForm!: FormGroup;
 
   constructor(
@@ -23,7 +22,7 @@ export class ResetPasswordComponent {
 
   ngOnInit(): void {
     this.resetPasswordForm = this.fb.group({
-      user: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       newPassword: [
         '',
         [
@@ -36,20 +35,6 @@ export class ResetPasswordComponent {
   }
 
   resetPassword() {
-    if (this.resetPasswordForm.invalid) {
-      this.utilsService.showSimpleMessage('Campos inválidos');
-      return;
-    }
-
-    const tokenInput = document.querySelector(
-      '#typedToken'
-    ) as HTMLInputElement;
-    const typedToken = tokenInput.value;
-    if (typedToken.length < 6) {
-      this.utilsService.showSimpleMessage('O token deve ter 6 dígitos');
-      return;
-    }
-
     if (
       this.resetPasswordForm.get('newPassword')!.value !==
       this.resetPasswordForm.get('confirmNewPassword')!.value
@@ -58,70 +43,94 @@ export class ResetPasswordComponent {
       return;
     }
 
-    console.log('passou das validações iniciais, tentando obter token');
+    this.userService
+      .getByEmail(this.resetPasswordForm.get('email')!.value)
+      .then((receivedUser) => {
+        if (receivedUser) {
+          if (!receivedUser.canChangePassword) {
+            this.utilsService.showSimpleMessage(
+              'Você não deu permissão para alterar a senha'
+            );
+            return;
+          }
 
-    lastValueFrom(
-      this.userService.checkToken(this.resetPasswordForm.get('user')!.value)
-    ).then((result) => {
-      console.log('entrou no .then do checkToken');
-      if (
-        result &&
-        result.token === typedToken &&
-        this.resetPasswordForm.get('user')!.value === result.user
-      ) {
-        console.log('passou das validações de token, tentando obter usuário');
-        lastValueFrom(this.userService.getByEmail(result.user))
-          .then((receivedUser) => {
-            const user = receivedUser;
-            user.senha = this.resetPasswordForm.get('newPassword')!.value;
-            lastValueFrom(this.userService.editUser(user))
+          const user = receivedUser;
+          user.senha = this.resetPasswordForm.get('newPassword')!.value;
+
+          console.log(user);
+
+          this.userService
+            .editUser(user)
+            .then(() => {
+              this.utilsService.showSimpleMessage('Senha alterada com sucesso');
+              this.router.navigate(['/login']);
+
+              user.canChangePassword = false;
+              this.userService.editUser(user).then(() => {});
+            })
+            .catch(() => {
+              this.utilsService.showSimpleMessage(
+                'Erro ao atualizar a senha, entre em contato com o nosso suporte'
+              );
+              return;
+            });
+        } else {
+          this.utilsService.showSimpleMessage(
+            'Erro no sistema, entre em contato com o nosso suporte'
+          );
+          return;
+        }
+      })
+      .catch(() => {
+        this.utilsService.showSimpleMessage(
+          'Erro no sistema, entre em contato com o nosso suporte'
+        );
+        return;
+      });
+  }
+
+  requestPermission() {
+    if (
+      this.resetPasswordForm.get('email')?.value &&
+      !this.resetPasswordForm.get('email')?.invalid
+    ) {
+      this.userService
+        .getByEmail(this.resetPasswordForm.get('email')!.value)
+        .then((result) => {
+          if (result) {
+            this.userService
+              .requestPermissionToChangePassword(result.id!)
               .then(() => {
-                this.utilsService.showSimpleMessage(
-                  'Senha alterada com sucesso'
+                this.utilsService.showSimpleMessageWithDuration(
+                  `Permissão enviada para o email ${result.email}`,
+                  6000
                 );
-                this.router.navigate(['/login']);
+                return;
               })
               .catch(() => {
                 this.utilsService.showSimpleMessage(
-                  'Erro ao atualizar a senha, entre em contato com o nosso suporte'
+                  'Erro ao enviar o email, entre em contato com o nosso suporte'
                 );
+                return;
               });
-          })
-          .catch(() => {
+          } else {
             this.utilsService.showSimpleMessage(
-              'Erro no sistema, entre em contato com o nosso suporte'
+              'Erro ao enviar o email, entre em contato com o nosso suporte'
             );
-          });
-      } else {
-        this.utilsService.showSimpleMessage('Token inválido');
-        return;
-      }
-    });
-  }
-
-  sendToken() {
-    if (
-      this.resetPasswordForm.get('user') &&
-      !this.resetPasswordForm.get('user')?.invalid
-    ) {
-      const email = this.resetPasswordForm.get('user')!.value;
-
-      lastValueFrom(this.userService.sendToken(email))
-        .then(() => {
-          this.utilsService.showSimpleMessageWithDuration(
-            `Token enviado para o email ${email}`,
-            4500
-          );
+            return;
+          }
         })
         .catch(() => {
           this.utilsService.showSimpleMessage(
             'Erro ao enviar o token, entre em contato com o nosso suporte'
           );
+          return;
         });
     } else {
       this.utilsService.showSimpleMessage(
-        'É necessário informar um email válido para enviar o token'
+        'É necessário informar um email válido'
       );
+      return;
     }
   }
 }

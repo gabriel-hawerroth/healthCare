@@ -11,7 +11,8 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String user;
+    @Column(name = "user_id")
+    private Long userId;
 
     private String token;
 
@@ -23,12 +24,12 @@ public class Token {
         this.id = id;
     }
 
-    public String getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUserId(Long user) {
+        this.userId = user;
     }
 
     public String getToken() {

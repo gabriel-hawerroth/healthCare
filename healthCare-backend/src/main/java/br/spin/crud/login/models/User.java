@@ -10,7 +10,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String usuario;
+    private String email;
 
     private String senha;
 
@@ -22,6 +22,9 @@ public class User {
 
     private String situacao;
 
+    @Column(name = "can_change_password")
+    private Boolean canChangePassword;
+
     public Long getId() {
         return id;
     }
@@ -30,12 +33,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSenha() {
@@ -76,5 +79,13 @@ public class User {
 
     public void setSituacao(String situacao) {
         this.situacao = situacao;
+    }
+
+    public Boolean getCanChangePassword() {
+        return canChangePassword;
+    }
+
+    public void setCanChangePassword(Boolean canChangePassword) {
+        this.canChangePassword = canChangePassword;
     }
 }

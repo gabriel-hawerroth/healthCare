@@ -1,29 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UtilsService } from 'src/app/utils/utils.service';
-import { lastValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { UserService } from 'src/app/services/user/user.service';
+import { UtilsService } from 'src/app/utils/utils.service';
 
 @Component({
   selector: 'app-new-user',
   templateUrl: './new-user.component.html',
   styleUrls: ['./new-user.component.scss'],
 })
-export class NewUserComponent {
+export class NewUserComponent implements OnInit {
   newUserForm!: FormGroup;
 
   constructor(
     private utilsService: UtilsService,
     private userService: UserService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
+    this.buildForm();
+  }
+
+  buildForm() {
     this.newUserForm = this.fb.group({
-      usuario: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       senha: [
         '',
         [
@@ -31,87 +36,51 @@ export class NewUserComponent {
           Validators.pattern(this.utilsService.passwordValidator()),
         ],
       ],
-      nome: ['', [Validators.required]],
-      sobrenome: [''],
-      acesso: ['Cadastro'],
-      situacao: ['A'],
+      nome: ['', Validators.required],
+      sobrenome: '',
+      acesso: 'Cadastro',
+      situacao: 'I',
+      canChangePassword: false,
     });
   }
 
   createUser() {
-    if (this.newUserForm.invalid) {
-      this.utilsService.showSimpleMessage('Campos inválidos');
-      return;
-    }
-
-    const tokenInput = document.querySelector(
-      '#typedToken'
-    ) as HTMLInputElement;
-    const typedToken = tokenInput.value;
-    if (typedToken.length < 6) {
-      this.utilsService.showSimpleMessage('O token deve ter 6 dígitos');
-      return;
-    }
-
-    lastValueFrom(
-      this.userService.checkToken(this.newUserForm.get('usuario')!.value)
-    ).then((result) => {
-      if (
-        result &&
-        result.token === typedToken &&
-        this.newUserForm.get('usuario')!.value === result.user
-      ) {
-        lastValueFrom(this.userService.createUser(this.newUserForm.value))
-          .then(() => {
-            this.utilsService.showSimpleMessage('Usuário criado com sucesso');
-
-            const credentials = {
-              username: this.newUserForm.get('usuario')!.value,
-              password: this.newUserForm.get('senha')!.value,
-            };
-            this.userService.login(credentials);
-          })
-          .catch((error) => {
-            console.log(error);
-            if (error.status === 406) {
-              this.utilsService.showSimpleMessage(
-                'Este usuário usuário já existe'
+    this.userService
+      .newUser(this.newUserForm.value)
+      .then((result) => {
+        if (result) {
+          this.userService
+            .SendAccountActivationEmail(result.id!)
+            .then(() => {
+              this.snackBar.open(
+                `Um link de ativação da conta foi enviado para o email: ${result.email}`,
+                'OK'
               );
-            } else {
+              this.router.navigate(['/login']);
+            })
+            .catch(() => {
               this.utilsService.showSimpleMessage(
                 'Erro ao criar o usuário, entre em contato com nosso suporte'
               );
-            }
-          });
-      } else {
-        this.utilsService.showSimpleMessage('Token inválido');
-        return;
-      }
-    });
-  }
-
-  sendToken() {
-    if (
-      this.newUserForm.get('usuario') &&
-      !this.newUserForm.get('usuario')?.invalid
-    ) {
-      const email = this.newUserForm.get('usuario')!.value;
-
-      lastValueFrom(this.userService.sendToken(email))
-        .then(() => {
+              this.userService.removeUser(result.id!);
+            });
+        } else {
           this.utilsService.showSimpleMessage(
-            `Token enviado para o email: ${email}`
+            'Erro ao criar o usuário, entre em contato com nosso suporte'
           );
-        })
-        .catch(() => {
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.status === 406) {
           this.utilsService.showSimpleMessage(
-            'Erro ao enviar o token, tente novamente mais tarde'
+            'Já existe um usuário vinculado a esse email'
           );
-        });
-    } else {
-      this.utilsService.showSimpleMessage(
-        'É necessário informar um email válido para enviar o token'
-      );
-    }
+        } else {
+          this.utilsService.showSimpleMessage(
+            'Erro ao criar o usuário, entre em contato com nosso suporte'
+          );
+        }
+      });
   }
 }

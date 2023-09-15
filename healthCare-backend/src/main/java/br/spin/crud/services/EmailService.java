@@ -1,5 +1,6 @@
 package br.spin.crud.services;
 
+import br.spin.crud.login.models.EmailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -17,12 +18,12 @@ public class EmailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void enviarEmail(String destinatario, String assunto, String corpo) throws MessagingException {
+    public void enviarEmail(EmailDTO email) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setTo(destinatario);
-        helper.setSubject(assunto);
-        helper.setText(corpo, true);
+        helper.setTo(email.getDestinatario());
+        helper.setSubject(email.getAssunto());
+        helper.setText(email.getConteudo(), true);
         javaMailSender.send(message);
     }
 }

@@ -35,7 +35,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
-      usuario: '',
+      email: '',
       situacao: 'A',
       acesso: '',
     });
@@ -55,7 +55,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   }
 
   listaUsuarios() {
-    const usuario = this.filterForm.get('usuario')?.value.toLowerCase();
+    const usuario = this.filterForm.get('email')?.value.toLowerCase();
     const situacao = this.filterForm.get('situacao')!.value;
     const acesso = this.filterForm.get('acesso')?.value;
 

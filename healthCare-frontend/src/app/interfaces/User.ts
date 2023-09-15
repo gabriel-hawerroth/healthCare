@@ -1,9 +1,10 @@
 export interface User {
   id?: number;
-  usuario: string;
+  email: string;
   senha: string;
   nome: string;
   sobrenome?: string;
   acesso: string;
   situacao: string;
+  canChangePassword: boolean;
 }

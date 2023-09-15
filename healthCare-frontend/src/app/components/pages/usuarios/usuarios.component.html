@@ -4,8 +4,8 @@
         <form [formGroup]="filterForm" class="filters">
             <div fxLayout="row">
                 <mat-form-field fxFlex="80">
-                    <mat-label>Filtrar por usuario</mat-label>
-                    <input formControlName="usuario" type="text" matInput autofocus>
+                    <mat-label>Filtrar por usuário</mat-label>
+                    <input formControlName="email" type="text" matInput autofocus>
                 </mat-form-field>
             </div>
 
@@ -41,7 +41,7 @@
             [selectAllRowsOnPage]="false" [messages]="{
           totalMessage: 'registros encontrados.'
         }" (activate)="editUser($event)">
-            <ngx-datatable-column name="Usuário" prop="usuario" [width]="210"></ngx-datatable-column>
+            <ngx-datatable-column name="Usuário" prop="email" [width]="210"></ngx-datatable-column>
             <ngx-datatable-column name="Nome" prop="nome" [width]="120"></ngx-datatable-column>
             <ngx-datatable-column name="Acesso" prop="acesso" [width]="100"></ngx-datatable-column>
         </ngx-datatable>

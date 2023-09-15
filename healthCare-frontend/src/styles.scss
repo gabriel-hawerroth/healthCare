@@ -294,5 +294,10 @@ form {
   width: 100%;
   height: 100%;
   padding: 1em;
-  // background-color: #e2e2e29f;
+}
+
+.info-public-pages {
+  position: fixed;
+  left: 60px;
+  z-index: 999;
 }

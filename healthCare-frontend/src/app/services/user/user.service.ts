@@ -39,8 +39,12 @@ export class UserService {
           params: params,
         })
       );
-      lastValueFrom(this.getByEmail(result.username))
+      this.getByEmail(result.username)
         .then((user) => {
+          if (user.situacao === 'I') {
+            this.utilsService.showSimpleMessage('Usuário inativo');
+            return;
+          }
           if (user) {
             localStorage.setItem(
               'token',
@@ -90,11 +94,13 @@ export class UserService {
     return localStorage.getItem('token') ? true : false;
   }
 
-  getByEmail(email: string): Observable<User> {
+  getByEmail(email: string): Promise<User> {
     let params = new HttpParams();
     params = params.append('email', email);
 
-    return this.http.get<User>(`${this.apiUrl}/getByEmail`, { params });
+    return lastValueFrom(
+      this.http.get<User>(`${this.apiUrl}/getByEmail`, { params })
+    );
   }
 
   getUsers(
@@ -103,44 +109,57 @@ export class UserService {
     acesso: string
   ): Observable<User[]> {
     let params = new HttpParams();
-    params = params.append('usuario', usuario);
+    params = params.append('email', usuario);
     params = params.append('situacao', situacao);
     params = params.append('acesso', acesso);
 
     return this.http.get<User[]>(this.apiUrl, { params });
   }
 
-  getById(id: number): Observable<User> {
+  getById(id: number): Promise<User> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<User>(url);
+    return lastValueFrom(this.http.get<User>(url));
   }
 
-  createUser(user: User): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/new-user`, user);
+  newUser(user: User): Promise<User> {
+    return lastValueFrom(this.http.post<User>(`${this.apiUrl}/new-user`, user));
   }
 
-  editUser(user: User): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/new-user`, user);
+  createUser(user: User): Promise<User> {
+    return lastValueFrom(
+      this.http.post<User>(`${this.apiUrl}/createUser`, user)
+    );
   }
 
-  removeUser(id: number): Observable<User> {
+  editUser(user: User): Promise<User> {
+    return lastValueFrom(this.http.put<User>(`${this.apiUrl}/editUser`, user));
+  }
+
+  removeUser(id: number): Promise<User> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.delete<User>(url);
+    return lastValueFrom(this.http.delete<User>(url));
   }
 
-  sendToken(user: string): Observable<Token> {
+  SendAccountActivationEmail(userId: number): Promise<Token> {
     let params = new HttpParams();
 
-    params = params.append('user', user);
+    params = params.append('userId', userId);
 
-    return this.http.post<Token>(`${this.apiUrl}/sendToken`, params);
+    return lastValueFrom(
+      this.http.post<Token>(`${this.apiUrl}/sendActivateAccountEmail`, params)
+    );
   }
 
-  checkToken(user: string): Observable<Token> {
+  requestPermissionToChangePassword(userId: number): Promise<any> {
     let params = new HttpParams();
 
-    params = params.append('user', user);
+    params = params.append('userId', userId);
 
-    return this.http.get<Token>(`${this.apiUrl}/checkToken`, { params });
+    return lastValueFrom(
+      this.http.post<any>(
+        `${this.apiUrl}/requestPermissionToChangePassword`,
+        params
+      )
+    );
   }
 }
