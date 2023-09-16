@@ -125,7 +125,7 @@ public class LoginController {
         if (token.equals(savedToken)) {
             user.setSituacao("A");
             userRepository.save(user);
-            return "Conta ativado com sucesso";
+            return "Conta ativada com sucesso";
         } else {
             return "Token inválido, entre em contato com nosso suporte";
         }

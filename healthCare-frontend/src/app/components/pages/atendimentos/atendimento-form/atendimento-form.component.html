@@ -1,16 +1,33 @@
 <div class="simple-page">
   <div class="top-actions">
     <div class="left">
-      <mat-icon routerLink="/atendimento" class="pointer arrow-back">arrow_back</mat-icon>
+      <mat-icon routerLink="/atendimento" class="pointer arrow-back"
+        >arrow_back</mat-icon
+      >
       <h2 *ngIf="pageType == 'Novo'">Novo atendimento</h2>
       <h2 *ngIf="pageType != 'Novo'">Editar atendimento</h2>
     </div>
 
     <div class="rigth buttons">
-      <span *ngIf="pageType == 'Novo'" (click)="newAtend()" class="material-symbols-outlined button-forms">save</span>
-      <span *ngIf="pageType != 'Novo'" (click)="editAtend()" class="material-symbols-outlined button-forms">save</span>
-      <span *ngIf="pageType != 'Novo'" (click)="openConfirmationDialog()" class="material-symbols-outlined button-forms"
-        [ngStyle]="{ 'background-color': '#c21f40', color: 'white' }">delete</span>
+      <span
+        *ngIf="pageType == 'Novo'"
+        (click)="newAtend()"
+        class="material-symbols-outlined button-forms"
+        >save</span
+      >
+      <span
+        *ngIf="pageType != 'Novo'"
+        (click)="editAtend()"
+        class="material-symbols-outlined button-forms"
+        >save</span
+      >
+      <span
+        *ngIf="pageType != 'Novo'"
+        (click)="openConfirmationDialog()"
+        class="material-symbols-outlined button-forms"
+        [ngStyle]="{ 'background-color': '#c21f40', color: 'white' }"
+        >delete</span
+      >
     </div>
   </div>
 
@@ -22,11 +39,17 @@
         <mat-label><b>Paciente</b></mat-label>
         <mat-select formControlName="id_paciente">
           <mat-option>
-            <ngx-mat-select-search [formControl]="patientsList" placeholderLabel="Informe o nome do paciente"
-              noEntriesFoundLabel="Nenhum paciente encontrado">
+            <ngx-mat-select-search
+              [formControl]="patientsList"
+              placeholderLabel="Informe o nome do paciente"
+              noEntriesFoundLabel="Nenhum paciente encontrado"
+            >
             </ngx-mat-select-search>
           </mat-option>
-          <mat-option *ngFor="let patient of patients" [value]="patient.id">
+          <mat-option
+            *ngFor="let patient of filteredPatients"
+            [value]="patient.id"
+          >
             {{ patient.dsNome }}
           </mat-option>
         </mat-select>
@@ -36,11 +59,14 @@
         <mat-label><b>Unidade</b></mat-label>
         <mat-select formControlName="id_unidade">
           <mat-option>
-            <ngx-mat-select-search [formControl]="unitsList" placeholderLabel="Informe o nome da unidade"
-              noEntriesFoundLabel="Nenhuma unidade encontrada">
+            <ngx-mat-select-search
+              [formControl]="unitsList"
+              placeholderLabel="Informe o nome da unidade"
+              noEntriesFoundLabel="Nenhuma unidade encontrada"
+            >
             </ngx-mat-select-search>
           </mat-option>
-          <mat-option *ngFor="let unit of units" [value]="unit.id">
+          <mat-option *ngFor="let unit of filteredUnits" [value]="unit.id">
             {{ unit.dsNome }}
           </mat-option>
         </mat-select>
@@ -48,8 +74,15 @@
 
       <mat-form-field fxFlex="18">
         <mat-label><b>Data do atendimento</b></mat-label>
-        <input matInput [matDatepicker]="pickerDtAtend" formControlName="dt_atendimento" />
-        <mat-datepicker-toggle matIconSuffix [for]="pickerDtAtend"></mat-datepicker-toggle>
+        <input
+          matInput
+          [matDatepicker]="pickerDtAtend"
+          formControlName="dt_atendimento"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="pickerDtAtend"
+        ></mat-datepicker-toggle>
         <mat-datepicker #pickerDtAtend></mat-datepicker>
       </mat-form-field>
 
@@ -75,7 +108,13 @@
         <div fxLayout="row" fxLayoutGap="13px">
           <mat-form-field fxFlex="30">
             <mat-label>Médico responsável</mat-label>
-            <input type="text" matInput #medicoInput formControlName="medico_responsavel" maxlength="60" />
+            <input
+              type="text"
+              matInput
+              #medicoInput
+              formControlName="medico_responsavel"
+              maxlength="60"
+            />
             <mat-hint align="end">{{ medicoInput.value.length }}/60</mat-hint>
           </mat-form-field>
 
@@ -93,8 +132,16 @@
         <div fxLayout="row" fxLayoutGap="13px">
           <mat-form-field fxFlex="27">
             <mat-label>Especialidade</mat-label>
-            <input type="text" matInput #especialidadeInput formControlName="especialidade" maxlength="60">
-            <mat-hint align="end">{{ especialidadeInput.value.length }}/60</mat-hint>
+            <input
+              type="text"
+              matInput
+              #especialidadeInput
+              formControlName="especialidade"
+              maxlength="60"
+            />
+            <mat-hint align="end"
+              >{{ especialidadeInput.value.length }}/60</mat-hint
+            >
           </mat-form-field>
 
           <mat-form-field fxFlex="20">
@@ -121,7 +168,13 @@
         <div fxLayout="row" fxLayoutGap="13px">
           <mat-form-field floatLabel="always" fxFlex="13">
             <mat-label>Valor do atendimento</mat-label>
-            <input matInput type="number" formControlName="valor_atendimento" class="align-right" placeholder="0">
+            <input
+              matInput
+              type="number"
+              formControlName="valor_atendimento"
+              class="align-right"
+              placeholder="0"
+            />
             <span matTextPrefix>$&nbsp;</span>
             <span matTextSuffix>.00</span>
           </mat-form-field>
@@ -133,7 +186,9 @@
               <mat-option value="Pix">Pix</mat-option>
               <mat-option value="Crédito/Débito">Crédito/Débito</mat-option>
               <mat-option value="Boleto">Boleto</mat-option>
-              <mat-option value="Dinheiro em espécie">Dinheiro em espécie</mat-option>
+              <mat-option value="Dinheiro em espécie"
+                >Dinheiro em espécie</mat-option
+              >
             </mat-select>
           </mat-form-field>
         </div>
@@ -141,28 +196,45 @@
         <div fxLayout="row" fxLayoutGap="13px">
           <mat-form-field fxFlex="24">
             <mat-label>Convenio</mat-label>
-            <input type="text" matInput #convenioInput formControlName="convenio" maxlength="80">
+            <input
+              type="text"
+              matInput
+              #convenioInput
+              formControlName="convenio"
+              maxlength="80"
+            />
             <mat-hint align="end">{{ convenioInput.value.length }}/80</mat-hint>
           </mat-form-field>
 
           <mat-form-field fxFlex="22">
             <mat-label>Nº da carteirinha do convênio</mat-label>
-            <input type="text" matInput #nrCarteirinhaInput formControlName="nr_carteirinha_convenio" mask="00000000.00"
-              placeholder="00000000.00">
-            <mat-hint align="end">{{ nrCarteirinhaInput.value.length }}/11</mat-hint>
+            <input
+              type="text"
+              matInput
+              #nrCarteirinhaInput
+              formControlName="nr_carteirinha_convenio"
+              mask="00000000.00"
+              placeholder="00000000.00"
+            />
+            <mat-hint align="end"
+              >{{ nrCarteirinhaInput.value.length }}/11</mat-hint
+            >
           </mat-form-field>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
     <br />
     <br *ngIf="atendData && atendData.dt_criacao" />
-    <span *ngIf="atendData && atendData.dt_criacao" [ngStyle]="{
+    <span
+      *ngIf="atendData && atendData.dt_criacao"
+      [ngStyle]="{
         'font-style': 'italic',
         'font-weight': 'bold',
         'font-family': 'system-ui',
         'text-align': 'end',
         'font-size': '0.9em'
-      }">Criado em
+      }"
+      >Criado em
       {{ atendData.dt_criacao | date : "dd/MM/yyyy" }}
       &nbsp;
     </span>

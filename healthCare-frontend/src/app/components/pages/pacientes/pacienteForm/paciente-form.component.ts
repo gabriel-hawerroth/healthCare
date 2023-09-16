@@ -38,6 +38,32 @@ export class PacienteFormComponent implements OnInit {
   ngOnInit() {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
 
+    this.buildForm();
+
+    if (this.patientData) {
+      this.patientForm.patchValue(this.patientData);
+
+      if (this.patientForm.get('dt_nascimento')?.value) {
+        this.patientForm
+          .get('dt_nascimento')
+          ?.setValue(moment(this.patientForm.value.dt_nascimento).toDate());
+      }
+
+      if (this.patientForm.get('dt_inicio_atend')?.value) {
+        this.patientForm
+          .get('dt_inicio_atend')
+          ?.setValue(moment(this.patientForm.value.dt_inicio_atend).toDate());
+      }
+
+      if (this.patientForm.get('dt_fim_atend')?.value) {
+        this.patientForm
+          .get('dt_fim_atend')
+          ?.setValue(moment(this.patientForm.value.dt_fim_atend).toDate());
+      }
+    }
+  }
+
+  buildForm() {
     this.patientForm = this.fb.group({
       id: '',
       dsNome: ['', Validators.required],
@@ -78,28 +104,6 @@ export class PacienteFormComponent implements OnInit {
       como_chegar: '',
       userId: this.userService.getLoggedUserId,
     });
-
-    if (this.patientData) {
-      this.patientForm.patchValue(this.patientData);
-
-      if (this.patientForm.get('dt_nascimento')?.value) {
-        this.patientForm
-          .get('dt_nascimento')
-          ?.setValue(moment(this.patientForm.value.dt_nascimento).toDate());
-      }
-
-      if (this.patientForm.get('dt_inicio_atend')?.value) {
-        this.patientForm
-          .get('dt_inicio_atend')
-          ?.setValue(moment(this.patientForm.value.dt_inicio_atend).toDate());
-      }
-
-      if (this.patientForm.get('dt_fim_atend')?.value) {
-        this.patientForm
-          .get('dt_fim_atend')
-          ?.setValue(moment(this.patientForm.value.dt_fim_atend).toDate());
-      }
-    }
   }
 
   newPatient() {

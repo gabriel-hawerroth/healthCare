@@ -19,6 +19,7 @@ import { AtendimentoService } from 'src/app/services/atendimento/atendimento.ser
 import { PatientService } from 'src/app/services/paciente/patient.service';
 import { ConfirmationDialogComponent } from 'src/app/utils/confirmation-dialog/confirmation-dialog.component';
 import { UserService } from 'src/app/services/user/user.service';
+import { UtilsService } from 'src/app/utils/utils.service';
 
 @Component({
   selector: 'app-atendimento-form',
@@ -33,7 +34,9 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
   pageType?: string;
 
   patients: Patient[] = [];
+  filteredPatients: Patient[] = [];
   units: Unidade[] = [];
+  filteredUnits: Unidade[] = [];
 
   patientsList: FormControl = new FormControl();
   unitsList: FormControl = new FormControl();
@@ -49,7 +52,8 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private utilsService: UtilsService
   ) {
     this._unsubscribeAll = new Subject();
   }
@@ -59,29 +63,33 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
     const userId = this.userService.getLoggedUserId!;
 
     lastValueFrom(this.patientService.getPatients(userId)).then((result) => {
-      this.patients = result;
+      this.patients = this.utilsService.filterList(result, 'ieSituacao', 'A');
+      this.filteredPatients = this.patients;
     });
 
     lastValueFrom(this.unitService.getUnits(userId)).then((result) => {
-      this.units = result;
+      this.units = this.utilsService.filterList(result, 'ieSituacao', 'A');
+      this.filteredUnits = this.units;
     });
 
     this.patientsList.valueChanges
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((word: string) => {
-        lastValueFrom(this.patientService.getPatients(userId)).then(
-          (result) => {
-            this.patients = result;
-          }
-        );
+        let rows = this.patients.slice();
+
+        rows = this.utilsService.filterList(rows, 'dsNome', word);
+
+        this.filteredPatients = rows;
       });
 
     this.unitsList.valueChanges
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((word: string) => {
-        lastValueFrom(this.unitService.getUnits(userId)).then((result) => {
-          this.units = result;
-        });
+        let rows = this.units.slice();
+
+        rows = this.utilsService.filterList(rows, 'dsNome', word);
+
+        this.filteredUnits = rows;
       });
 
     this.atendForm = this.fb.group({
