@@ -24,6 +24,10 @@ export class UtilsService {
     });
   }
 
+  showSimpleMessageWithoutDuration(message: string) {
+    this._snackBar.open(message, 'OK');
+  }
+
   passwordValidator() {
     const passRequirement = {
       passwordMinNumber: 1,

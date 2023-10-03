@@ -8,9 +8,14 @@ import br.spin.crud.login.models.User;
 import br.spin.crud.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.nio.charset.StandardCharsets;
@@ -113,43 +118,83 @@ public class LoginController {
     }
 
     @GetMapping("/activateAccount/{userId}/{token}")
-    private String activaUser(@PathVariable Long userId, @PathVariable String token) {
+    private ResponseEntity<Void> activaUser(@PathVariable Long userId, @PathVariable String token) {
         String savedToken = tokenRepository.findByUserId(userId).getToken();
-
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Conta inexistente")
         );
 
-        if (user.getSituacao().equals("A")) return "Essa conta já está ativa";
-
-        if (token.equals(savedToken)) {
+        if (savedToken.equals(token)) {
             user.setSituacao("A");
             userRepository.save(user);
-            return "Conta ativada com sucesso";
-        } else {
-            return "Token inválido, entre em contato com nosso suporte";
-        }
+        };
+
+        String url = "http://hawerroth.dev.br/healthcare/ativacao-da-conta";
+
+        UriComponentsBuilder redirectUriBuilder = UriComponentsBuilder
+                .fromUriString(url);
+
+        String redirectUrl = redirectUriBuilder.build().toUriString();
+
+        return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                .location(URI.create(redirectUrl))
+                .build();
     }
 
-    @PostMapping("/requestPermissionToChangePassword")
+    @PostMapping("/sendChangePasswordEmail")
     private void requestPermissionToChangePassword(@RequestParam Long userId) throws MessagingException {
-        userRepository.findById(userId).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "user not found")
+        Token tok = tokenRepository.findByUserId(userId);
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST)
         );
 
-        sendRequetPermissionMail(userId);
+        Token token = new Token();
+        if (tok != null) token.setId(tok.getId());
+        token.setUserId(user.getId());
+        token.setToken(calculateHash(user.getEmail(), "SHA-256"));
+        tokenRepository.save(token);
+
+        sendChangePasswordEmail(user, token.getToken());
     }
 
-    @GetMapping("/permitChangePassword/{userId}")
-    private String permitChangePassword(@PathVariable Long userId) {
+    @GetMapping("/permitChangePassword/{userId}/{token}")
+    private ResponseEntity<Void> permitChangePassword(@PathVariable Long userId, @PathVariable String token) {
+        String savedToken = tokenRepository.findByUserId(userId).getToken();
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "user not found")
         );
 
-        user.setCanChangePassword(true);
-        userRepository.save(user);
+        if (savedToken.equals(token)) {
+            user.setCanChangePassword(true);
+            userRepository.save(user);
+        };
 
-        return "Permissão concedida";
+        String url = "http://hawerroth.dev.br/healthcare/recuperacao-da-senha/" + user.getId();
+
+        UriComponentsBuilder redirectUriBuilder = UriComponentsBuilder
+                .fromUriString(url);
+
+        String redirectUrl = redirectUriBuilder.build().toUriString();
+
+        return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                .location(URI.create(redirectUrl))
+                .build();
+    }
+
+    @PutMapping("/changePassword")
+    private ResponseEntity<User> changePassword(@RequestParam Long userId, @RequestParam String newPassword) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST)
+        );
+
+        if (!user.getCanChangePassword()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sem permissão para alterar a senha");
+        }
+
+        user.setSenha(bcrypt.encode(newPassword));
+        user.setCanChangePassword(false);
+
+        return ResponseEntity.status(HttpStatus.OK).body(userRepository.save(user));
     }
 
     private void sendActivateAccountEmail(Token token) throws MessagingException {
@@ -160,31 +205,28 @@ public class LoginController {
 
         email.setDestinatario(user.getEmail());
         email.setAssunto("Ativação da conta HealthCare");
-        email.setConteudo("Clique no link a seguir para ativar sua conta: "
-                + "http://3.144.152.77:8080/healthcare/login/activateAccount/"
-                + token.getUserId() + "/" + token.getToken()
-                + ".\n\n Agradeço pelo seu tempo dedicado ao teste do sistema, sinta-se a vontade"
-                + " para enviar um email com sugestões de melhoria, dúvidas ou qualquer outro assunto.");
+        email.setConteudo("Clique <a href='http://3.144.152.77:8080/healthcare/login/activateAccount/"
+                + token.getUserId() + "/" + token.getToken() + "'>aqui</a> para ativar sua conta.<br><br>"
+                + "Agradeço pelo seu tempo dedicado ao teste do sistema, sinta-se a vontade "
+                + "para enviar um email com sugestões de melhoria, dúvidas ou qualquer outro assunto.");
         emailService.enviarEmail(email);
     }
 
-    private void sendRequetPermissionMail(Long userId) throws MessagingException {
+    private void sendChangePasswordEmail(User user, String token) throws MessagingException {
         EmailDTO email = new EmailDTO();
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST)
-        );
 
         email.setDestinatario(user.getEmail());
-        email.setAssunto("Permissão para alterar senha HealthCare");
-        email.setConteudo("Clique no link a seguir para permitir a alteração de senha:"
-                + "http://3.144.152.77:8080/healthcare/login/permitChangePassword/" + userId
-                + ".\n\n Agradeço pelo seu tempo dedicado ao teste do sistema, sinta-se a vontade"
-                + " para enviar um email com sugestões de melhoria, dúvidas ou qualquer outro assunto.");
+        email.setAssunto("Alteração da senha HealthCare");
+        email.setConteudo(
+                "Clique <a href='http://3.144.152.77:8080/healthcare/login/permitChangePassword/" + user.getId()
+                + "/" + token + "'>aqui</a> redefinir sua senha HealthCare.<br><br>"
+                + "Agradeço pelo seu tempo dedicado ao teste do sistema, sinta-se a vontade "
+                + "para enviar um email com sugestões de melhoria, dúvidas ou qualquer outro assunto.");
 
         emailService.enviarEmail(email);
     }
 
-    private static String calculateHash(String input, String algorithm) throws NoSuchAlgorithmException {
+    private static String calculateHash(String input, String algorithm) {
         try {
             MessageDigest digest = MessageDigest.getInstance(algorithm);
             byte[] hashBytes = digest.digest(input.getBytes(StandardCharsets.UTF_8));

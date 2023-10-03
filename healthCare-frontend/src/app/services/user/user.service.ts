@@ -47,10 +47,10 @@ export class UserService {
           }
           if (user) {
             localStorage.setItem(
-              'token',
+              'tokenHealthcare',
               btoa(JSON.stringify(result.access_token))
             );
-            localStorage.setItem('user', btoa(JSON.stringify(user)));
+            localStorage.setItem('userHealthCare', btoa(JSON.stringify(user)));
             this.utilsService.showSimpleMessage('Login realizado com sucesso');
             this.router.navigate(['']);
           } else {
@@ -68,30 +68,31 @@ export class UserService {
   }
 
   logout() {
-    localStorage.clear();
+    localStorage.removeItem('tokenHealthcare');
+    localStorage.removeItem('userHealthCare');
     this.router.navigate(['login']);
   }
 
   get getLoggedUser(): User {
-    return localStorage.getItem('user')
-      ? JSON.parse(atob(localStorage.getItem('user')!))
+    return localStorage.getItem('userHealthCare')
+      ? JSON.parse(atob(localStorage.getItem('userHealthCare')!))
       : null;
   }
 
   get getLoggedUserId() {
-    return localStorage.getItem('user')
-      ? Number(JSON.parse(atob(localStorage.getItem('user')!)).id)
+    return localStorage.getItem('userHealthCare')
+      ? Number(JSON.parse(atob(localStorage.getItem('userHealthCare')!)).id)
       : null;
   }
 
   get getUserToken(): string {
-    return localStorage.getItem('token')
-      ? JSON.parse(atob(localStorage.getItem('token')!))
+    return localStorage.getItem('tokenHealthcare')
+      ? JSON.parse(atob(localStorage.getItem('tokenHealthcare')!))
       : null;
   }
 
   get logged(): boolean {
-    return localStorage.getItem('token') ? true : false;
+    return localStorage.getItem('tokenHealthcare') ? true : false;
   }
 
   getByEmail(email: string): Promise<User> {
@@ -141,16 +142,22 @@ export class UserService {
     );
   }
 
-  requestPermissionToChangePassword(userId: number): Promise<any> {
+  sendChangePasswordEmail(userId: number): Promise<any> {
     let params = new HttpParams();
-
     params = params.append('userId', userId);
 
     return lastValueFrom(
-      this.http.post<any>(
-        `${this.apiUrl}/requestPermissionToChangePassword`,
-        params
-      )
+      this.http.post(`${this.apiUrl}/sendChangePasswordEmail`, params)
+    );
+  }
+
+  changePassword(userId: number, newPassword: string): Promise<any> {
+    let params = new HttpParams();
+    params = params.append('userId', userId);
+    params = params.append('newPassword', newPassword);
+
+    return lastValueFrom(
+      this.http.put(`${this.apiUrl}/changePassword`, params)
     );
   }
 }

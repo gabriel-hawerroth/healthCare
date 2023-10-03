@@ -18,6 +18,8 @@ import { ResetPasswordComponent } from './components/pages/login/components/rese
 import { LoginComponent } from './components/pages/login/login.component';
 import { unauthenticatedUserGuard } from './services/guards/unauthenticated-user.guard';
 import { authenticatedUserGuard } from './services/guards/authenticated-user.guard';
+import { AccountActivateComponent } from './components/pages/login/components/account-activate/account-activate.component';
+import { ChangePasswordComponent } from './components/pages/login/components/change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -33,6 +35,16 @@ const routes: Routes = [
   {
     path: 'esqueci-minha-senha',
     component: ResetPasswordComponent,
+    canActivate: [unauthenticatedUserGuard],
+  },
+  {
+    path: 'ativacao-da-conta',
+    component: AccountActivateComponent,
+    canActivate: [unauthenticatedUserGuard],
+  },
+  {
+    path: 'recuperacao-da-senha/:id',
+    component: ChangePasswordComponent,
     canActivate: [unauthenticatedUserGuard],
   },
   {

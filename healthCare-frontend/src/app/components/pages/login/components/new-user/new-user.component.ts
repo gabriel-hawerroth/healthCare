@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { UserService } from 'src/app/services/user/user.service';
 import { UtilsService } from 'src/app/utils/utils.service';
@@ -18,8 +17,7 @@ export class NewUserComponent implements OnInit {
     private utilsService: UtilsService,
     private userService: UserService,
     private fb: FormBuilder,
-    private router: Router,
-    private snackBar: MatSnackBar
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -52,9 +50,8 @@ export class NewUserComponent implements OnInit {
           this.userService
             .SendAccountActivationEmail(result.id!)
             .then(() => {
-              this.snackBar.open(
-                `Um link de ativação da conta foi enviado para o email: ${result.email}`,
-                'OK'
+              this.utilsService.showSimpleMessageWithoutDuration(
+                `Um link de ativação da conta foi enviado para o email: ${result.email}`
               );
               this.router.navigate(['/login']);
             })

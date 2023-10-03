@@ -130,22 +130,24 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
           console.log(`Campo inválido: ${controlName}`);
         }
       }
-      this.snackBar.open('Não foi possível salvar as informações.', '', {
-        duration: 4500,
-      });
+      this.utilsService.showSimpleMessageWithDuration(
+        'Não foi possível salvar as informações.',
+        4500
+      );
     } else {
       lastValueFrom(this.atendService.createAtendimento(this.atendForm.value))
-        .then((result) => {
-          this.snackBar.open('Atendimento criado com sucesso.', '', {
-            duration: 4000,
-          });
+        .then(() => {
+          this.utilsService.showSimpleMessage(
+            'Atendimento criado com sucesso.'
+          );
           this.router.navigate(['/atendimento']);
         })
         .catch((error) => {
           console.log(error);
-          this.snackBar.open('Não foi possível salvar as informações.', '', {
-            duration: 4500,
-          });
+          this.utilsService.showSimpleMessageWithDuration(
+            'Não foi possível salvar as informações.',
+            4500
+          );
         });
     }
   }
@@ -157,41 +159,42 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
           console.log(`Campo inválido: ${controlName}`);
         }
       }
-      this.snackBar.open('Não foi possível salvar as informações.', '', {
-        duration: 4500,
-      });
+      this.utilsService.showSimpleMessageWithDuration(
+        'Não foi possível salvar as informações.',
+        4500
+      );
     } else {
       lastValueFrom(this.atendService.updateAtendimento(this.atendForm.value))
-        .then((result) => {
-          this.snackBar.open('Atendimento salvo com sucesso.', '', {
-            duration: 4000,
-          });
+        .then(() => {
+          this.utilsService.showSimpleMessage('Atendimento salvo com sucesso.');
           this.router.navigate(['/atendimento']);
         })
         .catch((error) => {
           console.log(error);
-          this.snackBar.open('Não foi possível salvar as informações.', '', {
-            duration: 4500,
-          });
+          this.utilsService.showSimpleMessageWithDuration(
+            'Não foi possível salvar as informações.',
+            4500
+          );
         });
     }
   }
 
   removeAtend() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = +this.atendForm.get('id')!.value;
 
     lastValueFrom(this.atendService.removeAtendimento(id))
-      .then((result) => {
-        this.snackBar.open('Atendimento removido com sucesso.', '', {
-          duration: 4500,
-        });
+      .then(() => {
+        this.utilsService.showSimpleMessage(
+          'Atendimento removido com sucesso.'
+        );
         this.router.navigate(['/atendimento']);
       })
       .catch((error) => {
         console.log(error);
-        this.snackBar.open('Não foi possível excluir o atendimento.', '', {
-          duration: 4500,
-        });
+        this.utilsService.showSimpleMessageWithDuration(
+          'Não foi possível excluir o atendimento.',
+          4500
+        );
       });
   }
 

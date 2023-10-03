@@ -52,6 +52,8 @@ import { NewUserComponent } from './components/pages/login/components/new-user/n
 import { ResetPasswordComponent } from './components/pages/login/components/reset-password/reset-password.component';
 import { TokenInterceptor } from './services/interceptors/token.interceptor';
 import { BottomSheetComponent } from './utils/bottom-sheet/bottom-sheet.component';
+import { AccountActivateComponent } from './components/pages/login/components/account-activate/account-activate.component';
+import { ChangePasswordComponent } from './components/pages/login/components/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +79,8 @@ import { BottomSheetComponent } from './utils/bottom-sheet/bottom-sheet.componen
     NewUserComponent,
     ResetPasswordComponent,
     BottomSheetComponent,
+    AccountActivateComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,
