@@ -26,7 +26,7 @@ import { UtilsService } from 'src/app/utils/utils.service';
   styleUrls: ['./atendimento-form.component.scss'],
 })
 export class AtendimentoFormComponent implements OnInit, OnDestroy {
-  @Input() atendData: Atendimento | null = null;
+  atendData: Atendimento | null = null;
 
   atendForm!: FormGroup;
   atend?: Atendimento;
@@ -62,6 +62,21 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
 
     this.buildForm();
 
+    if (this.pageType !== 'Novo') {
+      lastValueFrom(this.atendService.getById(+this.pageType)).then(
+        (result) => {
+          if (!result) return;
+
+          this.atendData = result;
+          this.atendForm.patchValue(this.atendData);
+
+          this.atendForm
+            .get('dt_atendimento')
+            ?.setValue(moment(this.atendForm.value.dt_atendimento).toDate());
+        }
+      );
+    }
+
     lastValueFrom(this.patientService.getPatients(userId)).then((result) => {
       this.patients = this.utilsService.filterList(result, 'ieSituacao', 'A');
       this.filteredPatients = this.patients;
@@ -91,13 +106,6 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
 
         this.filteredUnits = rows;
       });
-
-    if (this.atendData) {
-      this.atendForm.patchValue(this.atendData);
-      this.atendForm
-        .get('dt_atendimento')
-        ?.setValue(moment(this.atendForm.value.dt_atendimento).toDate());
-    }
   }
 
   ngOnDestroy(): void {

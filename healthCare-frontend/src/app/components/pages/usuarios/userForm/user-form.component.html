@@ -131,15 +131,7 @@
 
     <div class="bottom">
       <span
-        *ngIf="pageType == 'Novo'"
-        (click)="newUser()"
-        class="material-symbols-outlined button-bottom"
-        >save</span
-      >
-
-      <span
-        *ngIf="pageType != 'Novo'"
-        (click)="editUser()"
+        (click)="pageType !== 'Novo' ? editUser() : newUser()"
         class="material-symbols-outlined button-bottom"
         >save</span
       >

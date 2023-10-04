@@ -17,7 +17,7 @@ import { UtilsService } from 'src/app/utils/utils.service';
   styleUrls: ['./unit-form.component.scss'],
 })
 export class UnitFormComponent implements OnInit {
-  @Input() unitData: Unidade | null = null;
+  unitData: Unidade | null = null;
 
   unitForm!: FormGroup;
   pageType?: string;
@@ -39,6 +39,19 @@ export class UnitFormComponent implements OnInit {
   ngOnInit() {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
 
+    this.buildForm();
+
+    if (this.pageType !== 'Novo') {
+      lastValueFrom(this.unitService.getById(+this.pageType)).then((result) => {
+        if (!result) return;
+
+        this.unitData = result;
+        this.unitForm.patchValue(this.unitData);
+      });
+    }
+  }
+
+  buildForm() {
     this.unitForm = this.fb.group({
       id: '',
       dsNome: ['', Validators.required],
@@ -60,10 +73,6 @@ export class UnitFormComponent implements OnInit {
       como_chegar: '',
       userId: this.userService.getLoggedUserId,
     });
-
-    if (this.unitData) {
-      this.unitForm.patchValue(this.unitData);
-    }
   }
 
   newUnit() {
@@ -127,10 +136,10 @@ export class UnitFormComponent implements OnInit {
   }
 
   removeUnit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = +this.route.snapshot.paramMap.get('id')!;
 
     lastValueFrom(this.unitService.removeUnit(id))
-      .then((result) => {
+      .then(() => {
         this.utilsService.showSimpleMessageWithDuration(
           'Unidade removida com sucesso.',
           4500

@@ -15,7 +15,7 @@ import { UtilsService } from 'src/app/utils/utils.service';
   styleUrls: ['./user-form.component.scss'],
 })
 export class UserFormComponent implements OnInit {
-  @Input() userData?: User | null;
+  userData?: User | null;
 
   userForm!: FormGroup;
   pageType?: string;
@@ -33,6 +33,18 @@ export class UserFormComponent implements OnInit {
   ngOnInit() {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
 
+    this.buildForm();
+
+    if (this.pageType !== 'Novo') {
+      this.userService.getById(+this.pageType).then((result) => {
+        this.userData = result;
+        this.userForm.patchValue(this.userData);
+        this.userForm.get('senha')?.setValue('');
+      });
+    }
+  }
+
+  buildForm() {
     this.userForm = this.fb.group({
       id: '',
       email: ['', [Validators.required, Validators.email]],
@@ -43,11 +55,6 @@ export class UserFormComponent implements OnInit {
       situacao: 'A',
       canChangePassword: false,
     });
-
-    if (this.userData) {
-      this.userForm.patchValue(this.userData);
-      this.userForm.get('senha')?.setValue('');
-    }
   }
 
   newUser() {

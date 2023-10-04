@@ -10,14 +10,7 @@
 
     <div class="rigth buttons">
       <span
-        *ngIf="pageType == 'Novo'"
-        (click)="newUnit()"
-        class="material-symbols-outlined button-forms"
-        >save</span
-      >
-      <span
-        *ngIf="pageType != 'Novo'"
-        (click)="editUnit()"
+        (click)="pageType !== 'Novo' ? editUnit() : newUnit()"
         class="material-symbols-outlined button-forms"
         >save</span
       >

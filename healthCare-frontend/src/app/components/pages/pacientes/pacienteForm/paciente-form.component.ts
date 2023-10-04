@@ -18,7 +18,7 @@ import { UtilsService } from 'src/app/utils/utils.service';
   styleUrls: ['paciente-form.component.scss'],
 })
 export class PacienteFormComponent implements OnInit {
-  @Input() patientData: Patient | null = null;
+  patientData: Patient | null = null;
 
   patientForm!: FormGroup;
   pageType!: string;
@@ -42,26 +42,35 @@ export class PacienteFormComponent implements OnInit {
 
     this.buildForm();
 
-    if (this.patientData) {
-      this.patientForm.patchValue(this.patientData);
+    if (this.pageType !== 'Novo') {
+      lastValueFrom(this.patientService.getById(+this.pageType)).then(
+        (result) => {
+          if (!result) return;
 
-      if (this.patientForm.get('dt_nascimento')?.value) {
-        this.patientForm
-          .get('dt_nascimento')
-          ?.setValue(moment(this.patientForm.value.dt_nascimento).toDate());
-      }
+          this.patientData = result;
+          this.patientForm.patchValue(this.patientData);
 
-      if (this.patientForm.get('dt_inicio_atend')?.value) {
-        this.patientForm
-          .get('dt_inicio_atend')
-          ?.setValue(moment(this.patientForm.value.dt_inicio_atend).toDate());
-      }
+          if (this.patientForm.get('dt_nascimento')?.value) {
+            this.patientForm
+              .get('dt_nascimento')
+              ?.setValue(moment(this.patientForm.value.dt_nascimento).toDate());
+          }
 
-      if (this.patientForm.get('dt_fim_atend')?.value) {
-        this.patientForm
-          .get('dt_fim_atend')
-          ?.setValue(moment(this.patientForm.value.dt_fim_atend).toDate());
-      }
+          if (this.patientForm.get('dt_inicio_atend')?.value) {
+            this.patientForm
+              .get('dt_inicio_atend')
+              ?.setValue(
+                moment(this.patientForm.value.dt_inicio_atend).toDate()
+              );
+          }
+
+          if (this.patientForm.get('dt_fim_atend')?.value) {
+            this.patientForm
+              .get('dt_fim_atend')
+              ?.setValue(moment(this.patientForm.value.dt_fim_atend).toDate());
+          }
+        }
+      );
     }
 
     this.showLoading = false;
@@ -171,10 +180,10 @@ export class PacienteFormComponent implements OnInit {
   }
 
   removePatient() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = +this.route.snapshot.paramMap.get('id')!;
 
     lastValueFrom(this.patientService.removePatient(id))
-      .then((result) => {
+      .then(() => {
         this.utilsService.showSimpleMessageWithDuration(
           'Paciente removido com sucesso.',
           4500
