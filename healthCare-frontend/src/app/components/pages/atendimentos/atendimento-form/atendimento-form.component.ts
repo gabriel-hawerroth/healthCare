@@ -5,7 +5,6 @@ import {
   Validators,
   FormBuilder,
 } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UnidadeService } from 'src/app/services/unidade/unidade.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -50,7 +49,6 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
     private patientService: PatientService,
     private unitService: UnidadeService,
     private userService: UserService,
-    private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private fb: FormBuilder,
     private utilsService: UtilsService
@@ -61,6 +59,8 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
     const userId = this.userService.getLoggedUserId!;
+
+    this.buildForm();
 
     lastValueFrom(this.patientService.getPatients(userId)).then((result) => {
       this.patients = this.utilsService.filterList(result, 'ieSituacao', 'A');
@@ -92,6 +92,20 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
         this.filteredUnits = rows;
       });
 
+    if (this.atendData) {
+      this.atendForm.patchValue(this.atendData);
+      this.atendForm
+        .get('dt_atendimento')
+        ?.setValue(moment(this.atendForm.value.dt_atendimento).toDate());
+    }
+  }
+
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next('');
+    this._unsubscribeAll.complete();
+  }
+
+  buildForm() {
     this.atendForm = this.fb.group({
       id: '',
       id_paciente: ['', Validators.required],
@@ -109,18 +123,6 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
       nr_carteirinha_convenio: '',
       userId: this.userService.getLoggedUserId,
     });
-
-    if (this.atendData) {
-      this.atendForm.patchValue(this.atendData);
-      this.atendForm
-        .get('dt_atendimento')
-        ?.setValue(moment(this.atendForm.value.dt_atendimento).toDate());
-    }
-  }
-
-  ngOnDestroy(): void {
-    this._unsubscribeAll.next('');
-    this._unsubscribeAll.complete();
   }
 
   newAtend() {

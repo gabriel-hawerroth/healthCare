@@ -12,6 +12,7 @@ import { UserService } from 'src/app/services/user/user.service';
 export class ResetPasswordComponent implements OnInit {
   resetPasswordForm!: FormGroup;
   originalFormValue!: FormGroup;
+  showLoading: boolean = false;
 
   constructor(
     private utilsService: UtilsService,
@@ -28,10 +29,12 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   resetPassword() {
+    this.showLoading = true;
     this.userService
       .getByEmail(this.resetPasswordForm.get('email')!.value)
       .then((receivedUser) => {
         if (!receivedUser) {
+          this.showLoading = false;
           this.utilsService.showSimpleMessage(
             'Esse usuário não existe, verifique e tente novamente'
           );
@@ -41,34 +44,21 @@ export class ResetPasswordComponent implements OnInit {
         this.userService
           .sendChangePasswordEmail(receivedUser.id!)
           .then(() => {
+            this.showLoading = false;
             this.resetPasswordForm.reset(this.originalFormValue);
             this.utilsService.showSimpleMessageWithoutDuration(
               `O link de recuperação foi enviado para o email: ${receivedUser.email}`
             );
           })
           .catch(() => {
+            this.showLoading = false;
             this.utilsService.showSimpleMessage(
               'Erro no sistema, tente novamente mais tarde'
             );
           });
-
-        // this.userService
-        //   .editUser(user)
-        //   .then(() => {
-        //     this.utilsService.showSimpleMessage('Senha alterada com sucesso');
-        //     this.router.navigate(['/login']);
-
-        //     user.canChangePassword = false;
-        //     this.userService.editUser(user).then(() => {});
-        //   })
-        //   .catch(() => {
-        //     this.utilsService.showSimpleMessage(
-        //       'Erro ao atualizar a senha, entre em contato com o nosso suporte'
-        //     );
-        //     return;
-        //   });
       })
       .catch(() => {
+        this.showLoading = false;
         this.utilsService.showSimpleMessage(
           'Esse usuário não existe, verifique e tente novamente'
         );

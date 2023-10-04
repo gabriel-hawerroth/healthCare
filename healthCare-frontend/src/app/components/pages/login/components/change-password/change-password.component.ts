@@ -15,6 +15,7 @@ export class ChangePasswordComponent implements OnInit {
   changePasswordForm!: FormGroup;
   userId: number = 0;
   permission: boolean = true;
+  showLoading: boolean = false;
 
   user?: User;
 
@@ -61,6 +62,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   changePassword() {
+    this.showLoading = true;
     const newPass = {
       newPassword: this.changePasswordForm.get('newPassword')!.value,
       newPasswordConfirm:
@@ -68,6 +70,7 @@ export class ChangePasswordComponent implements OnInit {
     };
 
     if (newPass.newPassword !== newPass.newPasswordConfirm) {
+      this.showLoading = false;
       this._utilsService.showSimpleMessage('As senhas não coincidem');
       return;
     }
@@ -75,7 +78,10 @@ export class ChangePasswordComponent implements OnInit {
     this._userService
       .changePassword(this.userId, newPass.newPassword)
       .then((result) => {
-        if (!result) return;
+        if (!result) {
+          this.showLoading = false;
+          return;
+        }
 
         const credentials: Credentials = {
           username: this.user!.email,
@@ -83,6 +89,13 @@ export class ChangePasswordComponent implements OnInit {
         };
 
         this._userService.login(credentials);
+        this.showLoading = false;
+      })
+      .catch(() => {
+        this.showLoading = false;
+        this._utilsService.showSimpleMessage(
+          'Erro ao alterar a senha, tente novamente mais tarde'
+        );
       });
   }
 }

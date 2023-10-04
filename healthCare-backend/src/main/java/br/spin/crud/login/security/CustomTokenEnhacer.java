@@ -19,7 +19,7 @@ public class CustomTokenEnhacer extends JwtAccessTokenConverter {
     public OAuth2AccessToken enhance(OAuth2AccessToken acessToken,
                                      OAuth2Authentication authentication) {
         if (authentication.getOAuth2Request().getGrantType().equalsIgnoreCase("password")) {
-            final Map<String, Object> additionalInfo = new HashMap();
+            final Map<String, Object> additionalInfo = new HashMap<>();
             UserDetailsCustom userDetailsCustom = (UserDetailsCustom) authentication.getUserAuthentication().getPrincipal();
             additionalInfo.put("username", userDetailsCustom.getUsername());
             ((DefaultOAuth2AccessToken) acessToken).setAdditionalInformation(additionalInfo);

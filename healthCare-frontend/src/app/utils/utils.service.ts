@@ -67,7 +67,7 @@ export class UtilsService {
     dateFilterStart: Date,
     dateFilterEnd: Date
   ) {
-    if (!rows || !dateFilterStart) return rows;
+    if (!rows) return rows;
 
     return rows.filter((item: any) => {
       if (item[atributo]) {

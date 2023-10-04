@@ -1,5 +1,9 @@
 <div class="simple-page">
-  <div class="top-actions">
+  <div class="spinner" *ngIf="showLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div class="top-actions" *ngIf="!showLoading">
     <div class="left">
       <mat-icon routerLink="/paciente" class="pointer arrow-back"
         >arrow_back</mat-icon
@@ -30,7 +34,7 @@
     </div>
   </div>
 
-  <form class="form" [formGroup]="patientForm">
+  <form class="form" [formGroup]="patientForm" *ngIf="!showLoading">
     <div class="general-section" fxLayoutGap="13">
       <input type="hidden" formControlName="id" />
 

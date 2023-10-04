@@ -11,7 +11,7 @@
 $primary-color: #00897B;
 
 $custom-app-primary: mat-palette($mat-teal, 700);
-$custom-app-secondary: mat-palette($mat-teal, 500);
+$custom-app-secondary: mat-palette($mat-grey, 50);
 $custom-app-warn: mat-palette($mat-teal, 800);
 
 $custom-theme: mat-light-theme($custom-app-primary,
@@ -347,7 +347,19 @@ form {
 
     button {
       padding: 23px 70px;
+
+      .mat-mdc-progress-spinner {
+        color: #fff !important;
+        max-height: 32px;
+      }
     }
   }
+}
 
+.spinner-h32px {
+  max-height: 32px !important;
+}
+
+mat-hint {
+  color: #3a3a3a !important;
 }

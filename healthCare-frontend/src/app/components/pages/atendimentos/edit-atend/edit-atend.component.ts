@@ -26,21 +26,19 @@ export class EditAtendComponent implements OnInit {
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    const userId: number = this.userService.getLoggedUserId!;
 
-    lastValueFrom(this.atendService.getAtends(userId)).then((result) => {
-      const atends: Atendimento[] = result;
-      const atendsId = atends.map((atend) => atend.id);
+    lastValueFrom(this.atendService.getById(id))
+      .then((result) => {
+        if (!result) return;
 
-      if (!atendsId.includes(id)) {
+        if (result.userId !== this.userService.getLoggedUserId) {
+          this.router.navigate(['atendimento']);
+          this.utilsService.showSimpleMessage('Atendimento não encontrado');
+        } else this.atend = result;
+      })
+      .catch(() => {
+        this.router.navigate(['atendimento']);
         this.utilsService.showSimpleMessage('Atendimento não encontrado');
-        this.router.navigate(['/atendimento']);
-        return;
-      } else {
-        lastValueFrom(this.atendService.getById(id)).then((result) => {
-          this.atend = result;
-        });
-      }
-    });
+      });
   }
 }

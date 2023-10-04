@@ -12,6 +12,7 @@ import { UtilsService } from 'src/app/utils/utils.service';
 })
 export class NewUserComponent implements OnInit {
   newUserForm!: FormGroup;
+  showLoading: boolean = false;
 
   constructor(
     private utilsService: UtilsService,
@@ -43,6 +44,7 @@ export class NewUserComponent implements OnInit {
   }
 
   createUser() {
+    this.showLoading = true;
     this.userService
       .newUser(this.newUserForm.value)
       .then((result) => {
@@ -50,12 +52,14 @@ export class NewUserComponent implements OnInit {
           this.userService
             .SendAccountActivationEmail(result.id!)
             .then(() => {
+              this.showLoading = false;
               this.utilsService.showSimpleMessageWithoutDuration(
                 `Um link de ativação da conta foi enviado para o email: ${result.email}`
               );
               this.router.navigate(['/login']);
             })
             .catch(() => {
+              this.showLoading = false;
               this.utilsService.showSimpleMessage(
                 'Erro ao criar o usuário, entre em contato com nosso suporte'
               );
@@ -78,6 +82,7 @@ export class NewUserComponent implements OnInit {
             'Erro ao criar o usuário, entre em contato com nosso suporte'
           );
         }
+        this.showLoading = false;
       });
   }
 }

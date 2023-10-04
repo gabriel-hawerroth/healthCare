@@ -23,6 +23,7 @@ export class PacienteFormComponent implements OnInit {
   patientForm!: FormGroup;
   pageType!: string;
   patient?: Patient;
+  showLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -36,6 +37,7 @@ export class PacienteFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.showLoading = true;
     this.pageType = this.route.snapshot.paramMap.get('id') || 'Novo';
 
     this.buildForm();
@@ -61,6 +63,8 @@ export class PacienteFormComponent implements OnInit {
           ?.setValue(moment(this.patientForm.value.dt_fim_atend).toDate());
       }
     }
+
+    this.showLoading = false;
   }
 
   buildForm() {

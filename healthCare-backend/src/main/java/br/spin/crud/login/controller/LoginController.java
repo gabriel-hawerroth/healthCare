@@ -207,7 +207,7 @@ public class LoginController {
         email.setAssunto("Ativação da conta HealthCare");
         email.setConteudo("Clique <a href='http://3.144.152.77:8080/healthcare/login/activateAccount/"
                 + token.getUserId() + "/" + token.getToken() + "'>aqui</a> para ativar sua conta.<br><br>"
-                + "Agradeço pelo seu tempo dedicado ao teste do sistema, sinta-se a vontade "
+                + "Obrigado pelo tempo dedicado ao teste do sistema, sinta-se a vontade "
                 + "para enviar um email com sugestões de melhoria, dúvidas ou qualquer outro assunto.");
         emailService.enviarEmail(email);
     }
@@ -220,7 +220,7 @@ public class LoginController {
         email.setConteudo(
                 "Clique <a href='http://3.144.152.77:8080/healthcare/login/permitChangePassword/" + user.getId()
                 + "/" + token + "'>aqui</a> redefinir sua senha HealthCare.<br><br>"
-                + "Agradeço pelo seu tempo dedicado ao teste do sistema, sinta-se a vontade "
+                + "Obrigado pelo tempo dedicado ao teste do sistema, sinta-se a vontade "
                 + "para enviar um email com sugestões de melhoria, dúvidas ou qualquer outro assunto.");
 
         emailService.enviarEmail(email);

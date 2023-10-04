@@ -27,6 +27,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -112,6 +113,7 @@ import { ChangePasswordComponent } from './components/pages/login/components/cha
     MatToolbarModule,
     MatBottomSheetModule,
     MatListModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     provideNgxMask(),

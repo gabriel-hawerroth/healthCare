@@ -26,21 +26,18 @@ export class EditPatientComponent implements OnInit {
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    lastValueFrom(
-      this.patientService.getPatients(this.userService.getLoggedUserId!)
-    ).then((result) => {
-      const patients: Patient[] = result;
-      const patientsId = patients.map((patient) => patient.id);
+    lastValueFrom(this.patientService.getById(id))
+      .then((result) => {
+        if (!result) return;
 
-      if (!patientsId.includes(id)) {
+        if (result.userId !== this.userService.getLoggedUserId) {
+          this.router.navigate(['paciente']);
+          this.utilsService.showSimpleMessage('Paciente não encontrado');
+        } else this.patient = result;
+      })
+      .catch(() => {
+        this.router.navigate(['paciente']);
         this.utilsService.showSimpleMessage('Paciente não encontrado');
-        this.router.navigate(['/paciente']);
-        return;
-      } else {
-        lastValueFrom(this.patientService.getById(id)).then((result) => {
-          this.patient = result;
-        });
-      }
-    });
+      });
   }
 }

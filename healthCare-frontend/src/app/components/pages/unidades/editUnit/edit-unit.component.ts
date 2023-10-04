@@ -26,21 +26,18 @@ export class EditUnitComponent implements OnInit {
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    lastValueFrom(
-      this.unitService.getUnits(this.userService.getLoggedUserId!)
-    ).then((result) => {
-      const units: Unidade[] = result;
-      const unitsId = units.map((unit) => unit.id);
+    lastValueFrom(this.unitService.getById(id))
+      .then((result) => {
+        if (!result) return;
 
-      if (!unitsId.includes(id)) {
+        if (result.userId !== this.userService.getLoggedUserId) {
+          this.router.navigate(['unidade']);
+          this.utilsService.showSimpleMessage('Unidade não encontrada');
+        } else this.unit = result;
+      })
+      .catch(() => {
+        this.router.navigate(['unidade']);
         this.utilsService.showSimpleMessage('Unidade não encontrada');
-        this.router.navigate(['/unidade']);
-        return;
-      } else {
-        lastValueFrom(this.unitService.getById(id)).then((result) => {
-          this.unit = result;
-        });
-      }
-    });
+      });
   }
 }
