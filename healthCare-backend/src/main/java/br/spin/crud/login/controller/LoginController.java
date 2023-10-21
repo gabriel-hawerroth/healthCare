@@ -219,7 +219,7 @@ public class LoginController {
         email.setAssunto("Alteração da senha HealthCare");
         email.setConteudo(
                 "Clique <a href='http://3.144.152.77:8080/healthcare/login/permitChangePassword/" + user.getId()
-                + "/" + token + "'>aqui</a> redefinir sua senha HealthCare.<br><br>"
+                + "/" + token + "'>aqui</a> para redefinir sua senha HealthCare.<br><br>"
                 + "Obrigado pelo tempo dedicado ao teste do sistema, sinta-se a vontade "
                 + "para enviar um email com sugestões de melhoria, dúvidas ou qualquer outro assunto.");
 
