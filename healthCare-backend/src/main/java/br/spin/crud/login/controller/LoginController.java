@@ -129,7 +129,7 @@ public class LoginController {
             userRepository.save(user);
         };
 
-        String url = "http://hawerroth.dev.br/healthcare/ativacao-da-conta";
+        String url = "http://hawetec.com.br/healthcare/ativacao-da-conta";
 
         UriComponentsBuilder redirectUriBuilder = UriComponentsBuilder
                 .fromUriString(url);
@@ -169,7 +169,7 @@ public class LoginController {
             userRepository.save(user);
         };
 
-        String url = "http://hawerroth.dev.br/healthcare/recuperacao-da-senha/" + user.getId();
+        String url = "http://hawetec.com.br/healthcare/recuperacao-da-senha/" + user.getId();
 
         UriComponentsBuilder redirectUriBuilder = UriComponentsBuilder
                 .fromUriString(url);
@@ -205,7 +205,7 @@ public class LoginController {
 
         email.setDestinatario(user.getEmail());
         email.setAssunto("Ativação da conta HealthCare");
-        email.setConteudo("Clique <a href='http://3.144.152.77:8080/healthcare/login/activateAccount/"
+        email.setConteudo("Clique <a href='http://api.hawetec.com.br/healthcare/login/activateAccount/"
                 + token.getUserId() + "/" + token.getToken() + "'>aqui</a> para ativar sua conta.<br><br>"
                 + "Obrigado pelo tempo dedicado ao teste do sistema, sinta-se a vontade "
                 + "para enviar um email com sugestões de melhoria, dúvidas ou qualquer outro assunto.");
@@ -218,7 +218,7 @@ public class LoginController {
         email.setDestinatario(user.getEmail());
         email.setAssunto("Alteração da senha HealthCare");
         email.setConteudo(
-                "Clique <a href='http://3.144.152.77:8080/healthcare/login/permitChangePassword/" + user.getId()
+                "Clique <a href='http://api.hawetec.com.br/healthcare/login/permitChangePassword/" + user.getId()
                 + "/" + token + "'>aqui</a> para redefinir sua senha HealthCare.<br><br>"
                 + "Obrigado pelo tempo dedicado ao teste do sistema, sinta-se a vontade "
                 + "para enviar um email com sugestões de melhoria, dúvidas ou qualquer outro assunto.");
