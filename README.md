@@ -1,7 +1,4 @@
 # HealthCare
-
-HealthCare é apenas um  nome fictício.
-
 Projeto de treinamento para aprender desenvolvimento de sistemas web.
 
 Funcionalidades do sistema:
@@ -10,11 +7,18 @@ Funcionalidades do sistema:
 - Login.
 - Recuperação da senha.
 - Criptografia das senhas com bcrypt.
-- Validações, autopreenchimento pelo CEP e outras funcionalidades nos formulários.
+- Validações, autopreenchimento pelo CEP e outras funcionalidades nos formulários.  
+  
+Stack: Java 20, Spring 5, Angular 16, Postgres.  
+   
+---
+   
+Training project to learn web systems development.
 
-Linguagens/ferramentas utilizadas: java com Spring, html, sccs e typescript com Angular, Postgres e SQL.
-
-Versões:  
-Angular - 16  
-Java - 20  
-Spring - 5.3  
+System Features:
+- Register, change, view and delete data from patients, units and attendances (crud).
+- User registration.
+-Login.
+- Password recovery.
+- Encryption of passwords with bcrypt.
+- Validations, auto-completion by zip code and other features in the forms.
