@@ -19,11 +19,11 @@ public class PacienteService {
 
     private static final String patientNotFound = "Paciente não encontrado";
 
-    public List<Paciente> listPatients(Long userId) {
+    public List<Paciente> listPatients(long userId) {
         return pacienteRepository.findByUserId(userId);
     }
 
-    public Paciente getById(Long id){
+    public Paciente getById(long id){
         return pacienteRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, patientNotFound));
     }
@@ -41,7 +41,7 @@ public class PacienteService {
         return ResponseEntity.status(HttpStatus.OK).body(pacienteRepository.save(paciente));
     }
 
-    public ResponseEntity<Void> excluirPaciente(Long id) {
+    public ResponseEntity<Void> excluirPaciente(long id) {
         try {
             pacienteRepository.deleteById(id);
             return ResponseEntity.ok().build();

@@ -18,12 +18,12 @@ public class UnidadeController {
     private final UnidadeService unidadeService;
 
     @GetMapping
-    private List<Unidade> listaUnidadesQuery(@RequestParam Long userId) {
+    private List<Unidade> listaUnidadesQuery(@RequestParam long userId) {
         return unidadeService.listaUnidadesQuery(userId);
     }
 
     @GetMapping("/{id}")
-    private Unidade getById(@PathVariable Long id){
+    private Unidade getById(@PathVariable long id){
         return unidadeService.getById(id);
     }
 
@@ -38,7 +38,7 @@ public class UnidadeController {
     }
 
     @DeleteMapping("/{id}")
-    private ResponseEntity<Void> excluirUnidade(@PathVariable Long id) {
+    private ResponseEntity<Void> excluirUnidade(@PathVariable long id) {
         return unidadeService.excluirUnidade(id);
     }
 }

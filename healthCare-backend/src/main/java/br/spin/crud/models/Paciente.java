@@ -12,7 +12,7 @@ public class Paciente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(name = "ds_nome")
     private String dsNome;
@@ -52,7 +52,7 @@ public class Paciente {
 
     private String dependencia;
 
-    private Boolean permite_atend_online;
+    private boolean permite_atend_online;
 
     private String obs_diagnostico;
 
@@ -60,9 +60,9 @@ public class Paciente {
 
     private LocalDate dt_fim_atend;
 
-    private Boolean estoque_empenhado;
+    private boolean estoque_empenhado;
 
-    private Boolean guarda_compartilhada;
+    private boolean guarda_compartilhada;
 
     private String genero_pref;
 
@@ -91,5 +91,5 @@ public class Paciente {
     private LocalDate dt_criacao;
 
     @Column(name = "user_id")
-    private Long userId;
+    private long userId;
 }

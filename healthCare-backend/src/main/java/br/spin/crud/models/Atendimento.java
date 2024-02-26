@@ -12,11 +12,11 @@ public class Atendimento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
+    public long id;
 
-    private Integer id_paciente;
+    private long id_paciente;
 
-    private Integer id_unidade;
+    private long id_unidade;
 
     private LocalDate dt_atendimento;
 
@@ -43,5 +43,5 @@ public class Atendimento {
     private LocalDate dt_criacao;
 
     @Column(name = "user_id")
-    private Long userId;
+    private long userId;
 }

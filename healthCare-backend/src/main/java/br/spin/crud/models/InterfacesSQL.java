@@ -6,7 +6,7 @@ import java.time.LocalDate;
 public class InterfacesSQL {
 
     public interface AtendsPerson {
-        Long getId();
+        long getId();
         String getDs_paciente();
         String getDs_unidade();
         LocalDate getDt_atendimento();
@@ -21,6 +21,6 @@ public class InterfacesSQL {
         String getConvenio();
         String getNr_carteirinha_convenio();
         LocalDate getDt_criacao();
-        Long getUserId();
+        long getUserId();
     }
 }

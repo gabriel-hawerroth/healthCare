@@ -20,11 +20,11 @@ public class UnidadeService {
 
     private static final String unitNotFound = "Unidade não encontrada";
 
-    public List<Unidade> listaUnidadesQuery(Long userId) {
+    public List<Unidade> listaUnidadesQuery(long userId) {
         return unidadeRepository.findByUserId(userId);
     }
 
-    public Unidade getById(Long id){
+    public Unidade getById(long id){
         return unidadeRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, unitNotFound));
     }
@@ -42,7 +42,7 @@ public class UnidadeService {
         return ResponseEntity.status(HttpStatus.OK).body(unidadeRepository.save(unidade));
     }
 
-    public ResponseEntity<Void> excluirUnidade(Long id) {
+    public ResponseEntity<Void> excluirUnidade(long id) {
         try {
             unidadeRepository.deleteById(id);
             return ResponseEntity.ok().build();

@@ -12,7 +12,7 @@ public class Unidade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(name = "ds_nome")
     private String dsNome;
@@ -53,5 +53,5 @@ public class Unidade {
     private LocalDate dt_criacao;
 
     @Column(name = "user_id")
-    private Long userId;
+    private long userId;
 }

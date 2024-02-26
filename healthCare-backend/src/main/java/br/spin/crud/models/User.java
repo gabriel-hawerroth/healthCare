@@ -14,7 +14,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     private String email;
 
@@ -29,7 +29,7 @@ public class User implements UserDetails {
     private String situacao;
 
     @Column(name = "can_change_password")
-    private Boolean canChangePassword;
+    private boolean canChangePassword;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

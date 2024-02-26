@@ -21,15 +21,15 @@ public class AtendimentoService {
 
     private static final String serviceNotFound = "Atendimento não encontrado";
 
-    public List<Atendimento> listaAtendimentos(Long userId) {
+    public List<Atendimento> listaAtendimentos(long userId) {
         return atendimentoRepository.findAllByUserId(userId);
     }
 
-    public List<InterfacesSQL.AtendsPerson> listaAtendsPerson(Long userId) {
+    public List<InterfacesSQL.AtendsPerson> listaAtendsPerson(long userId) {
         return atendimentoRepository.listAtends(userId);
     }
 
-    public Atendimento getById(Integer id) {
+    public Atendimento getById(long id) {
         return atendimentoRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, serviceNotFound));
     }
@@ -47,7 +47,7 @@ public class AtendimentoService {
         return ResponseEntity.status(HttpStatus.OK).body(atendimentoRepository.save(atendimento));
     }
 
-    public ResponseEntity<Void> excluirAtendimento(Integer id) {
+    public ResponseEntity<Void> excluirAtendimento(long id) {
         try {
             atendimentoRepository.deleteById(id);
             return ResponseEntity.ok().build();

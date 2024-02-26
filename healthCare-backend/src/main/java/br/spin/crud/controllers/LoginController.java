@@ -23,7 +23,7 @@ public class LoginController {
     }
 
     @GetMapping("/{id}")
-    private User findById(@PathVariable Long id) {
+    private User findById(@PathVariable long id) {
         return loginService.findById(id);
     }
 
@@ -43,32 +43,32 @@ public class LoginController {
     }
 
     @DeleteMapping("/{id}")
-    private ResponseEntity<Void> excluirUsuario(@PathVariable Long id) {
+    private ResponseEntity<Void> excluirUsuario(@PathVariable long id) {
         return loginService.excluirUsuario(id);
     }
 
     @PostMapping("/sendActivateAccountEmail")
-    private void activateAccount(@RequestParam Long userId) {
+    private void activateAccount(@RequestParam long userId) {
         loginService.activateAccount(userId);
     }
 
     @GetMapping("/activate-account/{userId}/{token}")
-    private ResponseEntity<Void> activaUser(@PathVariable Long userId, @PathVariable String token) {
+    private ResponseEntity<Void> activaUser(@PathVariable long userId, @PathVariable String token) {
         return loginService.activaUser(userId, token);
     }
 
     @PostMapping("/sendChangePasswordEmail")
-    private void requestPermissionToChangePassword(@RequestParam Long userId) {
+    private void requestPermissionToChangePassword(@RequestParam long userId) {
         loginService.requestPermissionToChangePassword(userId);
     }
 
     @GetMapping("/permit-change-password/{userId}/{token}")
-    private ResponseEntity<Void> permitChangePassword(@PathVariable Long userId, @PathVariable String token) {
+    private ResponseEntity<Void> permitChangePassword(@PathVariable long userId, @PathVariable String token) {
         return loginService.permitChangePassword(userId, token);
     }
 
     @PutMapping("/changePassword")
-    private ResponseEntity<User> changePassword(@RequestParam Long userId, @RequestParam String newPassword) {
+    private ResponseEntity<User> changePassword(@RequestParam long userId, @RequestParam String newPassword) {
         return loginService.changePassword(userId, newPassword);
     }
 }

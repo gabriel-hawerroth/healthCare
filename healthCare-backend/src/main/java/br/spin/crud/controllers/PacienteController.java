@@ -18,12 +18,12 @@ public class PacienteController {
     private final PacienteService pacienteService;
 
     @GetMapping
-    private List<Paciente> listPatients(@RequestParam Long userId) {
+    private List<Paciente> listPatients(@RequestParam long userId) {
         return pacienteService.listPatients(userId);
     }
 
     @GetMapping("/{id}")
-    private Paciente getById(@PathVariable Long id){
+    private Paciente getById(@PathVariable long id){
         return pacienteService.getById(id);
     }
 
@@ -38,7 +38,7 @@ public class PacienteController {
     }
 
     @DeleteMapping("/{id}")
-    private ResponseEntity<Void> excluirPaciente(@PathVariable Long id) {
+    private ResponseEntity<Void> excluirPaciente(@PathVariable long id) {
         return pacienteService.excluirPaciente(id);
     }
 }

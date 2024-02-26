@@ -19,17 +19,17 @@ public class AtendimentoController {
     private final AtendimentoService atendimentoService;
 
     @GetMapping
-    private List<Atendimento> listaAtendimentos(@RequestParam Long userId) {
+    private List<Atendimento> listaAtendimentos(@RequestParam long userId) {
         return atendimentoService.listaAtendimentos(userId);
     }
 
     @GetMapping("/atends-person")
-    private List<InterfacesSQL.AtendsPerson> listaAtendsPerson(@RequestParam Long userId) {
+    private List<InterfacesSQL.AtendsPerson> listaAtendsPerson(@RequestParam long userId) {
         return atendimentoService.listaAtendsPerson(userId);
     }
 
     @GetMapping("/{id}")
-    private Atendimento getById(@PathVariable(name = "id") Integer id) {
+    private Atendimento getById(@PathVariable(name = "id") long id) {
         return atendimentoService.getById(id);
     }
 
@@ -44,7 +44,7 @@ public class AtendimentoController {
     }
 
     @DeleteMapping("/{id}")
-    private ResponseEntity<Void> excluirAtendimento(@PathVariable(name = "id") Integer id) {
+    private ResponseEntity<Void> excluirAtendimento(@PathVariable long id) {
         return atendimentoService.excluirAtendimento(id);
     }
 }

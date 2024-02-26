@@ -45,10 +45,9 @@ public class CustomAuthenticationProvider implements AuthenticationManager {
         if (!encoder.matches(password, user.getSenha()))
             throw new BadCredentialsException("Bad credentials");
 
-        AccessLog log = new AccessLog(user.getId(), user.getEmail(), LocalDateTime.now());
+        AccessLog log = new AccessLog(user.getId(), LocalDateTime.now());
         accessLogRepository.save(log);
 
         return new UsernamePasswordAuthenticationToken(user, null, null);
     }
-
 }

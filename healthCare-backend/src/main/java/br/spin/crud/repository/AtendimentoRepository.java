@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface AtendimentoRepository extends JpaRepository<Atendimento, Integer> {
+public interface AtendimentoRepository extends JpaRepository<Atendimento, Long> {
 
     List<Atendimento> findAllByUserId(Long userId);
 

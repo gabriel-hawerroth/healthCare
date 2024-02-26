@@ -34,7 +34,7 @@ public class LoginService {
         return userRepository.findAll();
     }
 
-    public User findById(Long id) {
+    public User findById(long id) {
         return userRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
     }
@@ -64,7 +64,7 @@ public class LoginService {
         return userRepository.save(user);
     }
 
-    public ResponseEntity<Void> excluirUsuario(Long id) {
+    public ResponseEntity<Void> excluirUsuario(long id) {
         try {
             userRepository.deleteById(id);
             return ResponseEntity.ok().build();
@@ -73,7 +73,7 @@ public class LoginService {
         }
     }
 
-    public void activateAccount(Long userId) {
+    public void activateAccount(long userId) {
         final Token tok = tokenRepository.findByUserId(userId);
         final User user = userRepository.findById(userId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
@@ -87,7 +87,7 @@ public class LoginService {
         sendActivateAccountEmail(token);
     }
 
-    public ResponseEntity<Void> activaUser(Long userId, String token) {
+    public ResponseEntity<Void> activaUser(long userId, String token) {
         final String savedToken = tokenRepository.findByUserId(userId).getToken();
         final User user = userRepository.findById(userId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Conta inexistente"));
@@ -105,7 +105,7 @@ public class LoginService {
                 .build();
     }
 
-    public void requestPermissionToChangePassword(Long userId) {
+    public void requestPermissionToChangePassword(long userId) {
         final Token tok = tokenRepository.findByUserId(userId);
         final User user = userRepository.findById(userId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
@@ -119,7 +119,7 @@ public class LoginService {
         sendChangePasswordEmail(user, token.getToken());
     }
 
-    public ResponseEntity<Void> permitChangePassword(Long userId, String token) {
+    public ResponseEntity<Void> permitChangePassword(long userId, String token) {
         final String savedToken = tokenRepository.findByUserId(userId).getToken();
         final User user = userRepository.findById(userId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "user not found"));
@@ -138,11 +138,11 @@ public class LoginService {
                 .build();
     }
 
-    public ResponseEntity<User> changePassword(Long userId, String newPassword) {
+    public ResponseEntity<User> changePassword(long userId, String newPassword) {
         final User user = userRepository.findById(userId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
 
-        if (!user.getCanChangePassword()) {
+        if (!user.isCanChangePassword()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sem permissão para alterar a senha");
         }
 
