@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import * as moment from 'moment';
 
 import { Atendimento } from 'src/app/interfaces/Atendimento';
@@ -27,13 +27,15 @@ export class AtendimentoService {
     return this.http.get<Atendimento[]>(this.apiUrl, { params });
   }
 
-  getAtendsPerson(userId: number): Observable<AtendsPerson[]> {
+  getAtendsPerson(userId: number): Promise<AtendsPerson[]> {
     let params = new HttpParams();
     params = params.append('userId', userId);
 
-    return this.http.get<AtendsPerson[]>(`${this.apiUrl}/atendsPerson`, {
-      params,
-    });
+    return lastValueFrom(
+      this.http.get<AtendsPerson[]>(`${this.apiUrl}/atends-person`, {
+        params,
+      })
+    );
   }
 
   getById(id: number): Observable<Atendimento> {

@@ -67,7 +67,7 @@ export class UserFormComponent implements OnInit {
       return;
     } else {
       this.userService
-        .createUser(this.userForm.value)
+        .newUser(this.userForm.value)
         .then(() => {
           this.utilsService.showSimpleMessageWithDuration(
             'Usuário criado com sucesso.',

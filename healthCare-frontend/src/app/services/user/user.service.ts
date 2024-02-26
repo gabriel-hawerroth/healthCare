@@ -39,23 +39,23 @@ export class UserService {
           params: params,
         })
       );
-      this.getByEmail(result.username)
+
+      await this.getByEmail(result.username)
         .then((user) => {
+          if (!user) return;
+
           if (user.situacao === 'I') {
             this.utilsService.showSimpleMessage('Usuário inativo');
             return;
           }
-          if (user) {
-            localStorage.setItem(
-              'tokenHealthcare',
-              btoa(JSON.stringify(result.access_token))
-            );
-            localStorage.setItem('userHealthCare', btoa(JSON.stringify(user)));
-            this.utilsService.showSimpleMessage('Login realizado com sucesso');
-            this.router.navigate(['']);
-          } else {
-            return;
-          }
+
+          this.router.navigate(['']);
+          localStorage.setItem(
+            'tokenHealthcare',
+            btoa(JSON.stringify(result.access_token))
+          );
+          localStorage.setItem('userHealthCare', btoa(JSON.stringify(user)));
+          this.utilsService.showSimpleMessage('Login realizado com sucesso');
         })
         .catch(() => {
           this.utilsService.showSimpleMessage(
@@ -115,12 +115,6 @@ export class UserService {
 
   newUser(user: User): Promise<User> {
     return lastValueFrom(this.http.post<User>(`${this.apiUrl}/new-user`, user));
-  }
-
-  createUser(user: User): Promise<User> {
-    return lastValueFrom(
-      this.http.post<User>(`${this.apiUrl}/createUser`, user)
-    );
   }
 
   editUser(user: User): Promise<User> {

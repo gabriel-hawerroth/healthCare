@@ -12,6 +12,8 @@ import { UserService } from 'src/app/services/user/user.service';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
 
+  loading: boolean = false;
+
   constructor(
     private utilsService: UtilsService,
     private userService: UserService,
@@ -28,8 +30,12 @@ export class LoginComponent implements OnInit {
   login() {
     if (this.loginForm.invalid) {
       this.utilsService.showSimpleMessage('Login inválido');
-    } else {
-      this.userService.login(this.loginForm.value);
+      return;
     }
+
+    this.loading = true;
+    this.userService.login(this.loginForm.value).finally(() => {
+      this.loading = false;
+    });
   }
 }

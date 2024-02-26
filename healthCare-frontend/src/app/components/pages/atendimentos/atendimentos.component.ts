@@ -54,13 +54,13 @@ export class AtendimentosComponent implements OnInit, OnDestroy {
   }
 
   listaAtendimentos() {
-    lastValueFrom(
-      this.atendimentoService.getAtendsPerson(this.userService.getLoggedUserId!)
-    ).then((result) => {
-      this.atends = result;
-      this.filteredAtends.next(result);
-      this.filterList();
-    });
+    this.atendimentoService
+      .getAtendsPerson(this.userService.getLoggedUserId!)
+      .then((result) => {
+        this.atends = result;
+        this.filteredAtends.next(result);
+        this.filterList();
+      });
   }
 
   editAtend(event: any) {
