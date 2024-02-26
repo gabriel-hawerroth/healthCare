@@ -21,6 +21,6 @@ public class InterfacesSQL {
         String getConvenio();
         String getNr_carteirinha_convenio();
         LocalDate getDt_criacao();
-        long getUserId();
+        long getUser_id();
     }
 }

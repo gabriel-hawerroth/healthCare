@@ -78,7 +78,7 @@ export class PacienteFormComponent implements OnInit {
 
   buildForm() {
     this.patientForm = this.fb.group({
-      id: '',
+      id: null,
       dsNome: ['', Validators.required],
       nr_cpf: ['', Validators.required],
       dt_nascimento: [null, Validators.required],
@@ -97,12 +97,12 @@ export class PacienteFormComponent implements OnInit {
       email: '',
       alergias: '',
       dependencia: '',
-      permite_atend_online: '',
+      permite_atend_online: false,
       obs_diagnostico: '',
       dt_inicio_atend: '',
       dt_fim_atend: '',
-      estoque_empenhado: '',
-      guarda_compartilhada: '',
+      estoque_empenhado: false,
+      guarda_compartilhada: false,
       genero_pref: '',
       idade_min: '',
       idade_max: '',
