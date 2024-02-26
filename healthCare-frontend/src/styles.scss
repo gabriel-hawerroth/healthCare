@@ -1,24 +1,23 @@
-@import "/node_modules/@angular/material/theming";
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$custom-primary: mat.define-palette(mat.$teal-palette, 700);
+$custom-accent: mat.define-palette(mat.$grey-palette, 50);
+$custom-warn: mat.define-palette(mat.$teal-palette, 800);
+
+$custom-theme: mat.define-light-theme((color: (primary: $custom-primary,
+        accent: $custom-accent,
+        warn: $custom-warn,
+      )));
+
+@include mat.all-component-themes($custom-theme);
+
 @import "/node_modules/@swimlane/ngx-datatable/index.css";
 @import "/node_modules/@swimlane/ngx-datatable/themes/material.scss";
 @import "/node_modules/@swimlane/ngx-datatable/assets/icons.css";
-@import "/node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
-
-@include mat-core();
-
-@media (max-width: 1300px) and (max-height: 700px) {}
 
 $primary-color: #00897B;
-
-$custom-app-primary: mat-palette($mat-teal, 700);
-$custom-app-secondary: mat-palette($mat-grey, 50);
-$custom-app-warn: mat-palette($mat-teal, 800);
-
-$custom-theme: mat-light-theme($custom-app-primary,
-    $custom-app-secondary,
-    $custom-app-warn);
-
-@include angular-material-theme($custom-theme);
 
 * {
   padding: 0;
@@ -325,7 +324,7 @@ form {
     height: 50px;
     display: flex;
     justify-content: center;
-    align-items: end;
+    align-items: flex-end;
   }
 
   form {

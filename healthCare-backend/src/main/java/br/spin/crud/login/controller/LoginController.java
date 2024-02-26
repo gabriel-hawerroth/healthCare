@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -23,7 +22,6 @@ import java.nio.charset.StandardCharsets;
 import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @CrossOrigin
 @RestController
@@ -111,7 +109,7 @@ public class LoginController {
         Token token = new Token();
         if (tok != null) token.setId(tok.getId());
         token.setUserId(user.getId());
-        token.setToken(calculateHash(user.getEmail(), "SHA-256"));
+        token.setToken(calculateHash(user.getEmail()));
         tokenRepository.save(token);
 
         sendActivateAccountEmail(token);
@@ -151,7 +149,7 @@ public class LoginController {
         Token token = new Token();
         if (tok != null) token.setId(tok.getId());
         token.setUserId(user.getId());
-        token.setToken(calculateHash(user.getEmail(), "SHA-256"));
+        token.setToken(calculateHash(user.getEmail()));
         tokenRepository.save(token);
 
         sendChangePasswordEmail(user, token.getToken());
@@ -226,9 +224,9 @@ public class LoginController {
         emailService.enviarEmail(email);
     }
 
-    private static String calculateHash(String input, String algorithm) {
+    private static String calculateHash(String input) {
         try {
-            MessageDigest digest = MessageDigest.getInstance(algorithm);
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hashBytes = digest.digest(input.getBytes(StandardCharsets.UTF_8));
 
             // Converter bytes em representação hexadecimal
