@@ -1,0 +1,35 @@
+<div class="simple-page">
+  <div class="top-actions">
+    <form class="left" [formGroup]="filterForm">
+      <div class="filter-form">
+        <mat-form-field class="form-field" style="width: 45%">
+          <mat-label>Filtrar por nome</mat-label>
+          <input matInput formControlName="dsNome" autofocus />
+        </mat-form-field>
+
+        <mat-form-field style="width: 20%">
+          <mat-label>Filtrar por situação</mat-label>
+          <mat-select formControlName="ieSituacao">
+            <mat-option value="A">Ativos</mat-option>
+            <mat-option value="I">Inativos</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </form>
+
+    <div class="rigth">
+      <h1 class="title-table-page">Cadastro de unidade</h1>
+    </div>
+  </div>
+
+  <div class="table-units">
+    <app-unit-list
+      [unitsList]="filteredUnits()"
+      (onClickRow)="editUnit($event)"
+    ></app-unit-list>
+  </div>
+
+  <div class="buttons-box">
+    <mat-icon class="button-tables p1" routerLink="/unidade/novo">add</mat-icon>
+  </div>
+</div>

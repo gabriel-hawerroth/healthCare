@@ -1,31 +1,37 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import * as moment from 'moment-timezone';
-
-import { environment } from 'src/environments/environment';
+import { lastValueFrom } from 'rxjs/internal/lastValueFrom';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilsService {
-  private baseApiUrl = environment.baseApiUrl;
+  public isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  constructor(private _snackBar: MatSnackBar) {}
+  constructor(private _snackBar: MatSnackBar, private _http: HttpClient) {}
 
-  showSimpleMessage(message: string) {
+  showSimpleMessage(message: string, duration: number = 3000) {
     this._snackBar.open(message, '', {
-      duration: 3000,
-    });
-  }
-
-  showSimpleMessageWithDuration(message: string, duration: number) {
-    this._snackBar.open(message, '', {
-      duration: duration,
+      duration,
     });
   }
 
   showSimpleMessageWithoutDuration(message: string) {
     this._snackBar.open(message, 'OK');
+  }
+
+  getItemLocalStorage(item: string): string | null {
+    return this.isBrowser ? localStorage.getItem(item) : null;
+  }
+
+  setItemLocalStorage(key: string, value: string): void {
+    if (this.isBrowser) localStorage.setItem(key, value);
+  }
+
+  removeItemLocalStorage(item: string): void {
+    if (this.isBrowser) localStorage.removeItem(item);
   }
 
   passwordValidator() {
@@ -71,7 +77,7 @@ export class UtilsService {
 
     return rows.filter((item: any) => {
       if (item[atributo]) {
-        const itemDate = moment(item[atributo]).toDate();
+        const itemDate = new Date(item[atributo]);
 
         if (!isNaN(itemDate.getTime())) {
           return (
@@ -116,5 +122,11 @@ export class UtilsService {
     }
 
     return str;
+  }
+
+  findAddress(cep: string): Promise<any> {
+    return lastValueFrom(
+      this._http.get(`https://brasilapi.com.br/api/cep/v2/${cep}`)
+    );
   }
 }

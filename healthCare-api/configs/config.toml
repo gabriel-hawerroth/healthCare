@@ -1,5 +1,0 @@
-[database]
-host = "localhost"
-user = "postgres"
-pass = "fake_password"
-name = "healthcare_desenv"

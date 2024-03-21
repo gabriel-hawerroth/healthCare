@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-import { Unidade } from 'src/app/interfaces/Unidade';
-import { Response } from 'src/app/interfaces/Response';
-import { environment } from 'src/environments/environment';
+import { lastValueFrom } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { Unidade } from '../../interfaces/unidade';
 
 @Injectable({
   providedIn: 'root',
@@ -15,29 +13,29 @@ export class UnidadeService {
 
   constructor(private http: HttpClient) {}
 
-  createUnit(formData: FormData): Observable<FormData> {
-    return this.http.post<FormData>(this.apiUrl, formData);
+  createUnit(formData: FormData): Promise<Unidade> {
+    return lastValueFrom(this.http.post<Unidade>(this.apiUrl, formData));
   }
 
-  getUnits(userId: number): Observable<Unidade[]> {
+  getUnits(userId: number): Promise<Unidade[]> {
     let params = new HttpParams();
     params = params.append('userId', userId);
 
-    return this.http.get<Unidade[]>(this.apiUrl, { params });
+    return lastValueFrom(this.http.get<Unidade[]>(this.apiUrl, { params }));
   }
 
-  getById(id: number): Observable<Unidade> {
+  getById(id: number): Promise<Unidade> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<Unidade>(url);
+    return lastValueFrom(this.http.get<Unidade>(url));
   }
 
-  updateUnit(formData: FormData): Observable<FormData> {
+  updateUnit(formData: FormData): Promise<FormData> {
     const url = `${this.apiUrl}`;
-    return this.http.put<FormData>(url, formData);
+    return lastValueFrom(this.http.put<FormData>(url, formData));
   }
 
-  removeUnit(id: number) {
+  removeUnit(id: number): Promise<void> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.delete<Unidade>(url);
+    return lastValueFrom(this.http.delete<void>(url));
   }
 }

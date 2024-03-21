@@ -1,16 +1,18 @@
 package infra
 
 import (
+	"database/sql"
 	"net/http"
 
 	"github.com/gabriel-hawerroth/HealthCare/internal/controllers"
 )
 
 // Load endpoints and start the web server
-func StartServer() {
+func StartServer(db *sql.DB) {
 	mux := http.NewServeMux()
 
-	controllers.LoadEndpoints(mux)
+	controllers.LoadEndpoints(mux, db)
 
-	http.ListenAndServe(":8080", mux)
+	println("Server running")
+	http.ListenAndServe(":8081", mux)
 }

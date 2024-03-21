@@ -1,0 +1,92 @@
+<div class="simple-page">
+  <div class="top-actions">
+    <form [formGroup]="filterForm" style="width: 70%" (change)="filterList()">
+      <div style="display: flex; gap: 15px">
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+          "
+        >
+          <button mat-button [matMenuTriggerFor]="menu">
+            Filtros adicionais
+            <mat-icon>filter_list</mat-icon>
+          </button>
+
+          <mat-menu #menu="matMenu">
+            <div class="mat-menu-title">
+              <span>Filtros adicionais</span>
+
+              <span
+                (click)="clearDateFilters()"
+                class="material-symbols-outlined clearFilters"
+              >
+                delete
+              </span>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 30px">
+              <mat-form-field style="width: 44%">
+                <mat-label>Data inicial</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="pickerDtInicial"
+                  formControlName="dt_inicial"
+                />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="pickerDtInicial"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #pickerDtInicial></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field style="width: 44%">
+                <mat-label>Data final</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="pickerDtFinal"
+                  formControlName="dt_final"
+                />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="pickerDtFinal"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #pickerDtFinal></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </mat-menu>
+        </div>
+
+        <mat-form-field style="width: 32%">
+          <mat-label>Filtrar por paciente</mat-label>
+          <input type="text" matInput formControlName="ds_paciente" />
+        </mat-form-field>
+
+        <mat-form-field style="width: 32%">
+          <mat-label>Filtrar por unidade</mat-label>
+          <input type="text" matInput formControlName="ds_unidade" />
+        </mat-form-field>
+      </div>
+    </form>
+
+    <div class="rigth">
+      <h1 class="title-table-page">Cadastro de atendimento</h1>
+    </div>
+  </div>
+
+  <div class="table-atendimentos">
+    <app-atendimentos-list
+      [atendsList]="filteredAtends()"
+      (onClickRow)="editAtend($event)"
+    ></app-atendimentos-list>
+  </div>
+
+  <div class="buttons-box">
+    <mat-icon class="button-tables p1" routerLink="/atendimento/novo">
+      add
+    </mat-icon>
+  </div>
+</div>

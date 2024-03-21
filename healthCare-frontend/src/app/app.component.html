@@ -1,4 +1,7 @@
-<app-header *ngIf="userService.logged" class="header"></app-header>
-<main class="main" [class]="userService.logged ? 'change-height' : ''">
+@if (userService.logged) {
+<app-header class="header"></app-header>
+}
+
+<main class="main" [ngClass]="{ 'change-height': userService.logged }">
   <router-outlet class="body"></router-outlet>
 </main>

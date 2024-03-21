@@ -1,0 +1,252 @@
+<div class="simple-page">
+  <div class="top-actions">
+    <div class="left">
+      <button mat-icon-button routerLink="/atendimento">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <h2>{{ atendId ? "Editar" : "Novo" }} atendimento</h2>
+    </div>
+
+    <div class="rigth buttons">
+      <span
+        (click)="atendId ? editAtend() : newAtend()"
+        class="material-symbols-outlined button-forms"
+      >
+        save
+      </span>
+
+      @if (atendId) {
+      <span
+        (click)="openConfirmationDialog()"
+        class="material-symbols-outlined button-forms"
+        style="background-color: #c21f40; color: white"
+      >
+        delete
+      </span>
+      }
+    </div>
+  </div>
+
+  <form class="form" [formGroup]="atendForm">
+    <div class="general-section" style="gap: 13px">
+      <input type="hidden" formControlName="id" />
+
+      <mat-form-field style="width: 22%">
+        <mat-label>
+          <b>Paciente</b>
+        </mat-label>
+
+        <mat-select formControlName="id_paciente">
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="patientsList"
+              placeholderLabel="Informe o nome do paciente"
+              noEntriesFoundLabel="Nenhum paciente encontrado"
+            >
+            </ngx-mat-select-search>
+          </mat-option>
+
+          @for (patient of filteredPatients; track patient.id) {
+          <mat-option [value]="patient.id">
+            {{ patient.dsNome }}
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="width: 22%">
+        <mat-label>
+          <b>Unidade</b>
+        </mat-label>
+
+        <mat-select formControlName="id_unidade">
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="unitsList"
+              placeholderLabel="Informe o nome da unidade"
+              noEntriesFoundLabel="Nenhuma unidade encontrada"
+            >
+            </ngx-mat-select-search>
+          </mat-option>
+
+          @for (unit of filteredUnits; track unit.id) {
+          <mat-option [value]="unit.id">
+            {{ unit.dsNome }}
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="width: 18%">
+        <mat-label>
+          <b>Data do atendimento</b>
+        </mat-label>
+        <input
+          matInput
+          [matDatepicker]="pickerDtAtend"
+          formControlName="dt_atendimento"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="pickerDtAtend"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #pickerDtAtend></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field style="width: 16%">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status_atend">
+          <mat-option value="Agendado">Agendado</mat-option>
+          <mat-option value="Aguardando exames">Aguardando exames</mat-option>
+          <mat-option value="Realizado">Realizado</mat-option>
+          <mat-option value="Cancelado">Cancelado</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-accordion class="mat-acordion complementary-section">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="mat-expansion-panel-header">
+          <mat-panel-title>
+            <h3><b>Dados Complementares</b></h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <mat-form-field style="width: 30%">
+            <mat-label>Médico responsável</mat-label>
+            <input
+              type="text"
+              matInput
+              #medicoInput
+              formControlName="medico_responsavel"
+              maxlength="60"
+            />
+            <mat-hint align="end">
+              {{ medicoInput.value.length }}/{{ medicoInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 12%">
+            <mat-label>Hora início</mat-label>
+            <input type="time" matInput formControlName="hora_inicio" />
+          </mat-form-field>
+
+          <mat-form-field style="width: 12%">
+            <mat-label>Hora fim</mat-label>
+            <input type="time" matInput formControlName="hora_fim" />
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field style="width: 27%">
+            <mat-label>Especialidade</mat-label>
+            <input
+              type="text"
+              matInput
+              #especialidadeInput
+              formControlName="especialidade"
+              maxlength="60"
+            />
+            <mat-hint align="end">
+              {{ especialidadeInput.value.length }}/{{
+                especialidadeInput.maxLength
+              }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 20%">
+            <mat-label>Tipo de atendimento</mat-label>
+            <mat-select formControlName="tipo_atendimento">
+              <mat-option value="Consulta">Consulta</mat-option>
+              <mat-option value="Exame">Exame</mat-option>
+              <mat-option value="Procedimento">Procedimento</mat-option>
+              <mat-option value="Cirurgia">Cirurgia</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion class="mat-acordion payment-section">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="mat-expansion-panel-header">
+          <mat-panel-title>
+            <h3><b>Dados de Pagamento</b></h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <mat-form-field floatLabel="always" style="width: 13%">
+            <mat-label>Valor do atendimento</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="valor_atendimento"
+              class="align-right"
+              placeholder="0"
+            />
+            <span matTextPrefix>$&nbsp;</span>
+            <span matTextSuffix>.00</span>
+          </mat-form-field>
+
+          <mat-form-field style="width: 17%">
+            <mat-label>Forma de pagamento</mat-label>
+            <mat-select formControlName="forma_pagamento">
+              <mat-option value="Convênio">Convênio</mat-option>
+              <mat-option value="Pix">Pix</mat-option>
+              <mat-option value="Crédito/Débito">Crédito/Débito</mat-option>
+              <mat-option value="Boleto">Boleto</mat-option>
+              <mat-option value="Dinheiro em espécie">
+                Dinheiro em espécie
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field style="width: 24%">
+            <mat-label>Convenio</mat-label>
+            <input
+              type="text"
+              matInput
+              #convenioInput
+              formControlName="convenio"
+              maxlength="80"
+            />
+            <mat-hint align="end">
+              {{ convenioInput.value.length }}/{{ convenioInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 22%">
+            <mat-label>Nº da carteirinha do convênio</mat-label>
+            <input
+              matInput
+              #nrCarteirinhaInput
+              formControlName="nr_carteirinha_convenio"
+              placeholder="00000000.00"
+              mask="00000000.00"
+            />
+            <mat-hint align="end">
+              {{ nrCarteirinhaInput.value.length }}/11
+            </mat-hint>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </form>
+
+  <br />
+
+  @if (atendData && atendData.dt_criacao) {
+  <br />
+  <span id="created-at">
+    Criado em
+    {{ atendData.dt_criacao | date : "dd/MM/yyyy" }}
+    &nbsp;
+  </span>
+  <br />
+  }
+</div>

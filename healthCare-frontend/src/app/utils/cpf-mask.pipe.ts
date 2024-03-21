@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'cpfMask',
+  standalone: true,
 })
 export class CpfMaskPipe implements PipeTransform {
   transform(value: string): string {

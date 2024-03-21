@@ -1,0 +1,563 @@
+<div class="simple-page">
+  <div class="top-actions">
+    <div class="left">
+      <button mat-icon-button routerLink="/paciente">
+        <mat-icon> arrow_back </mat-icon>
+      </button>
+
+      <h2>{{ patientId ? "Editar" : "Novo" }} paciente</h2>
+    </div>
+
+    <div class="rigth buttons">
+      <span
+        (click)="patientId ? editPatient() : newPatient()"
+        class="material-symbols-outlined button-forms"
+      >
+        save
+      </span>
+
+      @if (patientId) {
+      <span
+        (click)="openConfirmationDialog()"
+        class="material-symbols-outlined button-forms deleteButton"
+      >
+        delete
+      </span>
+      }
+    </div>
+  </div>
+
+  <form class="form" [formGroup]="patientForm">
+    <div class="general-section" style="gap: 13px">
+      <input type="hidden" formControlName="id" />
+
+      <mat-form-field style="width: 30%">
+        <mat-label>
+          <b>Nome do paciente</b>
+        </mat-label>
+        <input
+          matInput
+          #nomeInput
+          maxlength="60"
+          formControlName="dsNome"
+          autofocus
+        />
+        <mat-hint align="end">
+          {{ nomeInput.value.length }}/{{ nomeInput.maxLength }}
+        </mat-hint>
+      </mat-form-field>
+
+      <mat-form-field style="width: 12%">
+        <mat-label>
+          <b>CPF</b>
+        </mat-label>
+        <input
+          matInput
+          #cpfInput
+          formControlName="nr_cpf"
+          placeholder="000.000.000-00"
+          mask="000.000.000-00"
+        />
+      </mat-form-field>
+
+      <mat-form-field style="width: 12%">
+        <mat-label>
+          <b>Nascimento</b>
+        </mat-label>
+        <input
+          matInput
+          type="datetime"
+          [matDatepicker]="picker"
+          formControlName="dt_nascimento"
+        />
+
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field style="width: 12%">
+        <mat-label>Celular</mat-label>
+        <input
+          matInput
+          #numeroInput
+          formControlName="nr_celular"
+          placeholder="(00) 00000-0000"
+          mask="(00) 00000-0000"
+        />
+      </mat-form-field>
+
+      <mat-form-field style="width: 16%">
+        <mat-label>Status</mat-label>
+
+        <mat-select formControlName="status">
+          <mat-option value="Em captação">Em captação</mat-option>
+          <mat-option value="Aguardando aprovação">
+            Aguardando aprovação
+          </mat-option>
+          <mat-option value="Planejamento">Planejamento</mat-option>
+          <mat-option value="Em atendimento">Em atendimento</mat-option>
+          <mat-option value="Atendimento encerrado">
+            Atendimento encerrado
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="width: 12%">
+        <mat-label>
+          <b>Situação</b>
+        </mat-label>
+        <mat-select formControlName="ieSituacao">
+          <mat-option value="A">Ativo</mat-option>
+          <mat-option value="I">Inativo</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-accordion class="mat-acordion complementary-section">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="mat-expansion-panel-header">
+          <mat-panel-title>
+            <h3><b>Dados Complementares</b></h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <mat-form-field style="width: 30%">
+            <mat-label>Nome da mãe</mat-label>
+            <input
+              matInput
+              #nomeMaeInput
+              maxlength="60"
+              formControlName="nome_mae"
+            />
+            <mat-hint align="end">
+              {{ nomeMaeInput.value.length }}/{{ nomeMaeInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 30%">
+            <mat-label>Nome do pai</mat-label>
+            <input
+              matInput
+              #nomePaiInput
+              maxlength="60"
+              formControlName="nome_pai"
+            />
+            <mat-hint align="end">
+              {{ nomePaiInput.value.length }}/{{ nomePaiInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 15%">
+            <mat-label>Gênero</mat-label>
+            <mat-select formControlName="genero">
+              <mat-option value="masculino">Masculino</mat-option>
+              <mat-option value="feminino">Feminino</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field style="width: 18%">
+            <mat-label>Estado civil</mat-label>
+            <mat-select formControlName="estado_civil">
+              <mat-option value="Solteiro">Solteiro(a)</mat-option>
+              <mat-option value="Casado">Casado(a)</mat-option>
+              <mat-option value="Viuvo">Viúvo(a)</mat-option>
+              <mat-option value="Divorciado">Divorciado(a)</mat-option>
+              <mat-option value="União estavel">União estável</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field style="width: 18%">
+            <mat-label>Nacionalidade</mat-label>
+            <input
+              matInput
+              #nacionalidadeInput
+              maxlength="40"
+              formControlName="nacionalidade"
+            />
+            <mat-hint align="end">
+              {{ nacionalidadeInput.value.length }}/{{
+                nacionalidadeInput.maxLength
+              }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 14%">
+            <mat-label>Etnia</mat-label>
+            <input
+              matInput
+              #etniaInput
+              maxlength="25"
+              formControlName="etnia"
+            />
+            <mat-hint align="end">
+              {{ etniaInput.value.length }}/{{ etniaInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 14%">
+            <mat-label>Religião</mat-label>
+            <input
+              matInput
+              #religiaoInput
+              maxlength="30"
+              formControlName="religiao"
+            />
+            <mat-hint align="end">
+              {{ religiaoInput.value.length }}/{{ religiaoInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 10%">
+            <mat-label>Peso (kg)</mat-label>
+            <input
+              type="number"
+              matInput
+              #pesoInput
+              formControlName="peso_kg"
+            />
+            <mat-hint align="end">{{ pesoInput.value.length }}/3</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 10%">
+            <mat-label>Altura (cm)</mat-label>
+            <input
+              type="number"
+              matInput
+              #alturaInput
+              formControlName="altura_cm"
+            />
+            <mat-hint align="end">{{ alturaInput.value.length }}/3</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 26%">
+            <mat-label>E-mail</mat-label>
+            <input
+              type="email"
+              matInput
+              #emailInput
+              maxlength="50"
+              formControlName="email"
+              placeholder="exemplo@gmail.com"
+            />
+            <mat-hint align="end">
+              {{ emailInput.value.length }}/{{ emailInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion class="mat-accordion assistance-section">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="mat-expansion-panel-header">
+          <mat-panel-title>
+            <h3><b>Dados Assistenciais</b></h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <mat-form-field style="width: 48%">
+            <mat-label>Alergias</mat-label>
+            <input
+              matInput
+              #alergiaInput
+              maxlength="120"
+              formControlName="alergias"
+            />
+            <mat-hint align="end">
+              {{ alergiaInput.value.length }}/{{ alergiaInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 18%">
+            <mat-label>Dependência</mat-label>
+            <mat-select formControlName="dependencia">
+              <mat-option value="independente">Independente</mat-option>
+              <mat-option value="requer-assistencia">
+                Requer assistência
+              </mat-option>
+              <mat-option value="acamado">Acamado</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-checkbox formControlName="permite_atend_online">
+            Permite atendimento on-line
+          </mat-checkbox>
+        </div>
+
+        <div class="row" style="padding-bottom: 90px">
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Observação/diagnóstico</mat-label>
+            <textarea
+              matInput
+              formControlName="obs_diagnostico"
+              style="height: 120px; max-height: 120px; min-height: 120px"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion class="mat-accordion service-data">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="mat-expansion-panel-header">
+          <mat-panel-title>
+            <h3><b>Dados sobre atendimento</b></h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <mat-form-field style="width: 18%">
+            <mat-label>Início do atendimento</mat-label>
+            <input
+              matInput
+              [matDatepicker]="inicioAtendPicker"
+              formControlName="dt_inicio_atend"
+              placeholder="dd/mm/aaaa"
+            />
+
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="inicioAtendPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #inicioAtendPicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field style="width: 18%">
+            <mat-label>Fim do atendimento</mat-label>
+            <input
+              matInput
+              [matDatepicker]="fimAtendPicker"
+              formControlName="dt_fim_atend"
+              placeholder="dd/mm/aaaa"
+            />
+
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="fimAtendPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #fimAtendPicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-checkbox formControlName="estoque_empenhado">
+            Estoque empenhado
+          </mat-checkbox>
+
+          <mat-checkbox formControlName="guarda_compartilhada">
+            Guarda compartilhada
+          </mat-checkbox>
+        </div>
+
+        <div class="row">
+          <mat-form-field style="width: 15%">
+            <mat-label>Gênero preferencial</mat-label>
+            <mat-select formControlName="genero_pref">
+              <mat-option value="nenhum">Nenhum</mat-option>
+              <mat-option value="masculino">Masculino</mat-option>
+              <mat-option value="feminino">Feminino</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field style="width: 11%">
+            <mat-label>Idade mínima</mat-label>
+            <input
+              type="text"
+              matInput
+              #idadeMinInput
+              formControlName="idade_min"
+              maxlength="2"
+            />
+            <mat-hint align="end">
+              {{ idadeMinInput.value.length }}/{{ idadeMinInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 11%">
+            <mat-label>Idade máxima</mat-label>
+            <input
+              type="text"
+              matInput
+              #idadeMaxInput
+              formControlName="idade_max"
+              maxlength="2"
+            />
+            <mat-hint align="end">
+              {{ idadeMaxInput.value.length }}/{{ idadeMaxInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 60%">
+            <mat-label>Observação sobre preferências</mat-label>
+            <input
+              matInput
+              #obsPrefsInput
+              maxlength="100"
+              formControlName="obs_preferencias"
+            />
+            <mat-hint align="end">
+              {{ obsPrefsInput.value.length }}/{{ obsPrefsInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion class="mat-accordion address-data">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="mat-expansion-panel-header">
+          <mat-panel-title>
+            <h3><b>Endereço</b></h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <mat-form-field style="width: 10%">
+            <mat-label>
+              <b>CEP</b>
+            </mat-label>
+            <input
+              matInput
+              #cepInput
+              formControlName="nr_cep"
+              mask="00000-000"
+              (change)="getAddress(cepInput.value)"
+            />
+            <mat-error>CEP inválido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field style="width: 15%">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="estado">
+              <mat-option value="AC">Acre</mat-option>
+              <mat-option value="AL">Alagoas</mat-option>
+              <mat-option value="AP">Amapá</mat-option>
+              <mat-option value="AM">Amazonas</mat-option>
+              <mat-option value="BA">Bahia</mat-option>
+              <mat-option value="CE">Ceará</mat-option>
+              <mat-option value="DF">Distrito Federal</mat-option>
+              <mat-option value="ES">Espírito Santo</mat-option>
+              <mat-option value="GO">Goiás</mat-option>
+              <mat-option value="MA">Maranhão</mat-option>
+              <mat-option value="MT">Mato Grosso</mat-option>
+              <mat-option value="MS">Mato Grosso do Sul</mat-option>
+              <mat-option value="MG">Minas Gerais</mat-option>
+              <mat-option value="PA">Pará</mat-option>
+              <mat-option value="PB">Paraíba</mat-option>
+              <mat-option value="PR">Paraná</mat-option>
+              <mat-option value="PE">Pernambuco</mat-option>
+              <mat-option value="PI">Piauí</mat-option>
+              <mat-option value="RJ">Rio de Janeiro</mat-option>
+              <mat-option value="RN">Rio Grande do Norte</mat-option>
+              <mat-option value="RS">Rio Grande do Sul</mat-option>
+              <mat-option value="RO">Rondônia</mat-option>
+              <mat-option value="RR">Roraima</mat-option>
+              <mat-option value="SC">Santa Catarina</mat-option>
+              <mat-option value="SP">São Paulo</mat-option>
+              <mat-option value="SE">Sergipe</mat-option>
+              <mat-option value="TO">Tocantins</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field style="width: 20%">
+            <mat-label>Cidade</mat-label>
+            <input
+              matInput
+              #cidadeInput
+              maxlength="50"
+              formControlName="cidade"
+            />
+            <mat-hint align="end">
+              {{ cidadeInput.value.length }}/{{ cidadeInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 16%">
+            <mat-label>Bairro</mat-label>
+            <input
+              matInput
+              #bairroInput
+              maxlength="30"
+              formControlName="bairro"
+            />
+            <mat-hint align="end">
+              {{ bairroInput.value.length }}/{{ bairroInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 36%">
+            <mat-label>Endereço</mat-label>
+            <input
+              matInput
+              #enderecoInput
+              maxlength="80"
+              formControlName="endereco"
+            />
+            <mat-hint align="end">
+              {{ enderecoInput.value.length }}/{{ enderecoInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field style="width: 12%">
+            <mat-label>Nº do endereço</mat-label>
+            <input
+              matInput
+              #nrEnderecoInput
+              type="number"
+              formControlName="nr_endereco"
+            />
+            <mat-hint align="end">
+              {{ nrEnderecoInput.value.length }}/4
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 30%">
+            <mat-label>Complemento</mat-label>
+            <input
+              matInput
+              #complementoInput
+              maxlength="50"
+              formControlName="complemento"
+            />
+            <mat-hint align="end">
+              {{ complementoInput.value.length }}/{{
+                complementoInput.maxLength
+              }}
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div style="padding-bottom: 90px">
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Como chegar</mat-label>
+            <textarea
+              matInput
+              formControlName="como_chegar"
+              style="height: 120px; max-height: 120px; min-height: 120px"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </form>
+
+  <br />
+  @if (patientData && patientData.dt_criacao) {
+  <br />
+
+  <span id="created-at">
+    Criado em
+    {{ patientData.dt_criacao | date : "dd/MM/yyyy" }}
+    &nbsp;
+  </span>
+
+  <br />
+  }
+</div>

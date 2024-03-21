@@ -1,0 +1,55 @@
+<ngx-datatable
+  [rows]="atendsList()"
+  class="material striped custom-datatable"
+  [headerHeight]="48"
+  [rowHeight]="52"
+  [footerHeight]="50"
+  columnMode="force"
+  [limit]="6"
+  [reorderable]="false"
+  [selectAllRowsOnPage]="false"
+  [messages]="{
+    totalMessage: 'registros encontrados.'
+  }"
+  (activate)="onClickRow.emit($event)"
+>
+  <ngx-datatable-column
+    name="Data do atendimento"
+    prop="dt_atendimento"
+    [width]="140"
+  >
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row.dt_atendimento | date : "dd/MM/yyyy" }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column
+    name="Nome do paciente"
+    prop="ds_paciente"
+    [width]="200"
+  ></ngx-datatable-column>
+
+  <ngx-datatable-column
+    name="Unidade"
+    prop="ds_unidade"
+    [width]="200"
+  ></ngx-datatable-column>
+
+  <ngx-datatable-column
+    name="Especialidade"
+    prop="especialidade"
+    [width]="150"
+  ></ngx-datatable-column>
+
+  <ngx-datatable-column
+    name="Tipo"
+    prop="tipo_atendimento"
+    [width]="150"
+  ></ngx-datatable-column>
+
+  <ngx-datatable-column
+    name="Status"
+    prop="status_atend"
+    [width]="150"
+  ></ngx-datatable-column>
+</ngx-datatable>

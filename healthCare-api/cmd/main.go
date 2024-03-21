@@ -1,21 +1,15 @@
 package main
 
 import (
-	"github.com/gabriel-hawerroth/HealthCare/configs"
 	"github.com/gabriel-hawerroth/HealthCare/internal/infra"
 )
 
 func main() {
-	err := configs.Load()
-	if err != nil {
-		panic(err)
-	}
-
-	db, err := infra.OpenConnection()
+	db, err := infra.OpenDBConnection()
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
 
-	infra.StartServer()
+	infra.StartServer(db)
 }

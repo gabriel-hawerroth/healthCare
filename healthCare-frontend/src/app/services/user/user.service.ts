@@ -1,14 +1,13 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Token } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, lastValueFrom } from 'rxjs';
-
-import { environment } from 'src/environments/environment';
-import { UtilsService } from 'src/app/utils/utils.service';
-import { User } from 'src/app/interfaces/User';
-import { Credentials } from 'src/app/interfaces/Credentials';
-import { Authentication } from 'src/app/interfaces/Authentication';
-import { Token } from 'src/app/interfaces/Token';
+import { lastValueFrom } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { Authentication } from '../../interfaces/authentication';
+import { Credentials } from '../../interfaces/credentials';
+import { User } from '../../interfaces/user';
+import { UtilsService } from '../../utils/utils.service';
 
 @Injectable({
   providedIn: 'root',
@@ -50,11 +49,14 @@ export class UserService {
           }
 
           this.router.navigate(['']);
-          localStorage.setItem(
+          this.utilsService.setItemLocalStorage(
             'tokenHealthcare',
             btoa(JSON.stringify(result.access_token))
           );
-          localStorage.setItem('userHealthCare', btoa(JSON.stringify(user)));
+          this.utilsService.setItemLocalStorage(
+            'userHealthCare',
+            btoa(JSON.stringify(user))
+          );
           this.utilsService.showSimpleMessage('Login realizado com sucesso');
         })
         .catch(() => {
@@ -68,31 +70,41 @@ export class UserService {
   }
 
   logout() {
-    localStorage.removeItem('tokenHealthcare');
+    this.utilsService.removeItemLocalStorage('tokenHealthcare');
     localStorage.removeItem('userHealthCare');
     this.router.navigate(['login']);
   }
 
   get getLoggedUser(): User {
-    return localStorage.getItem('userHealthCare')
-      ? JSON.parse(atob(localStorage.getItem('userHealthCare')!))
+    return this.utilsService.getItemLocalStorage('userHealthCare')
+      ? JSON.parse(
+          atob(this.utilsService.getItemLocalStorage('userHealthCare')!)
+        )
       : null;
   }
 
   get getLoggedUserId() {
-    return localStorage.getItem('userHealthCare')
-      ? Number(JSON.parse(atob(localStorage.getItem('userHealthCare')!)).id)
+    return this.utilsService.getItemLocalStorage('userHealthCare')
+      ? Number(
+          JSON.parse(
+            atob(this.utilsService.getItemLocalStorage('userHealthCare')!)
+          ).id
+        )
       : null;
   }
 
   get getUserToken(): string {
-    return localStorage.getItem('tokenHealthcare')
-      ? JSON.parse(atob(localStorage.getItem('tokenHealthcare')!))
+    return this.utilsService.getItemLocalStorage('tokenHealthcare')
+      ? JSON.parse(
+          atob(this.utilsService.getItemLocalStorage('tokenHealthcare')!)
+        )
       : null;
   }
 
   get logged(): boolean {
-    return localStorage.getItem('tokenHealthcare') ? true : false;
+    return this.utilsService.getItemLocalStorage('tokenHealthcare')
+      ? true
+      : false;
   }
 
   getByEmail(email: string): Promise<User> {
@@ -104,8 +116,8 @@ export class UserService {
     );
   }
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl);
+  getUsers(): Promise<User[]> {
+    return lastValueFrom(this.http.get<User[]>(this.apiUrl));
   }
 
   getById(id: number): Promise<User> {
@@ -126,7 +138,7 @@ export class UserService {
     return lastValueFrom(this.http.delete<User>(url));
   }
 
-  SendAccountActivationEmail(userId: number): Promise<Token> {
+  sendAccountActivationEmail(userId: number): Promise<Token> {
     let params = new HttpParams();
 
     params = params.append('userId', userId);

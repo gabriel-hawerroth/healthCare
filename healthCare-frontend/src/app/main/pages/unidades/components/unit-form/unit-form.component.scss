@@ -1,0 +1,21 @@
+.simple-page {
+    display: flex;
+    flex-direction: column;
+
+    .top-actions {
+        padding: 1rem !important;
+    }
+
+    .row {
+        display: flex;
+        gap: 10px;
+    }
+
+    #created-at {
+        font-style: 'italic';
+        font-weight: 'bold';
+        font-family: 'system-ui';
+        text-align: 'end';
+        font-size: '0.9em';
+    }
+}

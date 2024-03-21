@@ -27,7 +27,7 @@ public class EmailService {
     }
 
     public String buildEmailTemplate(EmailType emailType, Long userId, String token) {
-        final String url = "href='https://api.hawetec.com.br/healthcare/login/" + emailType.getValue() + "/" + userId + "/" + token + "'";
+        final String url = "https://api.hawetec.com.br/healthcare/login/" + emailType.getValue() + "/" + userId + "/" + token;
 
         final String action = switch (emailType) {
             case ACTIVATE_ACCOUNT -> "ativar sua conta.";

@@ -1,14 +1,18 @@
 <div class="confirmation-dialog">
-    <div class="title">
-        <h3>Confirmar Exclusão</h3>
-    </div>
+  <div class="title">
+    <h3>Confirmar Exclusão</h3>
+  </div>
 
-    <div class="content">
-        <p>Tem certeza que deseja excluir o registro?</p>
-    </div>
+  <div class="content">
+    <p>Tem certeza que deseja excluir o registro?</p>
+  </div>
 
-    <div class="buttons">
-        <button mat-raised-button color="primary" (click)="onConfirmClick()">Confirmar</button>
-        <button mat-raised-button mat-button (click)="onCancelClick()">Cancelar</button>
-    </div>
+  <div class="buttons">
+    <button mat-raised-button color="primary" (click)="dialogRef.close(true)">
+      Confirmar
+    </button>
+    <button mat-raised-button mat-button (click)="dialogRef.close(false)">
+      Cancelar
+    </button>
+  </div>
 </div>

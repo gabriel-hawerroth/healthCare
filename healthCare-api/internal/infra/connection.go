@@ -2,21 +2,16 @@ package infra
 
 import (
 	"database/sql"
-	"fmt"
+	"os"
 
-	"github.com/gabriel-hawerroth/HealthCare/configs"
 	_ "github.com/lib/pq"
 )
 
 // Open a connection with the database
-func OpenConnection() (*sql.DB, error) {
-	conf := configs.GetDB()
+func OpenDBConnection() (*sql.DB, error) {
+	dbConn := os.Getenv("HEALTHCARE_DB")
 
-	sc := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s",
-		conf.Host, conf.Port, conf.User, conf.Pass, conf.Database)
-
-	conn, err := sql.Open("postgres", sc)
-
+	conn, err := sql.Open("postgres", dbConn)
 	if err != nil {
 		panic(err)
 	}

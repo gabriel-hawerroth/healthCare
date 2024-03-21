@@ -1,0 +1,97 @@
+<div class="simple-page">
+  <div class="login-box">
+    <div class="title">
+      <span>HealthCare</span>
+    </div>
+
+    <div class="sub-title">
+      <h2>Novo usuário</h2>
+    </div>
+
+    <form [formGroup]="newUserForm">
+      <div>
+        <mat-form-field style="width: 83%">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            formControlName="email"
+            maxlength="50"
+            autocomplete="off"
+            #emailInput
+          />
+          <mat-hint align="end">
+            {{ emailInput.value.length }}/{{ emailInput.maxLength }}
+          </mat-hint>
+        </mat-form-field>
+
+        <span
+          class="material-symbols-outlined"
+          matTooltip="É necessário ser um email válido"
+          matTooltipShowDelay="200"
+        >
+          info
+        </span>
+      </div>
+
+      <div>
+        <mat-form-field style="width: 83%">
+          <mat-label>Senha</mat-label>
+          <input
+            type="password"
+            matInput
+            formControlName="senha"
+            autocomplete="new-password"
+            maxlength="59"
+          />
+        </mat-form-field>
+
+        <span
+          class="material-symbols-outlined"
+          matTooltip="A senha deve conter pelo menos 8 dígitos, 1 número e 1 letra maiúscula"
+          matTooltipShowDelay="200"
+        >
+          info
+        </span>
+      </div>
+
+      <div style="display: flex; gap: 10px">
+        <mat-form-field style="width: 35%">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="nome" #nameInput maxlength="25" />
+          <mat-hint align="end">
+            {{ nameInput.value.length }}/{{ nameInput.maxLength }}
+          </mat-hint>
+        </mat-form-field>
+
+        <mat-form-field style="width: 51%">
+          <mat-label>Sobrenome</mat-label>
+          <input
+            matInput
+            formControlName="sobrenome"
+            #lastnameInput
+            maxlength="40"
+          />
+          <mat-hint align="end">
+            {{ lastnameInput.value.length }}/{{ lastnameInput.maxLength }}
+          </mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div>
+        @if (showLoading()) {
+        <mat-spinner [diameter]="35" color="accent"></mat-spinner>
+        } @else {
+        <button
+          mat-raised-button
+          color="primary"
+          style="padding: 23px 70px"
+          (click)="createUser()"
+          [disabled]="newUserForm.invalid"
+        >
+          Criar
+        </button>
+        }
+      </div>
+    </form>
+  </div>
+</div>

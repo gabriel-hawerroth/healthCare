@@ -1,18 +1,20 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { inject } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateFn,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { UserService } from '../user/user.service';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class authenticatedUserGuard implements CanActivate {
-  constructor(private userService: UserService, private router: Router) {}
+export const authenticatedUserGuard: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+  _userService = inject(UserService),
+  _router = inject(Router)
+) => {
+  if (_userService.logged) return true;
 
-  canActivate() {
-    if (this.userService.logged) {
-      return true;
-    }
-    this.router.navigate(['login']);
-    return false;
-  }
-}
+  _router.navigate(['login']);
+  return false;
+};

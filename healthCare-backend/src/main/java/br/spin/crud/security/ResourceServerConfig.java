@@ -12,9 +12,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/login/activateAccount/{userId}/{token}").permitAll()
-                .antMatchers("/login/permitChangePassword/{userId}/{token}").permitAll()
-                .antMatchers("/login/requestPermissionToChangePassword").permitAll()
+                .antMatchers("/login/activate-account/{userId}/{token}").permitAll()
+                .antMatchers("/login/permit-change-password/{userId}/{token}").permitAll()
+                .antMatchers("/login/sendChangePasswordEmail").permitAll()
                 .antMatchers("/login/sendActivateAccountEmail").permitAll()
                 .antMatchers("/login/getByEmail").permitAll()
                 .antMatchers("/login/new-user").permitAll()

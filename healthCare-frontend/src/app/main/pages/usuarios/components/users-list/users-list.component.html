@@ -1,0 +1,33 @@
+<ngx-datatable
+  [rows]="usersList()"
+  class="material striped custom-datatable"
+  [headerHeight]="45"
+  [rowHeight]="52"
+  [footerHeight]="50"
+  [columnMode]="'force'"
+  [limit]="8"
+  [reorderable]="false"
+  [selectAllRowsOnPage]="false"
+  [messages]="{
+    totalMessage: 'registros encontrados.'
+  }"
+  (activate)="onClickRow.emit($event)"
+>
+  <ngx-datatable-column
+    name="Usuário"
+    prop="email"
+    [width]="210"
+  ></ngx-datatable-column>
+
+  <ngx-datatable-column
+    name="Nome"
+    prop="nome"
+    [width]="120"
+  ></ngx-datatable-column>
+
+  <ngx-datatable-column
+    name="Acesso"
+    prop="acesso"
+    [width]="100"
+  ></ngx-datatable-column>
+</ngx-datatable>

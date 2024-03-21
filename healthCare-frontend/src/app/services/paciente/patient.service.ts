@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-import { Patient } from 'src/app/interfaces/Patient';
-import { Response } from 'src/app/interfaces/Response';
-import { environment } from 'src/environments/environment';
+import { lastValueFrom } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { Patient } from '../../interfaces/patient';
 
 @Injectable({
   providedIn: 'root',
@@ -15,38 +13,29 @@ export class PatientService {
 
   constructor(private http: HttpClient) {}
 
-  createPatient(patient: Patient) {
-    return this.http.post<Patient>(this.apiUrl, patient);
+  createPatient(patient: Patient): Promise<Patient> {
+    return lastValueFrom(this.http.post<Patient>(this.apiUrl, patient));
   }
 
-  getPatients(userId: number): Observable<Patient[]> {
+  getPatients(userId: number): Promise<Patient[]> {
     let params = new HttpParams();
     params = params.append('userId', userId);
 
-    return this.http.get<Patient[]>(this.apiUrl, { params });
+    return lastValueFrom(this.http.get<Patient[]>(this.apiUrl, { params }));
   }
 
-  getById(id: number): Observable<Patient> {
+  getById(id: number): Promise<Patient> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<Patient>(url);
+    return lastValueFrom(this.http.get<Patient>(url));
   }
 
-  getPatientsPaginado(
-    page: number,
-    limit: number
-  ): Observable<Response<Patient[]>> {
-    return this.http.get<Response<Patient[]>>(
-      `${this.apiUrl}?page=${page}&limit=${limit}`
-    );
-  }
-
-  updatePatient(formData: FormData): Observable<FormData> {
+  updatePatient(formData: FormData): Promise<Patient> {
     const url = `${this.apiUrl}`;
-    return this.http.put<FormData>(url, formData);
+    return lastValueFrom(this.http.put<Patient>(url, formData));
   }
 
-  removePatient(id: number) {
+  removePatient(id: number): Promise<void> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.delete<Patient>(url);
+    return lastValueFrom(this.http.delete<void>(url));
   }
 }

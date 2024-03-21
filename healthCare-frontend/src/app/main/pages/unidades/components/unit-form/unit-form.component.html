@@ -1,0 +1,319 @@
+<div class="simple-page">
+  <div class="top-actions">
+    <div class="left">
+      <button mat-icon-button routerLink="/unidade">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <h2>{{ unitId ? "Editar" : "Nova" }} unidade</h2>
+    </div>
+
+    <div class="rigth buttons">
+      <span
+        (click)="unitId ? editUnit() : newUnit()"
+        class="material-symbols-outlined button-forms"
+      >
+        save
+      </span>
+
+      @if (unitId) {
+      <span
+        (click)="openConfirmationDialog()"
+        class="material-symbols-outlined button-forms color-black"
+        style="background-color: #c21f40; color: white"
+      >
+        delete
+      </span>
+      }
+    </div>
+  </div>
+
+  <form class="form" [formGroup]="unitForm">
+    <div class="general-section" style="gap: 13px">
+      <input type="hidden" formControlName="id" />
+
+      <mat-form-field style="width: 26%">
+        <mat-label>
+          <b>Nome da unidade</b>
+        </mat-label>
+        <input
+          matInput
+          #nomeInput
+          maxlength="60"
+          formControlName="dsNome"
+          autofocus
+        />
+        <mat-hint align="end">
+          {{ nomeInput.value.length }}/{{ nomeInput.maxLength }}
+        </mat-hint>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="15">
+        <mat-label>
+          <b>CNPJ</b>
+        </mat-label>
+        <input
+          matInput
+          #cnpjInput
+          formControlName="cnpj"
+          placeholder="00.000.000/0000-00"
+          mask="00.000.000/0000-00"
+        />
+      </mat-form-field>
+
+      <mat-form-field style="width: 15%">
+        <mat-label>Telefone</mat-label>
+        <input
+          matInput
+          #telefoneInput
+          formControlName="nr_telefone"
+          placeholder="(00) 00000-0000"
+          mask="(00) 00000-0000"
+        />
+      </mat-form-field>
+
+      <mat-form-field style="width: 22%">
+        <mat-label>
+          <b>Email</b>
+        </mat-label>
+        <input
+          matInput
+          #emailInput
+          maxlength="60"
+          formControlName="email"
+          placeholder="exemplo@gmail.com"
+        />
+        <mat-hint align="end">
+          {{ emailInput.value.length }}/{{ emailInput.maxLength }}
+        </mat-hint>
+      </mat-form-field>
+
+      <mat-form-field style="width: 14%">
+        <mat-label>
+          <b>Situação</b>
+        </mat-label>
+        <mat-select formControlName="ieSituacao">
+          <mat-option value="A">Ativa</mat-option>
+          <mat-option value="I">Inativa</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-accordion class="mat-acordion complementary-section">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="mat-expansion-panel-header">
+          <mat-panel-title>
+            <h3><b>Dados complementares</b></h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <mat-form-field style="width: 20%">
+            <mat-label>Atendimentos simultâneos</mat-label>
+            <input
+              type="number"
+              matInput
+              #atendCapacityInput
+              formControlName="capacidade_atendimento"
+            />
+            <mat-hint align="end">
+              {{ atendCapacityInput.value.length }}/4
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 18%">
+            <mat-label>Horário de atendimento</mat-label>
+            <input
+              matInput
+              #horarioAtendInput
+              formControlName="horario_funcionamento"
+              placeholder="hh:mm - hh:mm"
+              mask="00:00 - 00:00"
+            />
+          </mat-form-field>
+
+          <mat-form-field style="width: 20%">
+            <mat-label>
+              <b>Tipo</b>
+            </mat-label>
+            <mat-select formControlName="tipo">
+              <mat-option value="Hospital">Hospital</mat-option>
+              <mat-option value="Clínica">Clínica especializada</mat-option>
+              <mat-option value="Poste de saúde">Posto de saúde</mat-option>
+              <mat-option value="Atendimento domiciliar">
+                Atendimento domiciliar
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field style="width: 90%">
+            <mat-label>Especialidades oferecidas</mat-label>
+            <input
+              matInput
+              #especialidadesInput
+              formControlName="especialidades_oferecidas"
+            />
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion class="mat-acordion address-section">
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header class="mat-expansion-panel-header">
+          <mat-panel-title>
+            <h3><b>Endereço</b></h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <mat-form-field style="width: 10%">
+            <mat-label>
+              <b>CEP</b>
+            </mat-label>
+            <input
+              matInput
+              #cepInput
+              maxlength="9"
+              formControlName="nr_cep"
+              placeholder="00000-000"
+              mask="00000-000"
+              (change)="getAddress(cepInput.value)"
+            />
+            @if (invalidCep) {
+            <mat-error>CEP inválido</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field style="width: 15%">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="estado">
+              <mat-option value=""></mat-option>
+              <mat-option value="AC">Acre</mat-option>
+              <mat-option value="AL">Alagoas</mat-option>
+              <mat-option value="AP">Amapá</mat-option>
+              <mat-option value="AM">Amazonas</mat-option>
+              <mat-option value="BA">Bahia</mat-option>
+              <mat-option value="CE">Ceará</mat-option>
+              <mat-option value="DF">Distrito Federal</mat-option>
+              <mat-option value="ES">Espírito Santo</mat-option>
+              <mat-option value="GO">Goiás</mat-option>
+              <mat-option value="MA">Maranhão</mat-option>
+              <mat-option value="MT">Mato Grosso</mat-option>
+              <mat-option value="MS">Mato Grosso do Sul</mat-option>
+              <mat-option value="MG">Minas Gerais</mat-option>
+              <mat-option value="PA">Pará</mat-option>
+              <mat-option value="PB">Paraíba</mat-option>
+              <mat-option value="PR">Paraná</mat-option>
+              <mat-option value="PE">Pernambuco</mat-option>
+              <mat-option value="PI">Piauí</mat-option>
+              <mat-option value="RJ">Rio de Janeiro</mat-option>
+              <mat-option value="RN">Rio Grande do Norte</mat-option>
+              <mat-option value="RS">Rio Grande do Sul</mat-option>
+              <mat-option value="RO">Rondônia</mat-option>
+              <mat-option value="RR">Roraima</mat-option>
+              <mat-option value="SC">Santa Catarina</mat-option>
+              <mat-option value="SP">São Paulo</mat-option>
+              <mat-option value="SE">Sergipe</mat-option>
+              <mat-option value="TO">Tocantins</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field style="width: 20%">
+            <mat-label>Cidade</mat-label>
+            <input
+              matInput
+              #cidadeInput
+              maxlength="50"
+              formControlName="cidade"
+            />
+            <mat-hint align="end">
+              {{ cidadeInput.value.length }}/{{ cidadeInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 16%">
+            <mat-label>Bairro</mat-label>
+            <input
+              matInput
+              #bairroInput
+              maxlength="30"
+              formControlName="bairro"
+            />
+            <mat-hint align="end">
+              {{ bairroInput.value.length }}/{{ bairroInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="row">
+          <mat-form-field style="width: 36%">
+            <mat-label>Endereço</mat-label>
+            <input
+              matInput
+              #enderecoInput
+              maxlength="80"
+              formControlName="endereco"
+            />
+            <mat-hint align="end">
+              {{ enderecoInput.value.length }}/{{ enderecoInput.maxLength }}
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 12%">
+            <mat-label>Nº do endereço</mat-label>
+            <input
+              matInput
+              #nrEnderecoInput
+              type="number"
+              formControlName="nr_endereco"
+            />
+            <mat-hint align="end">
+              {{ nrEnderecoInput.value.length }}/4
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field style="width: 30%">
+            <mat-label>Complemento</mat-label>
+            <input
+              matInput
+              #complementoInput
+              maxlength="50"
+              formControlName="complemento"
+            />
+            <mat-hint align="end">
+              {{ complementoInput.value.length }}/{{
+                complementoInput.maxLength
+              }}
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div style="padding-bottom: 90px">
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Como chegar</mat-label>
+            <textarea
+              matInput
+              formControlName="como_chegar"
+              style="height: 120px; max-height: 120px; min-height: 120px"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </form>
+
+  <br />
+
+  @if (unitData && unitData.dt_criacao) {
+  <br />
+  <span id="created-at">
+    Criado em
+    {{ unitData.dt_criacao | date : "dd/MM/yyyy" }}
+    &nbsp;
+  </span>
+  <br />
+  }
+</div>

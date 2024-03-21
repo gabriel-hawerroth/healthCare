@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'cnpjMask' })
+@Pipe({
+  name: 'cnpjMask',
+  standalone: true,
+})
 export class CnpjMaskPipe implements PipeTransform {
   transform(value: string): string {
     return value.replace(
