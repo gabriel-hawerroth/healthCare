@@ -43,6 +43,7 @@
               [formControl]="patientsList"
               placeholderLabel="Informe o nome do paciente"
               noEntriesFoundLabel="Nenhum paciente encontrado"
+              (ngModelChange)="filterPatientList($event)"
             >
             </ngx-mat-select-search>
           </mat-option>
@@ -66,6 +67,7 @@
               [formControl]="unitsList"
               placeholderLabel="Informe o nome da unidade"
               noEntriesFoundLabel="Nenhuma unidade encontrada"
+              (ngModelChange)="filterUnitList($event)"
             >
             </ngx-mat-select-search>
           </mat-option>

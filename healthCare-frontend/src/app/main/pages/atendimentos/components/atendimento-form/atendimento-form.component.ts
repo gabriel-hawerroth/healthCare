@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -13,7 +8,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { lastValueFrom, Subject, takeUntil } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -54,7 +49,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./atendimento-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AtendimentoFormComponent implements OnInit, OnDestroy {
+export class AtendimentoFormComponent implements OnInit {
   atendId: number | null = +this.route.snapshot.paramMap.get('id')! || null;
   atendData: Atendimento | null = null;
 
@@ -69,8 +64,6 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
   patientsList: FormControl = new FormControl();
   unitsList: FormControl = new FormControl();
 
-  private _unsubscribeAll: Subject<any>;
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -81,9 +74,7 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private fb: FormBuilder,
     private utilsService: UtilsService
-  ) {
-    this._unsubscribeAll = new Subject();
-  }
+  ) {}
 
   ngOnInit() {
     const userId = this.userService.getLoggedUserId!;
@@ -112,14 +103,6 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
       this.units = this.utilsService.filterList(result, 'ieSituacao', 'A');
       this.filteredUnits = this.units;
     });
-
-    this.filterPatientList();
-
-    this.filterUnitList();
-  }
-
-  ngOnDestroy(): void {
-    this._unsubscribeAll.unsubscribe();
   }
 
   buildForm() {
@@ -227,27 +210,19 @@ export class AtendimentoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  filterPatientList() {
-    this.patientsList.valueChanges
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((word: string) => {
-        let rows = this.patients.slice();
+  filterPatientList(word: string) {
+    let rows = this.patients.slice();
 
-        rows = this.utilsService.filterList(rows, 'dsNome', word);
+    rows = this.utilsService.filterList(rows, 'dsNome', word);
 
-        this.filteredPatients = rows;
-      });
+    this.filteredPatients = rows;
   }
 
-  filterUnitList() {
-    this.unitsList.valueChanges
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((word: string) => {
-        let rows = this.units.slice();
+  filterUnitList(word: string) {
+    let rows = this.units.slice();
 
-        rows = this.utilsService.filterList(rows, 'dsNome', word);
+    rows = this.utilsService.filterList(rows, 'dsNome', word);
 
-        this.filteredUnits = rows;
-      });
+    this.filteredUnits = rows;
   }
 }

@@ -6,14 +6,19 @@
       <div>
         <mat-form-field style="width: 80%">
           <mat-label>Filtrar por usuário</mat-label>
-          <input formControlName="email" matInput autofocus />
+          <input
+            formControlName="email"
+            matInput
+            autofocus
+            (ngModelChange)="filterList()"
+          />
         </mat-form-field>
       </div>
 
       <div style="display: flex; gap: 20px">
         <mat-form-field style="width: 32%">
           <mat-label>Situação</mat-label>
-          <mat-select formControlName="situacao">
+          <mat-select formControlName="situacao" (ngModelChange)="filterList()">
             <mat-option value="A">Ativo</mat-option>
             <mat-option value="I">Inativo</mat-option>
           </mat-select>
@@ -21,7 +26,7 @@
 
         <mat-form-field style="width: 32%">
           <mat-label>Acesso</mat-label>
-          <mat-select formControlName="acesso">
+          <mat-select formControlName="acesso" (ngModelChange)="filterList()">
             <mat-option value="">Todos</mat-option>
             <mat-option value="Adm">Adm</mat-option>
             <mat-option value="Cadastro">Cadastro</mat-option>

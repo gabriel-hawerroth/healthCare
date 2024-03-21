@@ -4,14 +4,21 @@
       <div class="filter-form">
         <mat-form-field class="form-field" style="width: 45%">
           <mat-label>Filtrar por nome</mat-label>
-          <input matInput formControlName="dsNome" autofocus />
+          <input
+            matInput
+            formControlName="dsNome"
+            autofocus
+            (ngModelChange)="filterList()"
+          />
         </mat-form-field>
 
         <mat-form-field style="width: 20%">
           <mat-label>Filtrar por situação</mat-label>
-          <mat-select formControlName="ieSituacao">
+          <mat-select
+            formControlName="ieSituacao"
+            (ngModelChange)="filterList()"
+          >
             <mat-option value="A">Ativos</mat-option>
-
             <mat-option value="I">Inativos</mat-option>
           </mat-select>
         </mat-form-field>

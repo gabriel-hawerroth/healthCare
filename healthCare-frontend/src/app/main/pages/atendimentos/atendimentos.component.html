@@ -35,6 +35,7 @@
                   matInput
                   [matDatepicker]="pickerDtInicial"
                   formControlName="dt_inicial"
+                  (ngModelChange)="filterList()"
                 />
                 <mat-datepicker-toggle
                   matIconSuffix
@@ -49,6 +50,7 @@
                   matInput
                   [matDatepicker]="pickerDtFinal"
                   formControlName="dt_final"
+                  (ngModelChange)="filterList()"
                 />
                 <mat-datepicker-toggle
                   matIconSuffix
@@ -62,12 +64,22 @@
 
         <mat-form-field style="width: 32%">
           <mat-label>Filtrar por paciente</mat-label>
-          <input type="text" matInput formControlName="ds_paciente" />
+          <input
+            type="text"
+            matInput
+            formControlName="ds_paciente"
+            (ngModelChange)="filterList()"
+          />
         </mat-form-field>
 
         <mat-form-field style="width: 32%">
           <mat-label>Filtrar por unidade</mat-label>
-          <input type="text" matInput formControlName="ds_unidade" />
+          <input
+            type="text"
+            matInput
+            formControlName="ds_unidade"
+            (ngModelChange)="filterList()"
+          />
         </mat-form-field>
       </div>
     </form>

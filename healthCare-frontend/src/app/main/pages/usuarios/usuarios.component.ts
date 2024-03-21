@@ -1,13 +1,11 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   signal,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
 import { UsersListComponent } from './components/users-list/users-list.component';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
@@ -33,22 +31,18 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./usuarios.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsuariosComponent implements OnInit, OnDestroy {
+export class UsuariosComponent implements OnInit {
   filterForm!: FormGroup;
 
   users: User[] = [];
   filteredUsers = signal<User[]>([]);
-
-  private _unsubscribeAll: Subject<any>;
 
   constructor(
     private userService: UserService,
     private router: Router,
     private fb: FormBuilder,
     private utilsService: UtilsService
-  ) {
-    this._unsubscribeAll = new Subject();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
@@ -58,16 +52,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     });
 
     this.listaUsuarios();
-
-    this.filterForm.valueChanges
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe(() => {
-        this.filterList();
-      });
-  }
-
-  ngOnDestroy(): void {
-    this._unsubscribeAll.unsubscribe();
   }
 
   listaUsuarios() {
@@ -81,15 +65,15 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   editUser(event: any) {
     if (event.type == 'click') {
       const userId = event.row.id;
-      this.router.navigate([`/usuario/${userId}`]);
+      this.router.navigate([`usuario/${userId}`]);
     }
   }
 
   filterList() {
     let rows = this.users.slice();
-    const email = this.filterForm.get('email')!.value;
-    const situacao = this.filterForm.get('situacao')!.value;
-    const acesso = this.filterForm.get('acesso')!.value;
+    const email = this.filterForm.value.email;
+    const situacao = this.filterForm.value.situacao;
+    const acesso = this.filterForm.value.acesso;
 
     if (email) rows = this.utilsService.filterList(rows, 'email', email);
 

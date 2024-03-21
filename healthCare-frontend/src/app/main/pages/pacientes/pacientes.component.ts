@@ -1,13 +1,11 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   signal,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
 import { PatientListComponent } from './components/patient-list/patient-list.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -32,13 +30,11 @@ import { UtilsService } from '../../../utils/utils.service';
   styleUrls: ['./pacientes.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PacientesComponent implements OnInit, OnDestroy {
+export class PacientesComponent implements OnInit {
   filterForm!: FormGroup;
 
   patients: Patient[] = [];
   filteredPatients = signal<Patient[]>([]);
-
-  private _unsubscribeAll: Subject<any>;
 
   constructor(
     private patientService: PatientService,
@@ -46,9 +42,7 @@ export class PacientesComponent implements OnInit, OnDestroy {
     private router: Router,
     private fb: FormBuilder,
     private utilsService: UtilsService
-  ) {
-    this._unsubscribeAll = new Subject();
-  }
+  ) {}
 
   ngOnInit() {
     this.filterForm = this.fb.group({
@@ -57,16 +51,6 @@ export class PacientesComponent implements OnInit, OnDestroy {
     });
 
     this.listaPacientes();
-
-    this.filterForm.valueChanges
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe(() => {
-        this.filterList();
-      });
-  }
-
-  ngOnDestroy(): void {
-    this._unsubscribeAll.unsubscribe();
   }
 
   listaPacientes() {
@@ -88,8 +72,8 @@ export class PacientesComponent implements OnInit, OnDestroy {
 
   filterList() {
     let rows = this.patients;
-    const dsNome = this.filterForm.get('dsNome')!.value;
-    const ieSituacao = this.filterForm.get('ieSituacao')!.value;
+    const dsNome = this.filterForm.value.dsNome;
+    const ieSituacao = this.filterForm.value.ieSituacao;
 
     if (dsNome) {
       rows = this.utilsService.filterList(rows, 'dsNome', dsNome);

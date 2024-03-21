@@ -1,13 +1,11 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   signal,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -40,13 +38,11 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./atendimentos.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AtendimentosComponent implements OnInit, OnDestroy {
+export class AtendimentosComponent implements OnInit {
   filterForm!: FormGroup;
 
   atends: AtendsPerson[] = [];
   filteredAtends = signal<AtendsPerson[]>([]);
-
-  private _unsubscribeAll: Subject<any>;
 
   constructor(
     private atendimentoService: AtendimentoService,
@@ -54,9 +50,7 @@ export class AtendimentosComponent implements OnInit, OnDestroy {
     private router: Router,
     private fb: FormBuilder,
     private utilsService: UtilsService
-  ) {
-    this._unsubscribeAll = new Subject();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
@@ -67,10 +61,6 @@ export class AtendimentosComponent implements OnInit, OnDestroy {
     });
 
     this.listaAtendimentos();
-  }
-
-  ngOnDestroy() {
-    this._unsubscribeAll.unsubscribe();
   }
 
   listaAtendimentos() {

@@ -1,13 +1,11 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   ChangeDetectionStrategy,
   signal,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { UnitListComponent } from './components/unit-list/unit-list.component';
@@ -32,13 +30,11 @@ import { UtilsService } from '../../../utils/utils.service';
   styleUrls: ['./unidades.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UnidadesComponent implements OnInit, OnDestroy {
+export class UnidadesComponent implements OnInit {
   filterForm!: FormGroup;
 
   units: Unidade[] = [];
   filteredUnits = signal<Unidade[]>([]);
-
-  private _unsubscribeAll: Subject<any>;
 
   constructor(
     private unidadeService: UnidadeService,
@@ -46,9 +42,7 @@ export class UnidadesComponent implements OnInit, OnDestroy {
     private router: Router,
     private fb: FormBuilder,
     private utilsService: UtilsService
-  ) {
-    this._unsubscribeAll = new Subject();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
@@ -57,16 +51,6 @@ export class UnidadesComponent implements OnInit, OnDestroy {
     });
 
     this.listaUnidades();
-
-    this.filterForm.valueChanges
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe(() => {
-        this.filterList();
-      });
-  }
-
-  ngOnDestroy(): void {
-    this._unsubscribeAll.unsubscribe();
   }
 
   listaUnidades() {
@@ -88,8 +72,8 @@ export class UnidadesComponent implements OnInit, OnDestroy {
 
   filterList() {
     let rows = this.units.slice();
-    const dsNome = this.filterForm.get('dsNome')!.value;
-    const ieSituacao = this.filterForm.get('ieSituacao')!.value;
+    const dsNome = this.filterForm.value.dsNome;
+    const ieSituacao = this.filterForm.value.ieSituacao;
 
     if (dsNome) {
       rows = this.utilsService.filterList(rows, 'dsNome', dsNome);
