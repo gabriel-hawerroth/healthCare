@@ -97,11 +97,13 @@ export class AtendimentoFormComponent implements OnInit {
     this.patientService.getPatients(userId).then((result) => {
       this.patients = this.utilsService.filterList(result, 'ieSituacao', 'A');
       this.filteredPatients = this.patients;
+      this.atendForm.get('id_paciente')!.updateValueAndValidity();
     });
 
     this.unitService.getUnits(userId).then((result) => {
       this.units = this.utilsService.filterList(result, 'ieSituacao', 'A');
       this.filteredUnits = this.units;
+      this.atendForm.get('id_unidade')!.updateValueAndValidity();
     });
   }
 
