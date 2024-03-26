@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 
 	"github.com/gabriel-hawerroth/HealthCare/internal/entity"
@@ -58,7 +57,7 @@ func (r *PatientRepository) InsertPatient(patient entity.Patient) (*entity.Patie
 		)
 	`
 
-	result, err := r.DB.Exec(query,
+	_, err := r.DB.Exec(query,
 		patient.Ds_nome, patient.Nr_cpf, patient.Dt_nascimento, patient.Nr_celular, patient.Status, patient.Nome_mae,
 		patient.Nome_pai, patient.Genero, patient.Estado_civil, patient.Nacionalidade, patient.Etnia, patient.Religiao,
 		patient.Peso_kg, patient.Altura_cm, patient.Email, patient.Alergias, patient.Dependencia, patient.Permite_atend_online,
@@ -67,18 +66,9 @@ func (r *PatientRepository) InsertPatient(patient entity.Patient) (*entity.Patie
 		patient.Cidade, patient.Bairro, patient.Endereco, patient.Nr_endereco, patient.Complemento, patient.Como_chegar,
 		patient.Ie_situacao, patient.Dt_criacao, patient.User_id,
 	)
-	fmt.Printf("RESULT: %s", result)
-	if err != nil {
-		log.Printf("Error inserting patient: %s", err)
-		return nil, err
-	}
-
-	id, err := result.LastInsertId()
 	if err != nil {
 		return nil, err
 	}
-
-	patient.Id = &id
 
 	return &patient, nil
 }
@@ -86,46 +76,49 @@ func (r *PatientRepository) InsertPatient(patient entity.Patient) (*entity.Patie
 func (r *PatientRepository) UpdatePatient(patient entity.Patient) (*entity.Patient, error) {
 	query := `
 		UPDATE paciente
-		SET ds_nome = $1, nr_cpf = $2, dt_nascimento = $3,
-			nr_celular = $4, status = $5, nome_mae = $6,
-			nome_pai = $7, genero = $8, estado_civil = $9,
-			nacionalidade = $10, etnia = $11, religiao = $12,
-			peso_kg = $13, altura_cm = $14, email = $15,
-			alergias = $16, dependencia = $17,
-			permite_atend_online = $18, obs_diagnostico = $19,
-			dt_inicio_atend = $20, dt_fim_atend = $21,
-			estoque_empenhado = $22, guarda_compartilhada = $23,
-			genero_pref = $24, idade_min = $25, idade_max = $26,
-			obs_preferencias = $27, nr_cep = $28, estado = $29,
-			cidade = $30, bairro = $31, endereco = $32,
-			nr_endereco = $33, complemento = $34, como_chegar = $35,
-			ie_situacao = $36, dt_criacao = $37, user_id = $38
+		SET ds_nome = $2, nr_cpf = $3, dt_nascimento = $4,
+			nr_celular = $5, status = $6, nome_mae = $7,
+			nome_pai = $8, genero = $9, estado_civil = $10,
+			nacionalidade = $11, etnia = $12, religiao = $13,
+			peso_kg = $14, altura_cm = $15, email = $16,
+			alergias = $17, dependencia = $18,
+			permite_atend_online = $19, obs_diagnostico = $20,
+			dt_inicio_atend = $21, dt_fim_atend = $22,
+			estoque_empenhado = $23, guarda_compartilhada = $24,
+			genero_pref = $25, idade_min = $26, idade_max = $27,
+			obs_preferencias = $28, nr_cep = $29, estado = $30,
+			cidade = $31, bairro = $32, endereco = $33,
+			nr_endereco = $34, complemento = $35, como_chegar = $36,
+			ie_situacao = $37
+		WHERE id = $1
 		RETURNING *
 	`
 
-	result, err := r.DB.Exec(query,
+	_, err := r.DB.Exec(query, patient.Id,
 		patient.Ds_nome, patient.Nr_cpf, patient.Dt_nascimento, patient.Nr_celular, patient.Status, patient.Nome_mae,
 		patient.Nome_pai, patient.Genero, patient.Estado_civil, patient.Nacionalidade, patient.Etnia, patient.Religiao,
 		patient.Peso_kg, patient.Altura_cm, patient.Email, patient.Alergias, patient.Dependencia, patient.Permite_atend_online,
 		patient.Obs_diagnostico, patient.Dt_inicio_atend, patient.Dt_fim_atend, patient.Estoque_empenhado, patient.Guarda_compartilhada,
 		patient.Genero_pref, patient.Idade_min, patient.Idade_max, patient.Obs_preferencias, patient.Nr_cep, patient.Estado,
 		patient.Cidade, patient.Bairro, patient.Endereco, patient.Nr_endereco, patient.Complemento, patient.Como_chegar,
-		patient.Ie_situacao, patient.Dt_criacao, patient.User_id,
+		patient.Ie_situacao,
 	)
-	fmt.Printf("RESULT: %s", result)
-	if err != nil {
-		log.Printf("Error updating patient: %s", err)
-		return nil, err
-	}
-
-	id, err := result.LastInsertId()
 	if err != nil {
 		return nil, err
 	}
-
-	patient.Id = &id
 
 	return &patient, nil
+}
+
+func (r *PatientRepository) DeletePatient(patientId int) error {
+	query := "DELETE FROM paciente WHERE id = $1"
+
+	_, err := r.DB.Exec(query, patientId)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func scanPatients(rows *sql.Rows, patient *entity.Patient) error {

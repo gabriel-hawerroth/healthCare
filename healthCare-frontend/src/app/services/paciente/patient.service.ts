@@ -9,13 +9,9 @@ import { Patient } from '../../interfaces/patient';
 })
 export class PatientService {
   private baseApiUrl = environment.baseApiUrl;
-  private apiUrl = `${this.baseApiUrl}pacientes`;
+  private apiUrl = `${this.baseApiUrl}patient`;
 
   constructor(private http: HttpClient) {}
-
-  createPatient(patient: Patient): Promise<Patient> {
-    return lastValueFrom(this.http.post<Patient>(this.apiUrl, patient));
-  }
 
   getPatients(userId: number): Promise<Patient[]> {
     let params = new HttpParams();
@@ -29,9 +25,8 @@ export class PatientService {
     return lastValueFrom(this.http.get<Patient>(url));
   }
 
-  updatePatient(formData: FormData): Promise<Patient> {
-    const url = `${this.apiUrl}`;
-    return lastValueFrom(this.http.put<Patient>(url, formData));
+  savePatient(patient: Patient): Promise<Patient> {
+    return lastValueFrom(this.http.post<Patient>(this.apiUrl, patient));
   }
 
   removePatient(id: number): Promise<void> {

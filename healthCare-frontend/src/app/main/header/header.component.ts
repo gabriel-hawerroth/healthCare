@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { UserService } from '../../services/user/user.service';
 import { User } from '../../interfaces/user';
 import { BottomSheetComponent } from '../../utils/bottom-sheet/bottom-sheet.component';
+import { LoginService } from '../../services/user/login.service';
 
 @Component({
   selector: 'app-header',
@@ -19,18 +19,16 @@ export class HeaderComponent implements OnInit {
   user!: User;
 
   constructor(
-    private userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute,
+    private loginService: LoginService,
     private bottomSheet: MatBottomSheet
   ) {}
 
   ngOnInit() {
-    this.user = this.userService.getLoggedUser;
+    this.user = this.loginService.getLoggedUser;
   }
 
   logout() {
-    this.userService.logout();
+    this.loginService.logout();
   }
 
   openBottomSheet() {

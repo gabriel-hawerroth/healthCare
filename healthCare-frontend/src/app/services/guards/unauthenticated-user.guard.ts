@@ -5,15 +5,15 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { UserService } from '../user/user.service';
+import { LoginService } from '../user/login.service';
 
 export const unauthenticatedUserGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
-  _userService = inject(UserService),
+  _loginService = inject(LoginService),
   _router = inject(Router)
 ) => {
-  if (!_userService.logged) return true;
+  if (!_loginService.logged) return true;
 
   _router.navigate(['']);
   return false;

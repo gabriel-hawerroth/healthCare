@@ -12,7 +12,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("unidades")
+@RequestMapping("unit")
 public class UnidadeController {
 
     private final UnidadeService unidadeService;
@@ -28,13 +28,8 @@ public class UnidadeController {
     }
 
     @PostMapping
-    private ResponseEntity<Unidade> criarUnidade(@RequestBody Unidade unidade) {
-        return unidadeService.criarUnidade(unidade);
-    }
-
-    @PutMapping
-    private ResponseEntity<Unidade> salvarUnidade(@RequestBody Unidade unidade) {
-        return unidadeService.salvarUnidade(unidade);
+    private ResponseEntity<Unidade> saveUnit(@RequestBody Unidade unit) {
+        return unidadeService.saveUnit(unit);
     }
 
     @DeleteMapping("/{id}")

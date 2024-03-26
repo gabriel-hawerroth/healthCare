@@ -10,7 +10,7 @@
 
     <div class="rigth buttons">
       <span
-        (click)="atendId ? editAtend() : newAtend()"
+        (click)="saveAttendance()"
         class="material-symbols-outlined button-forms"
       >
         save
@@ -50,7 +50,7 @@
 
           @for (patient of filteredPatients; track patient.id) {
           <mat-option [value]="patient.id">
-            {{ patient.dsNome }}
+            {{ patient.ds_nome }}
           </mat-option>
           }
         </mat-select>
@@ -74,7 +74,7 @@
 
           @for (unit of filteredUnits; track unit.id) {
           <mat-option [value]="unit.id">
-            {{ unit.dsNome }}
+            {{ unit.ds_nome }}
           </mat-option>
           }
         </mat-select>
@@ -184,13 +184,22 @@
             <mat-label>Valor do atendimento</mat-label>
             <input
               matInput
+              #valueInput
               type="number"
               formControlName="valor_atendimento"
               class="align-right"
               placeholder="0"
+              max="99999"
             />
             <span matTextPrefix>$&nbsp;</span>
-            <span matTextSuffix>.00</span>
+            <span matTextSuffix>,00</span>
+
+            <mat-hint
+              align="end"
+              [ngStyle]="{ color: valueInput.checkValidity() ? '' : 'red' }"
+            >
+              {{ valueInput.value.length }}/5
+            </mat-hint>
           </mat-form-field>
 
           <mat-form-field style="width: 17%">

@@ -15,9 +15,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { AtendimentosListComponent } from './components/atendimentos-list/atendimentos-list.component';
 import { AtendsPerson } from '../../../interfaces/atends_person';
 import { AtendimentoService } from '../../../services/atendimento/atendimento.service';
-import { UserService } from '../../../services/user/user.service';
 import { UtilsService } from '../../../utils/utils.service';
 import { MatButtonModule } from '@angular/material/button';
+import { LoginService } from '../../../services/user/login.service';
 
 @Component({
   selector: 'app-atendimentos',
@@ -46,7 +46,7 @@ export class AtendimentosComponent implements OnInit {
 
   constructor(
     private atendimentoService: AtendimentoService,
-    private userService: UserService,
+    private loginService: LoginService,
     private router: Router,
     private fb: FormBuilder,
     private utilsService: UtilsService
@@ -65,7 +65,7 @@ export class AtendimentosComponent implements OnInit {
 
   listaAtendimentos() {
     this.atendimentoService
-      .getAtendsPerson(this.userService.getLoggedUserId!)
+      .getAtends(this.loginService.getLoggedUserId!)
       .then((result) => {
         this.atends = result;
         this.filteredAtends.set(result);
@@ -76,7 +76,7 @@ export class AtendimentosComponent implements OnInit {
   editAtend(event: any) {
     if (event.type === 'click') {
       const atendId = event.row.id;
-      this.router.navigate([`/atendimento/${atendId}`]);
+      this.router.navigate([`atendimento/${atendId}`]);
     }
   }
 
@@ -93,21 +93,20 @@ export class AtendimentosComponent implements OnInit {
     const dtInicial = this.filterForm.get('dt_inicial')!.value;
     const dtFinal = this.filterForm.get('dt_final')!.value;
 
-    if (dsPaciente) {
+    if (dsPaciente)
       rows = this.utilsService.filterList(rows, 'ds_paciente', dsPaciente);
-    }
 
-    if (dsUnidade) {
+    if (dsUnidade)
       rows = this.utilsService.filterList(rows, 'ds_unidade', dsUnidade);
-    }
 
-    if (dtInicial || dtFinal)
+    if (dtInicial || dtFinal) {
       rows = this.utilsService.filterListByDate(
         rows,
         'dt_atendimento',
         dtInicial,
         dtFinal
       );
+    }
 
     this.filteredAtends.set(rows);
   }

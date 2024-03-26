@@ -20,6 +20,7 @@ import { Credentials } from '../../../../../interfaces/credentials';
 import { User } from '../../../../../interfaces/user';
 import { UserService } from '../../../../../services/user/user.service';
 import { UtilsService } from '../../../../../utils/utils.service';
+import { LoginService } from '../../../../../services/user/login.service';
 
 @Component({
   selector: 'app-change-password',
@@ -49,13 +50,14 @@ export class ChangePasswordComponent implements OnInit {
     private _utilsService: UtilsService,
     private _userService: UserService,
     private _activatedRoute: ActivatedRoute,
+    private _loginService: LoginService,
     private _router: Router
   ) {}
 
   ngOnInit() {
     this.buildForm();
 
-    this.userId = +(this._activatedRoute.snapshot.paramMap.get('id') || '0');
+    this.userId = +this._activatedRoute.snapshot.paramMap.get('id')!;
     this.handlePermission();
   }
 
@@ -76,7 +78,7 @@ export class ChangePasswordComponent implements OnInit {
     this._userService.getById(this.userId).then((user) => {
       this.user = user;
 
-      if (!user.canChangePassword) this._router.navigate(['login']);
+      if (!user.can_change_password) this._router.navigate(['login']);
     });
   }
 
@@ -93,7 +95,7 @@ export class ChangePasswordComponent implements OnInit {
 
     this.showLoading.set(true);
 
-    this._userService
+    this._loginService
       .changePassword(this.userId, newPass.newPassword)
       .then((result) => {
         if (!result) return;
@@ -103,7 +105,7 @@ export class ChangePasswordComponent implements OnInit {
           password: newPass.newPassword,
         };
 
-        this._userService.login(credentials);
+        this._loginService.login(credentials);
       })
       .catch(() => {
         this._utilsService.showSimpleMessage(

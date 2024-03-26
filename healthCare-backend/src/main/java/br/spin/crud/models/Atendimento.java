@@ -12,7 +12,7 @@ public class Atendimento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    public Long id;
 
     private long id_paciente;
 
@@ -42,6 +42,5 @@ public class Atendimento {
 
     private LocalDate dt_criacao;
 
-    @Column(name = "user_id")
-    private long userId;
+    private long user_id;
 }

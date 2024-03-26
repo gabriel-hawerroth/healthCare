@@ -1,10 +1,10 @@
 export interface Unidade {
   id?: number;
-  dsNome: string;
+  ds_nome: string;
   cnpj: string;
   nr_telefone?: string;
   email: string;
-  ieSituacao: string;
+  ie_situacao: string;
   capacidade_atendimento?: string;
   horario_funcionamento?: string;
   tipo: string;
@@ -18,5 +18,5 @@ export interface Unidade {
   complemento?: string;
   como_chegar?: string;
   dt_criacao: string;
-  userId: number;
+  user_id: number;
 }

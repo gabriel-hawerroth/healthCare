@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface AtendimentoRepository extends JpaRepository<Atendimento, Long> {
 
-    List<Atendimento> findAllByUserId(Long userId);
-
     @Query(value =
             """
             SELECT

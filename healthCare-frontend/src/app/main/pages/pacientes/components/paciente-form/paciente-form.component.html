@@ -10,7 +10,7 @@
 
     <div class="rigth buttons">
       <span
-        (click)="patientId ? editPatient() : newPatient()"
+        (click)="savePatient()"
         class="material-symbols-outlined button-forms"
       >
         save
@@ -39,7 +39,7 @@
           matInput
           #nomeInput
           maxlength="60"
-          formControlName="dsNome"
+          formControlName="ds_nome"
           autofocus
         />
         <mat-hint align="end">
@@ -109,7 +109,7 @@
         <mat-label>
           <b>Situação</b>
         </mat-label>
-        <mat-select formControlName="ieSituacao">
+        <mat-select formControlName="ie_situacao">
           <mat-option value="A">Ativo</mat-option>
           <mat-option value="I">Inativo</mat-option>
         </mat-select>
@@ -220,8 +220,14 @@
               matInput
               #pesoInput
               formControlName="peso_kg"
+              max="400"
             />
-            <mat-hint align="end">{{ pesoInput.value.length }}/3</mat-hint>
+            <mat-hint
+              align="end"
+              [ngStyle]="{ color: pesoInput.checkValidity() ? '' : 'red' }"
+            >
+              {{ pesoInput.value.length }}/3
+            </mat-hint>
           </mat-form-field>
 
           <mat-form-field style="width: 10%">
@@ -231,8 +237,14 @@
               matInput
               #alturaInput
               formControlName="altura_cm"
+              max="250"
             />
-            <mat-hint align="end">{{ alturaInput.value.length }}/3</mat-hint>
+            <mat-hint
+              align="end"
+              [ngStyle]="{ color: alturaInput.checkValidity() ? '' : 'red' }"
+            >
+              {{ alturaInput.value.length }}/3
+            </mat-hint>
           </mat-form-field>
 
           <mat-form-field style="width: 26%">
@@ -367,28 +379,36 @@
           <mat-form-field style="width: 11%">
             <mat-label>Idade mínima</mat-label>
             <input
-              type="text"
+              type="number"
               matInput
               #idadeMinInput
               formControlName="idade_min"
-              maxlength="2"
+              max="99"
             />
-            <mat-hint align="end">
-              {{ idadeMinInput.value.length }}/{{ idadeMinInput.maxLength }}
+            <mat-hint
+              align="end"
+              [ngStyle]="{ color: idadeMinInput.checkValidity() ? '' : 'red' }"
+            >
+              {{ idadeMinInput.value.length }}/2
             </mat-hint>
           </mat-form-field>
 
           <mat-form-field style="width: 11%">
             <mat-label>Idade máxima</mat-label>
             <input
-              type="text"
+              type="number"
               matInput
               #idadeMaxInput
               formControlName="idade_max"
-              maxlength="2"
+              max="99"
             />
-            <mat-hint align="end">
-              {{ idadeMaxInput.value.length }}/{{ idadeMaxInput.maxLength }}
+            <mat-hint
+              align="end"
+              [ngStyle]="{
+                color: idadeMaxInput.checkValidity() ? '' : 'red'
+              }"
+            >
+              {{ idadeMaxInput.value.length }}/2
             </mat-hint>
           </mat-form-field>
 
@@ -428,7 +448,11 @@
               mask="00000-000"
               (change)="getAddress(cepInput.value)"
             />
+
+            @if (patientForm.get('nr_cep')!.dirty &&
+            patientForm.get('nr_cep')!.invalid) {
             <mat-error>CEP inválido</mat-error>
+            }
           </mat-form-field>
 
           <mat-form-field style="width: 15%">
@@ -512,8 +536,14 @@
               #nrEnderecoInput
               type="number"
               formControlName="nr_endereco"
+              max="9999"
             />
-            <mat-hint align="end">
+            <mat-hint
+              align="end"
+              [ngStyle]="{
+                color: nrEnderecoInput.checkValidity() ? '' : 'red'
+              }"
+            >
               {{ nrEnderecoInput.value.length }}/4
             </mat-hint>
           </mat-form-field>

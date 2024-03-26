@@ -17,7 +17,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.mail.MessagingException;
 import java.net.URI;
-import java.util.List;
 
 import static br.spin.crud.services.UtilsService.calculateHash;
 
@@ -30,50 +29,7 @@ public class LoginService {
     private final TokenRepository tokenRepository;
     private final EmailService emailService;
 
-    public List<User> listaUsuarios() {
-        return userRepository.findAll();
-    }
-
-    public User findById(long id) {
-        return userRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
-    }
-
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST));
-    }
-
-    public User novoUsuario(User user) {
-        if (userRepository.findByEmail(user.getEmail()).isPresent())
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "User already exists");
-
-        user.setSenha(bcrypt.encode(user.getSenha()));
-        return userRepository.save(user);
-    }
-
-    public User editUser(User user) {
-        final User existentUser = userRepository.findById(user.getId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
-
-        if (user.getSenha().isEmpty()) {
-            user.setSenha(existentUser.getSenha());
-        } else {
-            user.setSenha(bcrypt.encode(user.getSenha()));
-        }
-        return userRepository.save(user);
-    }
-
-    public ResponseEntity<Void> excluirUsuario(long id) {
-        try {
-            userRepository.deleteById(id);
-            return ResponseEntity.ok().build();
-        } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found");
-        }
-    }
-
-    public void activateAccount(long userId) {
+    public void sendActivateAccountEmail(long userId) {
         final Token tok = tokenRepository.findByUserId(userId);
         final User user = userRepository.findById(userId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
@@ -105,7 +61,7 @@ public class LoginService {
                 .build();
     }
 
-    public void requestPermissionToChangePassword(long userId) {
+    public void sendChangePasswordEmail(long userId) {
         final Token tok = tokenRepository.findByUserId(userId);
         final User user = userRepository.findById(userId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST));

@@ -12,8 +12,8 @@ import { UnitListComponent } from './components/unit-list/unit-list.component';
 import { MatIconModule } from '@angular/material/icon';
 import { Unidade } from '../../../interfaces/unidade';
 import { UnidadeService } from '../../../services/unidade/unidade.service';
-import { UserService } from '../../../services/user/user.service';
 import { UtilsService } from '../../../utils/utils.service';
+import { LoginService } from '../../../services/user/login.service';
 
 @Component({
   selector: 'app-unidades',
@@ -38,7 +38,7 @@ export class UnidadesComponent implements OnInit {
 
   constructor(
     private unidadeService: UnidadeService,
-    private userService: UserService,
+    private loginService: LoginService,
     private router: Router,
     private fb: FormBuilder,
     private utilsService: UtilsService
@@ -46,8 +46,8 @@ export class UnidadesComponent implements OnInit {
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
-      dsNome: '',
-      ieSituacao: 'A',
+      ds_nome: '',
+      ie_situacao: 'A',
     });
 
     this.listaUnidades();
@@ -55,7 +55,7 @@ export class UnidadesComponent implements OnInit {
 
   listaUnidades() {
     this.unidadeService
-      .getUnits(this.userService.getLoggedUserId!)
+      .getUnits(this.loginService.getLoggedUserId!)
       .then((result) => {
         this.units = result;
         this.filteredUnits.set(result);
@@ -66,21 +66,21 @@ export class UnidadesComponent implements OnInit {
   editUnit(event: any) {
     if (event.type === 'click') {
       const unitId = event.row.id;
-      this.router.navigate([`/unidade/${unitId}`]);
+      this.router.navigate([`unidade/${unitId}`]);
     }
   }
 
   filterList() {
     let rows = this.units.slice();
-    const dsNome = this.filterForm.value.dsNome;
-    const ieSituacao = this.filterForm.value.ieSituacao;
+    const dsNome = this.filterForm.value.ds_nome;
+    const ieSituacao = this.filterForm.value.ie_situacao;
 
     if (dsNome) {
-      rows = this.utilsService.filterList(rows, 'dsNome', dsNome);
+      rows = this.utilsService.filterList(rows, 'ds_nome', dsNome);
     }
 
     if (ieSituacao) {
-      rows = this.utilsService.filterList(rows, 'ieSituacao', ieSituacao);
+      rows = this.utilsService.filterList(rows, 'ie_situacao', ieSituacao);
     }
 
     this.filteredUnits.set(rows);

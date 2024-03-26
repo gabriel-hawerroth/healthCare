@@ -28,17 +28,12 @@ public class PacienteService {
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, patientNotFound));
     }
 
-    public ResponseEntity<Paciente> criarPaciente(Paciente paciente) {
-        paciente.setDt_criacao(LocalDate.now());
+    public ResponseEntity<Paciente> savePatient(Paciente paciente) {
+        if (paciente.getId() != null) {
+            paciente.setDt_criacao(LocalDate.now());
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(pacienteRepository.save(paciente));
-    }
-
-    public ResponseEntity<Paciente> editarPaciente(Paciente paciente) {
-        final Paciente paci = pacienteRepository.findById(paciente.getId()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, patientNotFound));
-
-        paciente.setDt_criacao(paci.getDt_criacao());
-        return ResponseEntity.status(HttpStatus.OK).body(pacienteRepository.save(paciente));
     }
 
     public ResponseEntity<Void> excluirPaciente(long id) {

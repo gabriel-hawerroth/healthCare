@@ -9,10 +9,7 @@
     </div>
 
     <div class="rigth buttons">
-      <span
-        (click)="unitId ? editUnit() : newUnit()"
-        class="material-symbols-outlined button-forms"
-      >
+      <span (click)="saveUnit()" class="material-symbols-outlined button-forms">
         save
       </span>
 
@@ -40,7 +37,7 @@
           matInput
           #nomeInput
           maxlength="60"
-          formControlName="dsNome"
+          formControlName="ds_nome"
           autofocus
         />
         <mat-hint align="end">
@@ -92,7 +89,7 @@
         <mat-label>
           <b>Situação</b>
         </mat-label>
-        <mat-select formControlName="ieSituacao">
+        <mat-select formControlName="ie_situacao">
           <mat-option value="A">Ativa</mat-option>
           <mat-option value="I">Inativa</mat-option>
         </mat-select>
@@ -115,8 +112,14 @@
               matInput
               #atendCapacityInput
               formControlName="capacidade_atendimento"
+              max="9999"
             />
-            <mat-hint align="end">
+            <mat-hint
+              align="end"
+              [ngStyle]="{
+                color: atendCapacityInput.checkValidity() ? '' : 'red'
+              }"
+            >
               {{ atendCapacityInput.value.length }}/4
             </mat-hint>
           </mat-form-field>
@@ -269,8 +272,14 @@
               #nrEnderecoInput
               type="number"
               formControlName="nr_endereco"
+              max="9999"
             />
-            <mat-hint align="end">
+            <mat-hint
+              align="end"
+              [ngStyle]="{
+                color: nrEnderecoInput.checkValidity() ? '' : 'red'
+              }"
+            >
               {{ nrEnderecoInput.value.length }}/4
             </mat-hint>
           </mat-form-field>

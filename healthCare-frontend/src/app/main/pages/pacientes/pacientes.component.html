@@ -6,7 +6,7 @@
           <mat-label>Filtrar por nome</mat-label>
           <input
             matInput
-            formControlName="dsNome"
+            formControlName="ds_nome"
             autofocus
             (ngModelChange)="filterList()"
           />
@@ -15,7 +15,7 @@
         <mat-form-field style="width: 20%">
           <mat-label>Filtrar por situação</mat-label>
           <mat-select
-            formControlName="ieSituacao"
+            formControlName="ie_situacao"
             (ngModelChange)="filterList()"
           >
             <mat-option value="A">Ativos</mat-option>

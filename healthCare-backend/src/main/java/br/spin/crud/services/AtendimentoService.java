@@ -21,10 +21,6 @@ public class AtendimentoService {
 
     private static final String serviceNotFound = "Atendimento não encontrado";
 
-    public List<Atendimento> listaAtendimentos(long userId) {
-        return atendimentoRepository.findAllByUserId(userId);
-    }
-
     public List<InterfacesSQL.AtendsPerson> listaAtendsPerson(long userId) {
         return atendimentoRepository.listAtends(userId);
     }
@@ -34,17 +30,15 @@ public class AtendimentoService {
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, serviceNotFound));
     }
 
-    public ResponseEntity<Atendimento> criarAtendimento(Atendimento atendimento) {
-        atendimento.setDt_criacao(LocalDate.now());
-        return ResponseEntity.status(HttpStatus.CREATED).body(atendimentoRepository.save(atendimento));
-    }
+    public ResponseEntity<Atendimento> saveAttendance(Atendimento attendance) {
+        final boolean isNew = attendance.getId() != null;
 
-    public ResponseEntity<Atendimento> editarAtendimento(Atendimento atendimento) {
-        final Atendimento atend = atendimentoRepository.findById(atendimento.getId()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, serviceNotFound)
-        );
-        atendimento.setDt_criacao(atend.getDt_criacao());
-        return ResponseEntity.status(HttpStatus.OK).body(atendimentoRepository.save(atendimento));
+        if (isNew)
+            attendance.setDt_criacao(LocalDate.now());
+
+        return ResponseEntity
+                .status(isNew ? HttpStatus.CREATED : HttpStatus.OK)
+                .body(atendimentoRepository.save(attendance));
     }
 
     public ResponseEntity<Void> excluirAtendimento(long id) {

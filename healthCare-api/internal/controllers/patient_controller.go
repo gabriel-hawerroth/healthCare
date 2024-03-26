@@ -4,14 +4,16 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gabriel-hawerroth/HealthCare/internal/entity"
 	"github.com/gabriel-hawerroth/HealthCare/internal/repository"
 	"github.com/gabriel-hawerroth/HealthCare/internal/services"
 )
 
-var patientEndpoint string = "/patient"
+const patientEndpoint string = "/patient"
 
 func LoadPatientEndpoints(db *sql.DB) {
 	repository := repository.NewPatientRepository(db)
@@ -21,7 +23,6 @@ func LoadPatientEndpoints(db *sql.DB) {
 	mux.HandleFunc(fmt.Sprintf("GET %s", patientEndpoint), patientControllers.GetPatientList)
 	mux.HandleFunc(fmt.Sprintf("GET %s/{id}", patientEndpoint), patientControllers.GetPatientById)
 	mux.HandleFunc(fmt.Sprintf("POST %s", patientEndpoint), patientControllers.SavePatient)
-	mux.HandleFunc(fmt.Sprintf("PUT %s", patientEndpoint), patientControllers.UpdatePatient)
 	mux.HandleFunc(fmt.Sprintf("DELETE %s/{id}", patientEndpoint), patientControllers.DeletePatient)
 }
 
@@ -36,16 +37,17 @@ func NewPatientController(patientService *services.PatientService) *PatientContr
 }
 
 func (c *PatientController) GetPatientList(w http.ResponseWriter, r *http.Request) {
-	var userId int
-	_, err := fmt.Sscanf(r.URL.Query().Get("userId"), "%d", &userId)
+	userId, err := strconv.Atoi(r.URL.Query().Get("userId"))
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, "Error casting param", http.StatusBadRequest)
 		return
 	}
 
 	list, err := c.PatientService.GetPatientsList(userId)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		errMsg := "Error getting patient list"
+		log.Printf("%s: %s", errMsg, err)
+		http.Error(w, errMsg, http.StatusInternalServerError)
 		return
 	}
 
@@ -54,16 +56,17 @@ func (c *PatientController) GetPatientList(w http.ResponseWriter, r *http.Reques
 }
 
 func (c *PatientController) GetPatientById(w http.ResponseWriter, r *http.Request) {
-	var userId int
-	_, err := fmt.Sscanf(r.PathValue("id"), "%d", &userId)
+	patientId, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, "Error casting param", http.StatusBadRequest)
 		return
 	}
 
-	patient, err := c.PatientService.GetPatientById(userId)
+	patient, err := c.PatientService.GetPatientById(patientId)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		errMsg := "Error getting patient by id"
+		log.Printf("%s: %s", errMsg, err)
+		http.Error(w, errMsg, http.StatusBadRequest)
 		return
 	}
 
@@ -73,16 +76,17 @@ func (c *PatientController) GetPatientById(w http.ResponseWriter, r *http.Reques
 
 func (c *PatientController) SavePatient(w http.ResponseWriter, r *http.Request) {
 	var data entity.Patient
-
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
-		http.Error(w, "Error decoding response body", http.StatusInternalServerError)
+		http.Error(w, "Error decoding response body", http.StatusBadRequest)
 		return
 	}
 
 	patient, err := c.PatientService.SavePatient(data)
 	if err != nil {
-		http.Error(w, "Error saving patient", http.StatusInternalServerError)
+		errMsg := "Error saving patient"
+		log.Printf("%s: %s", errMsg, err)
+		http.Error(w, errMsg, http.StatusBadRequest)
 		return
 	}
 
@@ -90,11 +94,18 @@ func (c *PatientController) SavePatient(w http.ResponseWriter, r *http.Request) 
 	json.NewEncoder(w).Encode(patient)
 }
 
-func (c *PatientController) UpdatePatient(w http.ResponseWriter, r *http.Request) {
-
-}
-
 func (c *PatientController) DeletePatient(w http.ResponseWriter, r *http.Request) {
-	patientId := r.PathValue("id")
-	fmt.Println(patientId)
+	patientId, err := strconv.Atoi(r.PathValue("id"))
+	if err != nil {
+		http.Error(w, "Error casting param", http.StatusBadRequest)
+		return
+	}
+
+	err = c.PatientService.DeletePatient(patientId)
+	if err != nil {
+		errMsg := "Error deleting patient"
+		log.Printf("%s: %s", errMsg, err)
+		http.Error(w, errMsg, http.StatusInternalServerError)
+		return
+	}
 }

@@ -12,8 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { Patient } from '../../../interfaces/patient';
 import { PatientService } from '../../../services/paciente/patient.service';
-import { UserService } from '../../../services/user/user.service';
 import { UtilsService } from '../../../utils/utils.service';
+import { LoginService } from '../../../services/user/login.service';
 
 @Component({
   selector: 'app-pacientes',
@@ -38,7 +38,7 @@ export class PacientesComponent implements OnInit {
 
   constructor(
     private patientService: PatientService,
-    private userService: UserService,
+    private loginService: LoginService,
     private router: Router,
     private fb: FormBuilder,
     private utilsService: UtilsService
@@ -46,8 +46,8 @@ export class PacientesComponent implements OnInit {
 
   ngOnInit() {
     this.filterForm = this.fb.group({
-      dsNome: '',
-      ieSituacao: 'A',
+      ds_nome: '',
+      ie_situacao: 'A',
     });
 
     this.listaPacientes();
@@ -55,7 +55,7 @@ export class PacientesComponent implements OnInit {
 
   listaPacientes() {
     this.patientService
-      .getPatients(this.userService.getLoggedUserId!)
+      .getPatients(this.loginService.getLoggedUserId!)
       .then((result) => {
         this.patients = result;
         this.filteredPatients.set(result);
@@ -72,15 +72,15 @@ export class PacientesComponent implements OnInit {
 
   filterList() {
     let rows = this.patients;
-    const dsNome = this.filterForm.value.dsNome;
-    const ieSituacao = this.filterForm.value.ieSituacao;
+    const dsNome = this.filterForm.value.ds_nome;
+    const ieSituacao = this.filterForm.value.ie_situacao;
 
     if (dsNome) {
-      rows = this.utilsService.filterList(rows, 'dsNome', dsNome);
+      rows = this.utilsService.filterList(rows, 'ds_nome', dsNome);
     }
 
     if (ieSituacao) {
-      rows = this.utilsService.filterList(rows, 'ieSituacao', ieSituacao);
+      rows = this.utilsService.filterList(rows, 'ie_situacao', ieSituacao);
     }
 
     this.filteredPatients.set(rows);

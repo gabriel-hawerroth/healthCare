@@ -18,12 +18,12 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Patient } from '../../../../../interfaces/patient';
 import { PatientService } from '../../../../../services/paciente/patient.service';
-import { UserService } from '../../../../../services/user/user.service';
 import { ConfirmationDialogComponent } from '../../../../../utils/confirmation-dialog/confirmation-dialog.component';
 import { UtilsService } from '../../../../../utils/utils.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxMaskDirective } from 'ngx-mask';
+import { LoginService } from '../../../../../services/user/login.service';
 
 @Component({
   selector: 'app-paciente-form',
@@ -57,7 +57,7 @@ export class PacienteFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private patientService: PatientService,
-    private userService: UserService,
+    private loginService: LoginService,
     private dialog: MatDialog,
     private fb: FormBuilder,
     private utilsService: UtilsService
@@ -97,105 +97,68 @@ export class PacienteFormComponent implements OnInit {
   buildForm() {
     this.patientForm = this.fb.group({
       id: null,
-      dsNome: ['', Validators.required],
+      ds_nome: ['', Validators.required],
       nr_cpf: ['', Validators.required],
       dt_nascimento: [null, Validators.required],
-      nr_celular: '',
-      status: '',
-      ieSituacao: ['', Validators.required],
-      nome_mae: '',
-      nome_pai: '',
-      genero: '',
-      estado_civil: '',
-      nacionalidade: '',
-      etnia: '',
-      religiao: '',
-      peso_kg: '',
-      altura_cm: '',
-      email: '',
-      alergias: '',
-      dependencia: '',
+      nr_celular: null,
+      status: null,
+      ie_situacao: ['A', Validators.required],
+      nome_mae: null,
+      nome_pai: null,
+      genero: null,
+      estado_civil: null,
+      nacionalidade: null,
+      etnia: null,
+      religiao: null,
+      peso_kg: null,
+      altura_cm: null,
+      email: null,
+      alergias: null,
+      dependencia: null,
       permite_atend_online: false,
-      obs_diagnostico: '',
-      dt_inicio_atend: '',
-      dt_fim_atend: '',
+      obs_diagnostico: null,
+      dt_inicio_atend: null,
+      dt_fim_atend: null,
       estoque_empenhado: false,
       guarda_compartilhada: false,
-      genero_pref: '',
-      idade_min: '',
-      idade_max: '',
-      obs_preferencias: '',
+      genero_pref: null,
+      idade_min: null,
+      idade_max: null,
+      obs_preferencias: null,
       nr_cep: ['', Validators.required],
-      estado: '',
-      cidade: '',
-      bairro: '',
-      endereco: '',
-      nr_endereco: '',
-      complemento: '',
-      como_chegar: '',
-      userId: this.userService.getLoggedUserId,
+      estado: null,
+      cidade: null,
+      bairro: null,
+      endereco: null,
+      nr_endereco: null,
+      complemento: null,
+      como_chegar: null,
+      user_id: this.loginService.getLoggedUserId,
+      dt_criacao: null,
     });
+
+    this.patientForm.markAllAsTouched();
   }
 
-  newPatient() {
+  savePatient() {
     if (this.patientForm.invalid) {
       for (const controlName in this.patientForm.controls) {
         if (this.patientForm.controls[controlName].invalid) {
           console.log(`Campo inválido: ${controlName}`);
         }
       }
-      this.utilsService.showSimpleMessage(
-        'Não foi possível salvar as informações.',
-        4500
-      );
+      this.utilsService.showSimpleMessage('Formulário inválido');
       return;
     }
 
     this.patientService
-      .createPatient(this.patientForm.value)
+      .savePatient(this.patientForm.getRawValue())
       .then(() => {
-        this.utilsService.showSimpleMessage(
-          'Paciente criado com sucesso.',
-          4000
-        );
+        this.utilsService.showSimpleMessage('Paciente salvo com sucesso');
         this.router.navigate(['/paciente']);
       })
       .catch(() => {
-        this.utilsService.showSimpleMessage(
-          'Não foi possível salvar as informações.',
-          500
-        );
-      });
-  }
-
-  editPatient() {
-    if (this.patientForm.invalid) {
-      for (const controlName in this.patientForm.controls) {
-        if (this.patientForm.controls[controlName].invalid) {
-          console.log(`Campo inválido: ${controlName}`);
-        }
-      }
-      this.utilsService.showSimpleMessage(
-        'Não foi possível salvar as informações.',
-        4500
-      );
-      return;
-    }
-
-    this.patientService
-      .updatePatient(this.patientForm.value)
-      .then(() => {
-        this.utilsService.showSimpleMessage(
-          'Paciente salvo com sucesso.',
-          4000
-        );
-        this.router.navigate(['/paciente']);
-      })
-      .catch(() => {
-        this.utilsService.showSimpleMessage(
-          'Não foi possível salvar as informações.',
-          4500
-        );
+        this.utilsService.showSimpleMessage('Erro ao tentar salvar o paciente');
       });
   }
 
@@ -230,7 +193,6 @@ export class PacienteFormComponent implements OnInit {
   }
 
   getAddress(cep: string) {
-    console.log('entrou no get address');
     if (cep.length < 9) {
       this.clearAddress();
       return;

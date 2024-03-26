@@ -10,7 +10,10 @@
           autofocus
           autocomplete="off"
         />
+
+        @if (userForm.get('email')!.dirty && userForm.get('email')!.invalid) {
         <mat-error>É necessário ser um email válido</mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field style="width: 27%">
@@ -30,7 +33,9 @@
           matInput
           formControlName="senha"
           autocomplete="new-password"
+          maxlength="70"
         />
+
         <mat-icon
           matSuffix
           matTooltip="Se deixado em branco a senha permanecerá igual a atual"
@@ -39,6 +44,7 @@
         >
           info
         </mat-icon>
+
         <mat-error>
           A senha deve conter no mínimo 8 caracteres, 1 letra maiúscula e 1
           número.
@@ -88,9 +94,9 @@
 
   <div class="actions">
     <div class="top">
-      <mat-icon routerLink="/usuario" class="pointer arrow-back">
-        arrow_back
-      </mat-icon>
+      <button mat-icon-button routerLink="/usuario">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
 
       <div class="title">
         @if (userId) {
@@ -118,9 +124,7 @@
     </div>
 
     <div class="bottom">
-      <span
-        (click)="userId ? editUser() : newUser()"
-        class="material-symbols-outlined button-bottom"
+      <span (click)="saveUser()" class="material-symbols-outlined button-bottom"
         >save</span
       >
 

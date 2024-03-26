@@ -1,6 +1,6 @@
 export interface Patient {
   id?: number;
-  dsNome: string;
+  ds_nome: string;
   nr_cpf: string;
   dt_nascimento: Date;
   nr_celular?: string;
@@ -12,8 +12,8 @@ export interface Patient {
   nacionalidade?: string;
   etnia?: string;
   religiao?: string;
-  peso_kg?: string;
-  altura_cm?: string;
+  peso_kg?: number;
+  altura_cm?: number;
   email?: string;
   alergias?: string;
   dependencia?: string;
@@ -24,18 +24,18 @@ export interface Patient {
   estoque_empenhado?: boolean;
   guarda_compartilhada?: boolean;
   genero_pref?: string;
-  idade_min?: string;
-  idade_max?: string;
+  idade_min?: number;
+  idade_max?: number;
   obs_preferencias?: string;
   nr_cep: string;
   estado?: string;
   cidade?: string;
   bairro?: string;
   endereco?: string;
-  nr_endereco?: string;
+  nr_endereco?: number;
   complemento?: string;
   como_chegar?: string;
-  ieSituacao?: string;
+  ie_situacao?: string;
   dt_criacao: Date;
-  userId: number;
+  user_id: number;
 }

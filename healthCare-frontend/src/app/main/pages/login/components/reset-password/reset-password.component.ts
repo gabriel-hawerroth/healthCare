@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UserService } from '../../../../../services/user/user.service';
 import { UtilsService } from '../../../../../utils/utils.service';
+import { LoginService } from '../../../../../services/user/login.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -40,6 +41,7 @@ export class ResetPasswordComponent implements OnInit {
   constructor(
     private utilsService: UtilsService,
     private userService: UserService,
+    private loginService: LoginService,
     private fb: FormBuilder
   ) {}
 
@@ -63,7 +65,7 @@ export class ResetPasswordComponent implements OnInit {
           return;
         }
 
-        await this.userService
+        await this.loginService
           .sendChangePasswordEmail(receivedUser.id!)
           .then(() => {
             this.resetPasswordForm.reset(this.originalFormValue);

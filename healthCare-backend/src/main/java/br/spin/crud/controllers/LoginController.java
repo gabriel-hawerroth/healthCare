@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
@@ -17,49 +15,19 @@ public class LoginController {
 
     private final LoginService loginService;
 
-    @GetMapping
-    private List<User> listaUsuarios() {
-        return loginService.listaUsuarios();
-    }
-
-    @GetMapping("/{id}")
-    private User findById(@PathVariable long id) {
-        return loginService.findById(id);
-    }
-
-    @GetMapping("/getByEmail")
-    private User findByEmail(@RequestParam String email) {
-        return loginService.findByEmail(email);
-    }
-
-    @PostMapping("/new-user")
-    private User novoUsuario(@RequestBody User user) {
-        return loginService.novoUsuario(user);
-    }
-
-    @PutMapping("/editUser")
-    private User editUser(@RequestBody User user) {
-        return loginService.editUser(user);
-    }
-
-    @DeleteMapping("/{id}")
-    private ResponseEntity<Void> excluirUsuario(@PathVariable long id) {
-        return loginService.excluirUsuario(id);
-    }
-
-    @PostMapping("/sendActivateAccountEmail")
+    @PostMapping("/send-activate-account-email")
     private void activateAccount(@RequestParam long userId) {
-        loginService.activateAccount(userId);
+        loginService.sendActivateAccountEmail(userId);
     }
 
     @GetMapping("/activate-account/{userId}/{token}")
-    private ResponseEntity<Void> activaUser(@PathVariable long userId, @PathVariable String token) {
+    private ResponseEntity<Void> activeUser(@PathVariable long userId, @PathVariable String token) {
         return loginService.activaUser(userId, token);
     }
 
-    @PostMapping("/sendChangePasswordEmail")
-    private void requestPermissionToChangePassword(@RequestParam long userId) {
-        loginService.requestPermissionToChangePassword(userId);
+    @PostMapping("/send-change-password-email")
+    private void sendChangePasswordEmail(@RequestParam long userId) {
+        loginService.sendChangePasswordEmail(userId);
     }
 
     @GetMapping("/permit-change-password/{userId}/{token}")
@@ -67,7 +35,7 @@ public class LoginController {
         return loginService.permitChangePassword(userId, token);
     }
 
-    @PutMapping("/changePassword")
+    @PutMapping("/change-password")
     private ResponseEntity<User> changePassword(@RequestParam long userId, @RequestParam String newPassword) {
         return loginService.changePassword(userId, newPassword);
     }

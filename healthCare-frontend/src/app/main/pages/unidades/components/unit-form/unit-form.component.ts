@@ -16,10 +16,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Unidade } from '../../../../../interfaces/unidade';
 import { UnidadeService } from '../../../../../services/unidade/unidade.service';
-import { UserService } from '../../../../../services/user/user.service';
 import { ConfirmationDialogComponent } from '../../../../../utils/confirmation-dialog/confirmation-dialog.component';
 import { UtilsService } from '../../../../../utils/utils.service';
 import { NgxMaskDirective } from 'ngx-mask';
+import { LoginService } from '../../../../../services/user/login.service';
 
 @Component({
   selector: 'app-unit-form',
@@ -52,7 +52,7 @@ export class UnitFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private unitService: UnidadeService,
-    private userService: UserService,
+    private loginService: LoginService,
     private dialog: MatDialog,
     private fb: FormBuilder,
     private utilsService: UtilsService
@@ -71,84 +71,50 @@ export class UnitFormComponent implements OnInit {
 
   buildForm() {
     this.unitForm = this.fb.group({
-      id: '',
-      dsNome: ['', Validators.required],
+      id: null,
+      ds_nome: ['', Validators.required],
       cnpj: ['', Validators.required],
-      nr_telefone: '',
-      nr_cep: ['', Validators.required],
+      nr_telefone: null,
       email: ['', Validators.required],
-      ieSituacao: ['', Validators.required],
-      capacidade_atendimento: '',
-      horario_funcionamento: '',
+      ie_situacao: ['A', Validators.required],
+      capacidade_atendimento: null,
+      horario_funcionamento: null,
       tipo: ['', Validators.required],
-      especialidades_oferecidas: '',
-      estado: '',
-      cidade: '',
-      bairro: '',
-      endereco: '',
-      nr_endereco: '',
-      complemento: '',
-      como_chegar: '',
-      userId: this.userService.getLoggedUserId,
+      especialidades_oferecidas: null,
+      nr_cep: [null, Validators.required],
+      estado: null,
+      cidade: null,
+      bairro: null,
+      endereco: null,
+      nr_endereco: null,
+      complemento: null,
+      como_chegar: null,
+      dt_criacao: null,
+      user_id: this.loginService.getLoggedUserId,
     });
+
+    this.unitForm.markAllAsTouched();
   }
 
-  newUnit() {
+  saveUnit() {
     if (this.unitForm.invalid) {
       for (const controlName in this.unitForm.controls) {
         if (this.unitForm.controls[controlName].invalid) {
           console.log(`Campo inválido: ${controlName}`);
         }
       }
-      this.utilsService.showSimpleMessage(
-        'Não foi possível salvar as informações.',
-        4500
-      );
+      this.utilsService.showSimpleMessage('Formulário inválido');
       return;
     }
 
     this.unitService
-      .createUnit(this.unitForm.value)
+      .saveUnit(this.unitForm.getRawValue())
       .then(() => {
-        this.utilsService.showSimpleMessage(
-          'Unidade criada com sucesso.',
-          4000
-        );
-        this.router.navigate(['/unidade']);
+        this.utilsService.showSimpleMessage('Unidade salva com sucesso');
+        this.router.navigate(['unidade']);
       })
       .catch(() => {
-        this.utilsService.showSimpleMessage(
-          'Não foi possível salvar as informações.',
-          4500
-        );
-      });
-  }
-
-  editUnit() {
-    if (this.unitForm.invalid) {
-      for (const controlName in this.unitForm.controls) {
-        if (this.unitForm.controls[controlName].invalid) {
-          console.log(`Campo inválido: ${controlName}`);
-        }
-      }
-      this.utilsService.showSimpleMessage(
-        'Não foi possível salvar as informações.',
-        4500
-      );
-      return;
-    }
-
-    this.unitService
-      .updateUnit(this.unitForm.value)
-      .then(() => {
-        this.utilsService.showSimpleMessage('Unidade salva com sucesso.', 4000);
-        this.router.navigate(['/unidade']);
-      })
-      .catch(() => {
-        this.utilsService.showSimpleMessage(
-          'Não foi possível salvar as informações.',
-          4500
-        );
+        this.utilsService.showSimpleMessage('Erro ao tentar salvar a unidade');
       });
   }
 

@@ -29,17 +29,15 @@ public class UnidadeService {
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, unitNotFound));
     }
 
-    public ResponseEntity<Unidade> criarUnidade(Unidade unidade) {
-        unidade.setDt_criacao(LocalDate.now());
-        return ResponseEntity.status(HttpStatus.CREATED).body(unidadeRepository.save(unidade));
-    }
+    public ResponseEntity<Unidade> saveUnit(Unidade unit) {
+        final boolean isNewUnit = unit.getId() != null;
 
-    public ResponseEntity<Unidade> salvarUnidade(Unidade unidade) {
-        final Unidade uni = unidadeRepository.findById(unidade.getId()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, unitNotFound));
+        if (isNewUnit)
+            unit.setDt_criacao(LocalDate.now());
 
-        unidade.setDt_criacao(uni.getDt_criacao());
-        return ResponseEntity.status(HttpStatus.OK).body(unidadeRepository.save(unidade));
+        return ResponseEntity
+                .status(isNewUnit ? HttpStatus.CREATED : HttpStatus.OK)
+                .body(unidadeRepository.save(unit));
     }
 
     public ResponseEntity<Void> excluirUnidade(long id) {

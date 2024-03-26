@@ -12,10 +12,9 @@ public class Paciente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(name = "ds_nome")
-    private String dsNome;
+    private String ds_nome;
 
     private String nr_cpf;
 
@@ -25,8 +24,7 @@ public class Paciente {
 
     private String status;
 
-    @Column(name = "ie_situacao")
-    private String ieSituacao;
+    private String ie_situacao;
 
     private String nome_mae;
 
@@ -90,6 +88,5 @@ public class Paciente {
 
     private LocalDate dt_criacao;
 
-    @Column(name = "user_id")
-    private long userId;
+    private long user_id;
 }

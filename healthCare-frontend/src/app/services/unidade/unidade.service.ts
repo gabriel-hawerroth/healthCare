@@ -9,13 +9,9 @@ import { Unidade } from '../../interfaces/unidade';
 })
 export class UnidadeService {
   private baseApiUrl = environment.baseApiUrl;
-  private apiUrl = `${this.baseApiUrl}unidades`;
+  private apiUrl = `${this.baseApiUrl}unit`;
 
   constructor(private http: HttpClient) {}
-
-  createUnit(formData: FormData): Promise<Unidade> {
-    return lastValueFrom(this.http.post<Unidade>(this.apiUrl, formData));
-  }
 
   getUnits(userId: number): Promise<Unidade[]> {
     let params = new HttpParams();
@@ -29,9 +25,8 @@ export class UnidadeService {
     return lastValueFrom(this.http.get<Unidade>(url));
   }
 
-  updateUnit(formData: FormData): Promise<FormData> {
-    const url = `${this.apiUrl}`;
-    return lastValueFrom(this.http.put<FormData>(url, formData));
+  saveUnit(unit: Unidade): Promise<Unidade> {
+    return lastValueFrom(this.http.post<Unidade>(this.apiUrl, unit));
   }
 
   removeUnit(id: number): Promise<void> {

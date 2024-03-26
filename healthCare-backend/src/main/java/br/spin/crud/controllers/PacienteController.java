@@ -12,7 +12,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("pacientes")
+@RequestMapping("patient")
 public class PacienteController {
 
     private final PacienteService pacienteService;
@@ -28,13 +28,8 @@ public class PacienteController {
     }
 
     @PostMapping
-    private ResponseEntity<Paciente> criarPaciente(@RequestBody Paciente paciente) {
-        return pacienteService.criarPaciente(paciente);
-    }
-
-    @PutMapping
-    private ResponseEntity<Paciente> editarPaciente(@RequestBody Paciente paciente) {
-        return pacienteService.editarPaciente(paciente);
+    private ResponseEntity<Paciente> savePatient(@RequestBody Paciente paciente) {
+        return pacienteService.savePatient(paciente);
     }
 
     @DeleteMapping("/{id}")

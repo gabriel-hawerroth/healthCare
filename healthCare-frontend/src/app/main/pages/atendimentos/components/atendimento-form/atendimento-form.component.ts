@@ -22,11 +22,12 @@ import { Unidade } from '../../../../../interfaces/unidade';
 import { AtendimentoService } from '../../../../../services/atendimento/atendimento.service';
 import { PatientService } from '../../../../../services/paciente/patient.service';
 import { UnidadeService } from '../../../../../services/unidade/unidade.service';
-import { UserService } from '../../../../../services/user/user.service';
 import { ConfirmationDialogComponent } from '../../../../../utils/confirmation-dialog/confirmation-dialog.component';
 import { UtilsService } from '../../../../../utils/utils.service';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatButtonModule } from '@angular/material/button';
+import { NgxMaskDirective } from 'ngx-mask';
+import { LoginService } from '../../../../../services/user/login.service';
 
 @Component({
   selector: 'app-atendimento-form',
@@ -44,6 +45,7 @@ import { MatButtonModule } from '@angular/material/button';
     DatePipe,
     NgxMatSelectSearchModule,
     MatButtonModule,
+    NgxMaskDirective,
   ],
   templateUrl: './atendimento-form.component.html',
   styleUrls: ['./atendimento-form.component.scss'],
@@ -70,14 +72,14 @@ export class AtendimentoFormComponent implements OnInit {
     private atendService: AtendimentoService,
     private patientService: PatientService,
     private unitService: UnidadeService,
-    private userService: UserService,
+    private loginService: LoginService,
     private dialog: MatDialog,
     private fb: FormBuilder,
     private utilsService: UtilsService
   ) {}
 
   ngOnInit() {
-    const userId = this.userService.getLoggedUserId!;
+    const userId = this.loginService.getLoggedUserId!;
 
     this.buildForm();
 
@@ -94,91 +96,67 @@ export class AtendimentoFormComponent implements OnInit {
       });
     }
 
-    this.patientService.getPatients(userId).then((result) => {
-      this.patients = this.utilsService.filterList(result, 'ieSituacao', 'A');
-      this.filteredPatients = this.patients;
-      this.atendForm.get('id_paciente')!.updateValueAndValidity();
-    });
-
-    this.unitService.getUnits(userId).then((result) => {
-      this.units = this.utilsService.filterList(result, 'ieSituacao', 'A');
-      this.filteredUnits = this.units;
-      this.atendForm.get('id_unidade')!.updateValueAndValidity();
-    });
+    this.getValues(userId);
   }
 
   buildForm() {
     this.atendForm = this.fb.group({
-      id: '',
-      id_paciente: ['', Validators.required],
-      id_unidade: ['', Validators.required],
+      id: null,
+      id_paciente: [null, Validators.required],
+      id_unidade: [null, Validators.required],
       dt_atendimento: ['', Validators.required],
-      status_atend: '',
-      medico_responsavel: '',
-      hora_inicio: '',
-      hora_fim: '',
-      especialidade: '',
-      tipo_atendimento: '',
-      valor_atendimento: '',
-      forma_pagamento: '',
-      convenio: '',
-      nr_carteirinha_convenio: '',
-      userId: this.userService.getLoggedUserId,
+      status_atend: null,
+      medico_responsavel: null,
+      hora_inicio: null,
+      hora_fim: null,
+      especialidade: null,
+      tipo_atendimento: null,
+      valor_atendimento: null,
+      forma_pagamento: null,
+      convenio: null,
+      nr_carteirinha_convenio: null,
+      user_id: this.loginService.getLoggedUserId,
     });
+
+    this.atendForm.markAllAsTouched();
   }
 
-  newAtend() {
+  async getValues(userId: number) {
+    const [patients, units] = await Promise.all([
+      this.patientService.getPatients(userId),
+      this.unitService.getUnits(userId),
+    ]);
+
+    this.patients = this.utilsService.filterList(patients, 'ie_situacao', 'A');
+    this.units = this.utilsService.filterList(units, 'ie_situacao', 'A');
+
+    this.filteredPatients = this.patients;
+    this.filteredUnits = this.units;
+
+    this.atendForm.get('id_paciente')!.updateValueAndValidity();
+    this.atendForm.get('id_unidade')!.updateValueAndValidity();
+  }
+
+  saveAttendance() {
     if (this.atendForm.invalid) {
       for (const controlName in this.atendForm.controls) {
         if (this.atendForm.controls[controlName].invalid) {
           console.log(`Campo inválido: ${controlName}`);
         }
       }
-      this.utilsService.showSimpleMessage(
-        'Não foi possível salvar as informações.',
-        4500
-      );
+      this.utilsService.showSimpleMessage('Formulário inválido');
       return;
     }
 
     this.atendService
-      .createAtendimento(this.atendForm.value)
+      .saveAttendance(this.atendForm.getRawValue())
       .then(() => {
-        this.utilsService.showSimpleMessage('Atendimento criado com sucesso.');
-        this.router.navigate(['/atendimento']);
+        this.utilsService.showSimpleMessage('Atendimento salvo com sucesso');
+        this.router.navigate(['atendimento']);
       })
       .catch(() => {
         this.utilsService.showSimpleMessage(
-          'Não foi possível salvar as informações.',
-          4500
-        );
-      });
-  }
-
-  editAtend() {
-    if (this.atendForm.invalid) {
-      for (const controlName in this.atendForm.controls) {
-        if (this.atendForm.controls[controlName].invalid) {
-          console.log(`Campo inválido: ${controlName}`);
-        }
-      }
-      this.utilsService.showSimpleMessage(
-        'Não foi possível salvar as informações.',
-        4500
-      );
-      return;
-    }
-
-    this.atendService
-      .updateAtendimento(this.atendForm.value)
-      .then(() => {
-        this.utilsService.showSimpleMessage('Atendimento salvo com sucesso.');
-        this.router.navigate(['/atendimento']);
-      })
-      .catch(() => {
-        this.utilsService.showSimpleMessage(
-          'Não foi possível salvar as informações.',
-          4500
+          'Erro ao tentar salvar o atendimento'
         );
       });
   }
@@ -192,12 +170,11 @@ export class AtendimentoFormComponent implements OnInit {
         this.utilsService.showSimpleMessage(
           'Atendimento removido com sucesso.'
         );
-        this.router.navigate(['/atendimento']);
+        this.router.navigate(['atendimento']);
       })
       .catch(() => {
         this.utilsService.showSimpleMessage(
-          'Não foi possível excluir o atendimento.',
-          4500
+          'Não foi possível excluir o atendimento'
         );
       });
   }
@@ -215,7 +192,7 @@ export class AtendimentoFormComponent implements OnInit {
   filterPatientList(word: string) {
     let rows = this.patients.slice();
 
-    rows = this.utilsService.filterList(rows, 'dsNome', word);
+    rows = this.utilsService.filterList(rows, 'ds_nome', word);
 
     this.filteredPatients = rows;
   }
@@ -223,7 +200,7 @@ export class AtendimentoFormComponent implements OnInit {
   filterUnitList(word: string) {
     let rows = this.units.slice();
 
-    rows = this.utilsService.filterList(rows, 'dsNome', word);
+    rows = this.utilsService.filterList(rows, 'ds_nome', word);
 
     this.filteredUnits = rows;
   }

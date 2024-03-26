@@ -16,8 +16,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
-import { UserService } from '../../../services/user/user.service';
 import { UtilsService } from '../../../utils/utils.service';
+import { LoginService } from '../../../services/user/login.service';
 
 @Component({
   selector: 'app-login',
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private utilsService: UtilsService,
-    private userService: UserService,
+    private loginService: LoginService,
     private fb: FormBuilder
   ) {}
 
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading.set(true);
-    this.userService.login(this.loginForm.value).finally(() => {
+    this.loginService.login(this.loginForm.value).finally(() => {
       this.loading.set(false);
     });
   }

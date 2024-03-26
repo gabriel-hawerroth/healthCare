@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UserService } from './services/user/user.service';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './main/header/header.component';
+import { LoginService } from './services/user/login.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ import { HeaderComponent } from './main/header/header.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  constructor(public userService: UserService) {}
+  constructor(public loginService: LoginService) {}
 
-  logged = this.userService.logged;
+  logged = this.loginService.logged;
 }

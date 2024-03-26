@@ -13,17 +13,12 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("atendimentos")
+@RequestMapping("attendance")
 public class AtendimentoController {
 
     private final AtendimentoService atendimentoService;
 
     @GetMapping
-    private List<Atendimento> listaAtendimentos(@RequestParam long userId) {
-        return atendimentoService.listaAtendimentos(userId);
-    }
-
-    @GetMapping("/atends-person")
     private List<InterfacesSQL.AtendsPerson> listaAtendsPerson(@RequestParam long userId) {
         return atendimentoService.listaAtendsPerson(userId);
     }
@@ -34,13 +29,8 @@ public class AtendimentoController {
     }
 
     @PostMapping
-    private ResponseEntity<Atendimento> criarAtendimento(@RequestBody Atendimento atendimento) {
-        return atendimentoService.criarAtendimento(atendimento);
-    }
-
-    @PutMapping
-    private ResponseEntity<Atendimento> editarAtendimento(@RequestBody Atendimento atendimento) {
-        return atendimentoService.editarAtendimento(atendimento);
+    private ResponseEntity<Atendimento> saveAttendance(@RequestBody Atendimento atendimento) {
+        return atendimentoService.saveAttendance(atendimento);
     }
 
     @DeleteMapping("/{id}")

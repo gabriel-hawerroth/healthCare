@@ -49,17 +49,9 @@ func (s *PatientService) SavePatient(data entity.Patient) (patient *entity.Patie
 		return nil, err
 	}
 
-	return
+	return patient, err
 }
 
-func (s *PatientService) InsertPatient(patient entity.Patient) {
-
-}
-
-func UpdatePatient(patient entity.Patient) {
-
-}
-
-func DeletePatient(patientId int) {
-
+func (s *PatientService) DeletePatient(patientId int) error {
+	return s.PatientRepository.DeletePatient(patientId)
 }

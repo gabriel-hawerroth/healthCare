@@ -19,6 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { UtilsService } from '../../../../../utils/utils.service';
 import { UserService } from '../../../../../services/user/user.service';
+import { LoginService } from '../../../../../services/user/login.service';
 
 @Component({
   selector: 'app-new-user',
@@ -43,6 +44,7 @@ export class NewUserComponent implements OnInit {
   constructor(
     private utilsService: UtilsService,
     private userService: UserService,
+    private loginService: LoginService,
     private fb: FormBuilder,
     private router: Router
   ) {}
@@ -65,13 +67,15 @@ export class NewUserComponent implements OnInit {
       sobrenome: '',
       acesso: 'Cadastro',
       situacao: 'I',
-      canChangePassword: false,
+      can_change_password: false,
     });
   }
 
   createUser() {
+    this.showLoading.set(true);
+
     this.userService
-      .newUser(this.newUserForm.value)
+      .saveUser(this.newUserForm.getRawValue())
       .then(async (result) => {
         if (!result) {
           this.utilsService.showSimpleMessage(
@@ -79,11 +83,11 @@ export class NewUserComponent implements OnInit {
           );
         }
 
-        await this.userService
-          .sendAccountActivationEmail(result.id!)
+        await this.loginService
+          .sendActivateAccountEmail(result.id!)
           .then(() => {
             this.utilsService.showSimpleMessageWithoutDuration(
-              `Um link de ativação da conta foi enviado para o email: ${result.email}`
+              `Um link de ativação da conta foi enviado para o email:\n ${result.email}`
             );
             this.router.navigate(['/login']);
           })

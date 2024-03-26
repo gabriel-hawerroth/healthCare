@@ -40,7 +40,6 @@ export const routes: Routes = [
   {
     path: 'recuperacao-da-senha/:id',
     component: ChangePasswordComponent,
-    canActivate: [unauthenticatedUserGuard],
   },
   {
     path: '',

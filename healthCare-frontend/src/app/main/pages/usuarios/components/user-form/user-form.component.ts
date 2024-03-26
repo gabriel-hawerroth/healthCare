@@ -17,6 +17,7 @@ import { User } from '../../../../../interfaces/user';
 import { UserService } from '../../../../../services/user/user.service';
 import { ConfirmationDialogComponent } from '../../../../../utils/confirmation-dialog/confirmation-dialog.component';
 import { UtilsService } from '../../../../../utils/utils.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-user-form',
@@ -29,6 +30,7 @@ import { UtilsService } from '../../../../../utils/utils.service';
     MatIconModule,
     MatTooltipModule,
     RouterModule,
+    MatButtonModule,
   ],
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss'],
@@ -58,72 +60,48 @@ export class UserFormComponent implements OnInit {
       this.userService.getById(this.userId).then((result) => {
         this.userData = result;
         this.userForm.patchValue(this.userData);
-        this.userForm.get('senha')?.setValue('');
+        this.userForm.get('senha')!.setValue(null);
       });
     }
   }
 
   buildForm() {
     this.userForm = this.fb.group({
-      id: '',
+      id: null,
       email: ['', [Validators.required, Validators.email]],
       senha: ['', Validators.pattern(this.utilsService.passwordValidator())],
       nome: ['', [Validators.required]],
       sobrenome: '',
       acesso: ['Consulta', [Validators.required]],
       situacao: 'A',
-      canChangePassword: false,
+      can_change_password: false,
     });
+
+    this.userForm.markAllAsTouched();
   }
 
-  newUser() {
+  saveUser() {
     if (this.userForm.invalid) {
       for (const controlName in this.userForm.controls) {
         if (this.userForm.controls[controlName].invalid) {
           console.log(`Campo inválido: ${controlName}`);
         }
       }
+
+      this.utilsService.showSimpleMessage('Formulário inválido');
       return;
     }
 
     this.userService
-      .newUser(this.userForm.value)
+      .saveUser(this.userForm.getRawValue())
       .then(() => {
-        this.utilsService.showSimpleMessage(
-          'Usuário criado com sucesso.',
-          4000
-        );
-        this.router.navigate(['/usuario']);
+        this.utilsService.showSimpleMessage('Usuário salvo com sucesso');
+        this.router.navigate(['usuario']);
       })
       .catch(() => {
         this.utilsService.showSimpleMessage(
-          'Erro ao salvar as informações.',
-          4500
-        );
-      });
-  }
-
-  editUser() {
-    if (this.userForm.invalid) {
-      for (const controlName in this.userForm.controls) {
-        if (this.userForm.controls[controlName].invalid) {
-          console.log(`Campo inválido: ${controlName}`);
-        }
-      }
-      return;
-    }
-
-    this.userService
-      .editUser(this.userForm.value)
-      .then(() => {
-        this.utilsService.showSimpleMessage('Usuário salvo com sucesso.', 4000);
-        this.router.navigate(['/usuario']);
-      })
-      .catch((error) => {
-        console.log(error);
-        this.utilsService.showSimpleMessage(
-          'Erro ao salvar as informações.',
-          4500
+          'Erro ao salvar as informações',
+          4000
         );
       });
   }
@@ -132,16 +110,13 @@ export class UserFormComponent implements OnInit {
     this.userService
       .removeUser(this.userId!)
       .then(() => {
-        this.utilsService.showSimpleMessage(
-          'Usuário removido com sucesso.',
-          4500
-        );
-        this.router.navigate(['/usuario']);
+        this.utilsService.showSimpleMessage('Usuário removido com sucesso');
+        this.router.navigate(['usuario']);
       })
       .catch(() => {
         this.utilsService.showSimpleMessage(
           'Não foi possível excluir o usuário.',
-          4500
+          4000
         );
       });
   }

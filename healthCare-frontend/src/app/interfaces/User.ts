@@ -6,5 +6,5 @@ export interface User {
   sobrenome?: string;
   acesso: string;
   situacao: string;
-  canChangePassword: boolean;
+  can_change_password: boolean;
 }
