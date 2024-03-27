@@ -40,7 +40,7 @@ public class UserService {
         if (isNewUser && userRepository.findByEmail(user.getEmail()).isPresent())
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "User already exists");
 
-        if (isNewUser || !user.getSenha().isEmpty()) {
+        if (isNewUser || (user.getSenha() != null && !user.getSenha().isEmpty())) {
             user.setSenha(bcrypt.encode(user.getSenha()));
         } else {
             final String savedPass = userRepository.findById(user.getId())

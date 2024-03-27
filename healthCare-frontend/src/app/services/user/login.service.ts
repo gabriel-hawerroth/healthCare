@@ -25,11 +25,14 @@ export class LoginService {
 
   async login(credentials: Credentials) {
     try {
-      const result = await this.oauthLogin(credentials);
+      console.log('entrou no login');
+      const result = await this.oauthLoginJava(credentials);
+      console.log('result oauth login:', result);
 
       await this.userService
-        .getByEmail(result.user.email)
+        .getByEmail(result.username)
         .then((user) => {
+          console.log('user:', user);
           if (!user) return;
 
           if (user.situacao === 'I') {
@@ -40,7 +43,7 @@ export class LoginService {
           this.router.navigate(['']);
           this.utilsService.setItemLocalStorage(
             'tokenHealthcare',
-            btoa(JSON.stringify(result.token))
+            btoa(JSON.stringify(result.access_token))
           );
           this.utilsService.setItemLocalStorage(
             'userHealthCare',
@@ -72,6 +75,28 @@ export class LoginService {
       this.http.get<AuthResponse>(this.apiUrl, {
         params: params,
       })
+    );
+  }
+
+  oauthLoginJava(credentials: Credentials): Promise<Authentication> {
+    const basicAuth = 'client-id:secret-id';
+    let headers = new HttpHeaders();
+    headers = headers.append('Authorization', 'Basic ' + btoa(basicAuth));
+
+    let params = new HttpParams();
+    params = params.append('grant_type', 'password');
+    params = params.append('username', credentials.username);
+    params = params.append('password', credentials.password);
+
+    return lastValueFrom(
+      this.http.post<Authentication>(
+        `${environment.baseApiUrl}oauth/token`,
+        null,
+        {
+          headers: headers,
+          params: params,
+        }
+      )
     );
   }
 

@@ -40,9 +40,9 @@ public class Paciente {
 
     private String religiao;
 
-    private String peso_kg;
+    private Integer peso_kg;
 
-    private String altura_cm;
+    private Integer altura_cm;
 
     private String email;
 
@@ -64,9 +64,9 @@ public class Paciente {
 
     private String genero_pref;
 
-    private String idade_min;
+    private Integer idade_min;
 
-    private String idade_max;
+    private Integer idade_max;
 
     private String obs_preferencias;
 
@@ -80,7 +80,7 @@ public class Paciente {
 
     private String endereco;
 
-    private String nr_endereco;
+    private Integer nr_endereco;
 
     private String complemento;
 
