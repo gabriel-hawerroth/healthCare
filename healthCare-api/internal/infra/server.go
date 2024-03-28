@@ -16,7 +16,7 @@ func StartServer(db *sql.DB) {
 
 	handler := cors(security.AuthMiddleware(mux))
 
-	err := http.ListenAndServe(":8088", handler)
+	err := http.ListenAndServe(":8081", handler)
 	if err != nil {
 		panic("Server failed to start")
 	}

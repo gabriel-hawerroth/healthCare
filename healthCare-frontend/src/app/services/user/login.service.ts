@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { UtilsService } from '../../utils/utils.service';
 import { Credentials } from '../../interfaces/credentials';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, lastValueFrom } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AuthResponse, Authentication } from '../../interfaces/authentication';
+import { AuthResponse } from '../../interfaces/authentication';
 import { User } from '../../interfaces/user';
 import { UserService } from './user.service';
 import { Router } from '@angular/router';
-import { Token } from '../../interfaces/token';
 
 @Injectable({
   providedIn: 'root',
@@ -26,11 +25,11 @@ export class LoginService {
   async login(credentials: Credentials) {
     try {
       console.log('entrou no login');
-      const result = await this.oauthLoginJava(credentials);
+      const result = await this.oauthLogin(credentials);
       console.log('result oauth login:', result);
 
       await this.userService
-        .getByEmail(result.username)
+        .getByEmail(result.user.email)
         .then((user) => {
           console.log('user:', user);
           if (!user) return;
@@ -43,7 +42,7 @@ export class LoginService {
           this.router.navigate(['']);
           this.utilsService.setItemLocalStorage(
             'tokenHealthcare',
-            btoa(JSON.stringify(result.access_token))
+            btoa(JSON.stringify(result.token))
           );
           this.utilsService.setItemLocalStorage(
             'userHealthCare',
@@ -62,12 +61,7 @@ export class LoginService {
   }
 
   oauthLogin(credentials: Credentials): Promise<AuthResponse> {
-    // const basicAuth = 'client-id:secret-id';
-    // let headers = new HttpHeaders();
-    // headers = headers.append('Authorization', 'Basic ' + btoa(basicAuth));
-
     let params = new HttpParams();
-    // params = params.append('grant_type', 'password');
     params = params.append('email', credentials.username);
     params = params.append('password', credentials.password);
 
@@ -75,28 +69,6 @@ export class LoginService {
       this.http.get<AuthResponse>(this.apiUrl, {
         params: params,
       })
-    );
-  }
-
-  oauthLoginJava(credentials: Credentials): Promise<Authentication> {
-    const basicAuth = 'client-id:secret-id';
-    let headers = new HttpHeaders();
-    headers = headers.append('Authorization', 'Basic ' + btoa(basicAuth));
-
-    let params = new HttpParams();
-    params = params.append('grant_type', 'password');
-    params = params.append('username', credentials.username);
-    params = params.append('password', credentials.password);
-
-    return lastValueFrom(
-      this.http.post<Authentication>(
-        `${environment.baseApiUrl}oauth/token`,
-        null,
-        {
-          headers: headers,
-          params: params,
-        }
-      )
     );
   }
 
