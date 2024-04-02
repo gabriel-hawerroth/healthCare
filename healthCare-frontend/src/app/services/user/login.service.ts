@@ -24,16 +24,11 @@ export class LoginService {
 
   async login(credentials: Credentials) {
     try {
-      console.log('entrou no login');
-      const result = await this.oauthLogin(credentials);
-      console.log('result oauth login:', result);
+      const result: AuthResponse = await this.oauthLoginJava(credentials);
 
       await this.userService
         .getByEmail(result.user.email)
-        .then((user) => {
-          console.log('user:', user);
-          if (!user) return;
-
+        .then((user: User) => {
           if (user.situacao === 'I') {
             this.utilsService.showSimpleMessage('Usuário inativo');
             return;
@@ -69,6 +64,20 @@ export class LoginService {
       this.http.get<AuthResponse>(this.apiUrl, {
         params: params,
       })
+    );
+  }
+
+  oauthLoginJava(credentials: Credentials): Promise<AuthResponse> {
+    const authDTO = {
+      login: credentials.username,
+      password: credentials.password,
+    };
+
+    return lastValueFrom(
+      this.http.post<AuthResponse>(
+        `${environment.baseApiUrl}auth/login`,
+        authDTO
+      )
     );
   }
 

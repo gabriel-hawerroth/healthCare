@@ -9,7 +9,7 @@ Funcionalidades do sistema:
 - Criptografia das senhas com bcrypt.
 - Validações, autopreenchimento pelo CEP e outras funcionalidades nos formulários.  
   
-Stack: Java 20, Spring 5, Angular 16, Postgres.  
+Stack: Java 21, Spring 6, Angular 17, Postgres.  
    
 ---
    
