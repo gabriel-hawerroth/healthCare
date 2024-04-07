@@ -14,9 +14,9 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { UserService } from '../../../../../services/user/user.service';
+import { UserService } from '../../../../../services/user.service';
 import { UtilsService } from '../../../../../utils/utils.service';
-import { LoginService } from '../../../../../services/user/login.service';
+import { LoginService } from '../../../../../services/login.service';
 
 @Component({
   selector: 'app-reset-password',

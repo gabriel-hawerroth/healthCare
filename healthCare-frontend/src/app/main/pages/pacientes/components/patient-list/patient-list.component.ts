@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { Patient } from '../../../../../interfaces/patient';
-import { CpfMaskPipe } from '../../../../../utils/cpf-mask.pipe';
+import { CpfMaskPipe } from '../../../../../shared/pipes/cpf-mask.pipe';
 
 @Component({
   selector: 'app-patient-list',

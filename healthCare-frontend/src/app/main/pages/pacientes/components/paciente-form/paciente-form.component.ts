@@ -17,13 +17,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Patient } from '../../../../../interfaces/patient';
-import { PatientService } from '../../../../../services/paciente/patient.service';
-import { ConfirmationDialogComponent } from '../../../../../utils/confirmation-dialog/confirmation-dialog.component';
+import { PatientService } from '../../../../../services/patient.service';
+import { ConfirmationDialogComponent } from '../../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { UtilsService } from '../../../../../utils/utils.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxMaskDirective } from 'ngx-mask';
-import { LoginService } from '../../../../../services/user/login.service';
+import { LoginService } from '../../../../../services/login.service';
 
 @Component({
   selector: 'app-paciente-form',

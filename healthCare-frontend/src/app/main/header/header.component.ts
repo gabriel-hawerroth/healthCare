@@ -4,8 +4,8 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { User } from '../../interfaces/user';
-import { BottomSheetComponent } from '../../utils/bottom-sheet/bottom-sheet.component';
-import { LoginService } from '../../services/user/login.service';
+import { BottomSheetComponent } from '../../shared/components/bottom-sheet/bottom-sheet.component';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-header',

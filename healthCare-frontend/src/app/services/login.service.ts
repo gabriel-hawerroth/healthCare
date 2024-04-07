@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { UtilsService } from '../../utils/utils.service';
-import { Credentials } from '../../interfaces/credentials';
+import { UtilsService } from '../utils/utils.service';
+import { Credentials } from '../interfaces/credentials';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { AuthResponse } from '../../interfaces/authentication';
-import { User } from '../../interfaces/user';
+import { environment } from '../../environments/environment';
+import { AuthResponse } from '../interfaces/authentication';
+import { User } from '../interfaces/user';
 import { UserService } from './user.service';
 import { Router } from '@angular/router';
 
@@ -24,7 +24,7 @@ export class LoginService {
 
   async login(credentials: Credentials) {
     try {
-      const result: AuthResponse = await this.oauthLoginJava(credentials);
+      const result: AuthResponse = await this.oauthLogin(credentials);
 
       await this.userService
         .getByEmail(result.user.email)

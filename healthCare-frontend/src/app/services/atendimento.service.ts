@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { Atendimento } from '../../interfaces/atendimento';
-import { AtendsPerson } from '../../interfaces/atends_person';
-import { environment } from '../../../environments/environment';
+import { Atendimento } from '../interfaces/atendimento';
+import { AtendsPerson } from '../interfaces/atends_person';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',

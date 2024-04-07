@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { User } from '../../../interfaces/user';
-import { UserService } from '../../../services/user/user.service';
+import { UserService } from '../../../services/user.service';
 import { UtilsService } from '../../../utils/utils.service';
 import { MatButtonModule } from '@angular/material/button';
 

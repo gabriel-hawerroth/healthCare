@@ -18,8 +18,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { UtilsService } from '../../../../../utils/utils.service';
-import { UserService } from '../../../../../services/user/user.service';
-import { LoginService } from '../../../../../services/user/login.service';
+import { UserService } from '../../../../../services/user.service';
+import { LoginService } from '../../../../../services/login.service';
 
 @Component({
   selector: 'app-new-user',

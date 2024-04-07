@@ -17,7 +17,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { UtilsService } from '../../../utils/utils.service';
-import { LoginService } from '../../../services/user/login.service';
+import { LoginService } from '../../../services/login.service';
 
 @Component({
   selector: 'app-login',

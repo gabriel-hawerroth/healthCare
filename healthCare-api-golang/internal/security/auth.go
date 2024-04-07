@@ -18,7 +18,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 
 		authorizationHeader := r.Header.Get("Authorization")
 		if authorizationHeader == "" {
-			http.Error(w, "Token de autorização não fornecido", http.StatusUnauthorized)
+			http.Error(w, "Token de autorizacao nao fornecido", http.StatusUnauthorized)
 			return
 		}
 

@@ -19,15 +19,15 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { Atendimento } from '../../../../../interfaces/atendimento';
 import { Patient } from '../../../../../interfaces/patient';
 import { Unidade } from '../../../../../interfaces/unidade';
-import { AtendimentoService } from '../../../../../services/atendimento/atendimento.service';
-import { PatientService } from '../../../../../services/paciente/patient.service';
-import { UnidadeService } from '../../../../../services/unidade/unidade.service';
-import { ConfirmationDialogComponent } from '../../../../../utils/confirmation-dialog/confirmation-dialog.component';
+import { AtendimentoService } from '../../../../../services/atendimento.service';
+import { PatientService } from '../../../../../services/patient.service';
+import { UnidadeService } from '../../../../../services/unidade.service';
+import { ConfirmationDialogComponent } from '../../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { UtilsService } from '../../../../../utils/utils.service';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatButtonModule } from '@angular/material/button';
 import { NgxMaskDirective } from 'ngx-mask';
-import { LoginService } from '../../../../../services/user/login.service';
+import { LoginService } from '../../../../../services/login.service';
 
 @Component({
   selector: 'app-atendimento-form',

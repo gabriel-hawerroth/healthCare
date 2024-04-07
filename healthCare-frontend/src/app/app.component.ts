@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './main/header/header.component';
-import { LoginService } from './services/user/login.service';
+import { LoginService } from './services/login.service';
 
 @Component({
   selector: 'app-root',

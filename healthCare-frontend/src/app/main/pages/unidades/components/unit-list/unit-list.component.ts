@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { Unidade } from '../../../../../interfaces/unidade';
-import { CnpjMaskPipe } from '../../../../../utils/cnpj-mask.pipe';
+import { CnpjMaskPipe } from '../../../../../shared/pipes/cnpj-mask.pipe';
 
 @Component({
   selector: 'app-unit-list',

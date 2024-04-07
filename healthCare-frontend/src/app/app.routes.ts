@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { authenticatedUserGuard } from './services/guards/authenticated-user.guard';
-import { unauthenticatedUserGuard } from './services/guards/unauthenticated-user.guard';
+import { authenticatedUserGuard } from './shared/guards/authenticated-user.guard';
+import { unauthenticatedUserGuard } from './shared/guards/unauthenticated-user.guard';
 import { AtendimentosComponent } from './main/pages/atendimentos/atendimentos.component';
 import { AtendimentoFormComponent } from './main/pages/atendimentos/components/atendimento-form/atendimento-form.component';
 import { HomeComponent } from './main/pages/home/home.component';

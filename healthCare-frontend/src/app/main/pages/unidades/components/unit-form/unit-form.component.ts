@@ -15,11 +15,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Unidade } from '../../../../../interfaces/unidade';
-import { UnidadeService } from '../../../../../services/unidade/unidade.service';
-import { ConfirmationDialogComponent } from '../../../../../utils/confirmation-dialog/confirmation-dialog.component';
+import { UnidadeService } from '../../../../../services/unidade.service';
+import { ConfirmationDialogComponent } from '../../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { UtilsService } from '../../../../../utils/utils.service';
 import { NgxMaskDirective } from 'ngx-mask';
-import { LoginService } from '../../../../../services/user/login.service';
+import { LoginService } from '../../../../../services/login.service';
 
 @Component({
   selector: 'app-unit-form',

@@ -14,10 +14,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { AtendimentosListComponent } from './components/atendimentos-list/atendimentos-list.component';
 import { AtendsPerson } from '../../../interfaces/atends_person';
-import { AtendimentoService } from '../../../services/atendimento/atendimento.service';
+import { AtendimentoService } from '../../../services/atendimento.service';
 import { UtilsService } from '../../../utils/utils.service';
 import { MatButtonModule } from '@angular/material/button';
-import { LoginService } from '../../../services/user/login.service';
+import { LoginService } from '../../../services/login.service';
 
 @Component({
   selector: 'app-atendimentos',

@@ -11,9 +11,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { UnitListComponent } from './components/unit-list/unit-list.component';
 import { MatIconModule } from '@angular/material/icon';
 import { Unidade } from '../../../interfaces/unidade';
-import { UnidadeService } from '../../../services/unidade/unidade.service';
+import { UnidadeService } from '../../../services/unidade.service';
 import { UtilsService } from '../../../utils/utils.service';
-import { LoginService } from '../../../services/user/login.service';
+import { LoginService } from '../../../services/login.service';
 
 @Component({
   selector: 'app-unidades',

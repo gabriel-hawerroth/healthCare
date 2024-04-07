@@ -4,7 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { UtilsService } from '../../utils/utils.service';
 import { environment } from '../../../environments/environment';
-import { LoginService } from '../user/login.service';
+import { LoginService } from '../../services/login.service';
 
 export const authInterceptor: HttpInterceptorFn = (
   request,

@@ -14,8 +14,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { User } from '../../../../../interfaces/user';
-import { UserService } from '../../../../../services/user/user.service';
-import { ConfirmationDialogComponent } from '../../../../../utils/confirmation-dialog/confirmation-dialog.component';
+import { UserService } from '../../../../../services/user.service';
+import { ConfirmationDialogComponent } from '../../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { UtilsService } from '../../../../../utils/utils.service';
 import { MatButtonModule } from '@angular/material/button';
 

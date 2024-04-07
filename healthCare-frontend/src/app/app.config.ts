@@ -20,8 +20,8 @@ import {
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
 import localePt from '@angular/common/locales/pt';
-import { authInterceptor } from './services/interceptors/auth.interceptor';
-import { CpfMaskPipe } from './utils/cpf-mask.pipe';
+import { authInterceptor } from './shared/interceptors/auth.interceptor';
+import { CpfMaskPipe } from './shared/pipes/cpf-mask.pipe';
 
 registerLocaleData(localePt, 'pt-BR');
 

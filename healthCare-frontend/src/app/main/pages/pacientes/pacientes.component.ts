@@ -11,9 +11,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { Patient } from '../../../interfaces/patient';
-import { PatientService } from '../../../services/paciente/patient.service';
+import { PatientService } from '../../../services/patient.service';
 import { UtilsService } from '../../../utils/utils.service';
-import { LoginService } from '../../../services/user/login.service';
+import { LoginService } from '../../../services/login.service';
 
 @Component({
   selector: 'app-pacientes',

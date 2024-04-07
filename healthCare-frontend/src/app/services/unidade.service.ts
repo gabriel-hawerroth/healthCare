@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { Unidade } from '../../interfaces/unidade';
+import { environment } from '../../environments/environment';
+import { Unidade } from '../interfaces/unidade';
 
 @Injectable({
   providedIn: 'root',
