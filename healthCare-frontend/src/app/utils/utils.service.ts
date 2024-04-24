@@ -126,7 +126,7 @@ export class UtilsService {
 
   findAddress(cep: string): Promise<any> {
     return lastValueFrom(
-      this._http.get(`https://brasilapi.com.br/api/cep/v2/${cep}`)
+      this._http.get(`https://brasilapi.com.br/api/cep/v1/${cep}`)
     );
   }
 }

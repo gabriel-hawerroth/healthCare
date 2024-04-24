@@ -156,6 +156,7 @@ export class UnitFormComponent implements OnInit {
       .findAddress(cep)
       .then((result: any) => {
         if (!result) {
+          this.utilsService.showSimpleMessage('Endereço não encontrado');
           this.clearAddress();
           return;
         }
@@ -167,6 +168,7 @@ export class UnitFormComponent implements OnInit {
         this.invalidCep = false;
       })
       .catch(() => {
+        this.utilsService.showSimpleMessage('Endereço não encontrado');
         this.clearAddress();
       });
   }

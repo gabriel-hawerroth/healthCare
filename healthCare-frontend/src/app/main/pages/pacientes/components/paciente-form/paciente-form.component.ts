@@ -201,8 +201,9 @@ export class PacienteFormComponent implements OnInit {
     this.utilsService
       .findAddress(cep)
       .then((result: any) => {
-        if (result) {
+        if (!result) {
           this.utilsService.showSimpleMessage('Endereço não encontrado');
+          this.clearAddress();
           return;
         }
 
