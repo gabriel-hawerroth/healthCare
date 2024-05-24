@@ -47,7 +47,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/assets",
-              "src/robots.txt"
+              "src/robots.txt",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "src/styles.scss"
@@ -79,7 +80,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,

@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-server": "^18.0.0",
     "@angular/router": "^18.0.0",
+    "@angular/service-worker": "^18.0.0",
     "@angular/ssr": "^18.0.1",
     "@swimlane/ngx-datatable": "^20.1.0",
     "express": "^4.19.2",

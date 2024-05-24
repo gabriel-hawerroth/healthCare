@@ -8,6 +8,7 @@ import localePt from '@angular/common/locales/pt';
 import {
   ApplicationConfig,
   LOCALE_ID,
+  isDevMode,
   provideExperimentalZonelessChangeDetection,
 } from '@angular/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
@@ -15,6 +16,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
+import { provideServiceWorker } from '@angular/service-worker';
 import { provideNgxMask } from 'ngx-mask';
 import { routes } from './app.routes';
 import { authInterceptor } from './shared/interceptors/auth.interceptor';
@@ -35,5 +37,9 @@ export const appConfig: ApplicationConfig = {
     { provide: MAT_DATE_LOCALE, useValue: 'pt-br' },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
     { provide: LOCALE_ID, useValue: 'pt-BR' },
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
 };

@@ -1,0 +1,23 @@
+{
+  "name": "healthcare",
+  "short_name": "healthcare",
+  "theme_color": "#00897B",
+  "background_color": "#e8e8e880",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "assets/hearth-pulse-solid.svg",
+      "sizes": "72x72",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/userImage.jpeg",
+      "sizes": "200x200",
+      "type": "image/jpeg",
+      "purpose": "maskable any"
+    }
+  ]
+}
