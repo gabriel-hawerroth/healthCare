@@ -1,16 +1,16 @@
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterModule } from '@angular/router';
 import { User } from '../../interfaces/user';
-import { BottomSheetComponent } from '../../shared/components/bottom-sheet/bottom-sheet.component';
 import { LoginService } from '../../services/login.service';
+import { BottomSheetComponent } from '../../shared/components/bottom-sheet/bottom-sheet.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatTooltipModule, RouterModule],
+  imports: [CommonModule, MatTooltipModule, RouterModule, NgOptimizedImage],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
