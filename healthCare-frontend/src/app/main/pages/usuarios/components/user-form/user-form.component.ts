@@ -1,23 +1,23 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
-  FormGroup,
-  Validators,
   FormBuilder,
+  FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { lastValueFrom } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
 import { User } from '../../../../../interfaces/user';
 import { UserService } from '../../../../../services/user.service';
 import { ConfirmationDialogComponent } from '../../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { UtilsService } from '../../../../../utils/utils.service';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-user-form',
@@ -76,8 +76,6 @@ export class UserFormComponent implements OnInit {
       situacao: 'A',
       can_change_password: false,
     });
-
-    this.userForm.markAllAsTouched();
   }
 
   saveUser() {

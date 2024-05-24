@@ -1,33 +1,33 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
-  FormBuilder,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
-import { lastValueFrom } from 'rxjs';
-import { CommonModule, DatePipe } from '@angular/common';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { NgxMaskDirective } from 'ngx-mask';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { lastValueFrom } from 'rxjs';
 import { Atendimento } from '../../../../../interfaces/atendimento';
 import { Patient } from '../../../../../interfaces/patient';
 import { Unidade } from '../../../../../interfaces/unidade';
 import { AtendimentoService } from '../../../../../services/atendimento.service';
+import { LoginService } from '../../../../../services/login.service';
 import { PatientService } from '../../../../../services/patient.service';
 import { UnidadeService } from '../../../../../services/unidade.service';
 import { ConfirmationDialogComponent } from '../../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { UtilsService } from '../../../../../utils/utils.service';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { MatButtonModule } from '@angular/material/button';
-import { NgxMaskDirective } from 'ngx-mask';
-import { LoginService } from '../../../../../services/login.service';
 
 @Component({
   selector: 'app-atendimento-form',
@@ -117,8 +117,6 @@ export class AtendimentoFormComponent implements OnInit {
       nr_carteirinha_convenio: null,
       user_id: this.loginService.getLoggedUserId,
     });
-
-    this.atendForm.markAllAsTouched();
   }
 
   async getValues(userId: number) {
@@ -180,9 +178,11 @@ export class AtendimentoFormComponent implements OnInit {
   }
 
   openConfirmationDialog(): void {
-    lastValueFrom(
-      this.dialog.open(ConfirmationDialogComponent).afterClosed()
-    ).then((result) => {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      autoFocus: false,
+    });
+
+    lastValueFrom(dialogRef.afterClosed()).then((result) => {
       if (result === true) {
         this.removeAtend();
       }

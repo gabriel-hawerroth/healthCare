@@ -2,22 +2,28 @@
 
 @include mat.core();
 
-$custom-primary: mat.define-palette(mat.$teal-palette, 700);
-$custom-accent: mat.define-palette(mat.$grey-palette, 50);
-$custom-warn: mat.define-palette(mat.$teal-palette, 800);
-
-$custom-theme: mat.define-light-theme((color: (primary: $custom-primary,
-                accent: $custom-accent,
-                warn: $custom-warn,
-            )));
-
-@include mat.all-component-themes($custom-theme);
+$theme: mat.define-theme(( //
+            color: ( //
+                theme-type: light,
+                primary: mat.$cyan-palette,
+            ),
+            typography: ( //
+                brand-family: 'Roboto',
+                bold-weight: 900,
+            ),
+            density: (scale: -1),
+        ));
 
 @import '../node_modules/@swimlane/ngx-datatable/index.css';
 @import '../node_modules/@swimlane/ngx-datatable/themes/material.scss';
 @import '../node_modules/@swimlane/ngx-datatable/assets/icons.css';
 
 $primary-color: #00897B;
+
+html {
+    @include mat.core-theme($theme);
+    @include mat.all-component-themes($theme);
+}
 
 * {
     padding: 0;

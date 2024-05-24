@@ -1,25 +1,25 @@
+import { CommonModule, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
-  FormGroup,
-  Validators,
   FormBuilder,
+  FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { lastValueFrom } from 'rxjs';
-import { CommonModule, DatePipe } from '@angular/common';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { NgxMaskDirective } from 'ngx-mask';
+import { lastValueFrom } from 'rxjs';
 import { Unidade } from '../../../../../interfaces/unidade';
+import { LoginService } from '../../../../../services/login.service';
 import { UnidadeService } from '../../../../../services/unidade.service';
 import { ConfirmationDialogComponent } from '../../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { UtilsService } from '../../../../../utils/utils.service';
-import { NgxMaskDirective } from 'ngx-mask';
-import { LoginService } from '../../../../../services/login.service';
 
 @Component({
   selector: 'app-unit-form',
@@ -92,8 +92,6 @@ export class UnitFormComponent implements OnInit {
       dt_criacao: null,
       user_id: this.loginService.getLoggedUserId,
     });
-
-    this.unitForm.markAllAsTouched();
   }
 
   saveUnit() {
@@ -137,9 +135,11 @@ export class UnitFormComponent implements OnInit {
   }
 
   openConfirmationDialog(): void {
-    lastValueFrom(
-      this.dialog.open(ConfirmationDialogComponent).afterClosed()
-    ).then((result) => {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      autoFocus: false,
+    });
+
+    lastValueFrom(dialogRef.afterClosed()).then((result) => {
       if (result === true) {
         this.removeUnit();
       }
@@ -147,7 +147,7 @@ export class UnitFormComponent implements OnInit {
   }
 
   getAddress(cep: string) {
-    if (cep.length === 9) {
+    if (cep.length < 9) {
       this.clearAddress();
       return;
     }

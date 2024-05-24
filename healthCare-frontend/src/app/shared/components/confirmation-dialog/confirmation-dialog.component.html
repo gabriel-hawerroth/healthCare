@@ -8,11 +8,17 @@
   </div>
 
   <div class="buttons">
-    <button mat-raised-button color="primary" (click)="dialogRef.close(true)">
-      Confirmar
-    </button>
     <button mat-raised-button mat-button (click)="dialogRef.close(false)">
       Cancelar
+    </button>
+
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="dialogRef.close(true)"
+      [autofocus]="true"
+    >
+      Confirmar
     </button>
   </div>
 </div>

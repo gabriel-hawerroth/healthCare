@@ -1,29 +1,29 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
-  FormGroup,
-  Validators,
   FormBuilder,
+  FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
-import { lastValueFrom } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { NgxMaskDirective } from 'ngx-mask';
+import { lastValueFrom } from 'rxjs';
 import { Patient } from '../../../../../interfaces/patient';
+import { LoginService } from '../../../../../services/login.service';
 import { PatientService } from '../../../../../services/patient.service';
 import { ConfirmationDialogComponent } from '../../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { UtilsService } from '../../../../../utils/utils.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { NgxMaskDirective } from 'ngx-mask';
-import { LoginService } from '../../../../../services/login.service';
 
 @Component({
   selector: 'app-paciente-form',
@@ -136,8 +136,6 @@ export class PacienteFormComponent implements OnInit {
       user_id: this.loginService.getLoggedUserId,
       dt_criacao: null,
     });
-
-    this.patientForm.markAllAsTouched();
   }
 
   savePatient() {
@@ -183,7 +181,9 @@ export class PacienteFormComponent implements OnInit {
   }
 
   openConfirmationDialog(): void {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      autoFocus: false,
+    });
 
     lastValueFrom(dialogRef.afterClosed()).then((result) => {
       if (result === true) {

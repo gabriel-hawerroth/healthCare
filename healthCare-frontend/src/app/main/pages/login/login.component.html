@@ -33,12 +33,7 @@
         @if (loading()) {
         <mat-spinner [diameter]="30" color="primary"></mat-spinner>
         } @else {
-        <button
-          mat-raised-button
-          color="primary"
-          style="padding: 23px 70px"
-          (click)="login()"
-        >
+        <button mat-stroked-button style="padding: 23px 70px" (click)="login()">
           Logar
         </button>
         }
