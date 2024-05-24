@@ -141,8 +141,8 @@ func (c *LoginController) PermitChangePassword(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	// redirectUrl := fmt.Sprintf("https://hawetec.com.br/healthcare/recuperacao-da-senha/%d", userId)
-	redirectUrl := fmt.Sprintf("http://localhost:4200/recuperacao-da-senha/%d", userId)
+	redirectUrl := fmt.Sprintf("https://hawetec.com.br/healthcare/recuperacao-da-senha/%d", userId)
+	// redirectUrl := fmt.Sprintf("http://localhost:4200/recuperacao-da-senha/%d", userId)
 	http.Redirect(w, r, redirectUrl, http.StatusSeeOther)
 }
 
