@@ -1,23 +1,22 @@
+import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   OnInit,
   signal,
-  ChangeDetectionStrategy,
 } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
-import { AtendimentosListComponent } from './components/atendimentos-list/atendimentos-list.component';
+import { Router, RouterModule } from '@angular/router';
 import { AtendsPerson } from '../../../interfaces/atends_person';
 import { AtendimentoService } from '../../../services/atendimento.service';
-import { UtilsService } from '../../../utils/utils.service';
-import { MatButtonModule } from '@angular/material/button';
 import { LoginService } from '../../../services/login.service';
+import { UtilsService } from '../../../utils/utils.service';
+import { AtendimentosListComponent } from './components/atendimentos-list/atendimentos-list.component';
 
 @Component({
   selector: 'app-atendimentos',
@@ -30,7 +29,6 @@ import { LoginService } from '../../../services/login.service';
     MatDatepickerModule,
     MatNativeDateModule,
     MatMenuModule,
-    MatIconModule,
     RouterModule,
     MatButtonModule,
   ],

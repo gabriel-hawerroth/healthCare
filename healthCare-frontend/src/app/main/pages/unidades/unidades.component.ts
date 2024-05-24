@@ -1,19 +1,18 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   OnInit,
-  ChangeDetectionStrategy,
   signal,
 } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { UnitListComponent } from './components/unit-list/unit-list.component';
-import { MatIconModule } from '@angular/material/icon';
+import { Router, RouterModule } from '@angular/router';
 import { Unidade } from '../../../interfaces/unidade';
+import { LoginService } from '../../../services/login.service';
 import { UnidadeService } from '../../../services/unidade.service';
 import { UtilsService } from '../../../utils/utils.service';
-import { LoginService } from '../../../services/login.service';
+import { UnitListComponent } from './components/unit-list/unit-list.component';
 
 @Component({
   selector: 'app-unidades',
@@ -23,7 +22,6 @@ import { LoginService } from '../../../services/login.service';
     ReactiveFormsModule,
     MatInputModule,
     MatSelectModule,
-    MatIconModule,
     RouterModule,
   ],
   templateUrl: './unidades.component.html',

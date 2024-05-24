@@ -9,7 +9,6 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -30,7 +29,6 @@ import { UtilsService } from '../../../../../utils/utils.service';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatIconModule,
     RouterModule,
     MatExpansionModule,
     DatePipe,

@@ -34,19 +34,21 @@
           formControlName="senha"
           autocomplete="new-password"
           maxlength="70"
+          autocomplete="never"
         />
 
-        <mat-icon
+        <span
+          class="material-symbols-outlined"
           matSuffix
           matTooltip="Se deixado em branco a senha permanecerá igual a atual"
           matTooltipPosition="below"
           matTooltipShowDelay="250"
         >
           info
-        </mat-icon>
+        </span>
 
         <mat-error>
-          A senha deve conter no mínimo 8 caracteres, 1 letra maiúscula e 1
+          A senha deve conter no mínimo 8 caracteres, uma letra maiúscula e um
           número.
         </mat-error>
       </mat-form-field>
@@ -94,8 +96,8 @@
 
   <div class="actions">
     <div class="top">
-      <button mat-icon-button routerLink="/usuario">
-        <mat-icon>arrow_back</mat-icon>
+      <button mat-icon-button routerLink="/usuario" [ariaHidden]="false">
+        <span class="material-symbols-outlined">arrow_back</span>
       </button>
 
       <div class="title">

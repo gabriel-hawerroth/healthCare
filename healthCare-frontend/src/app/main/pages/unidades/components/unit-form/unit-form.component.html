@@ -1,8 +1,8 @@
 <div class="simple-page">
   <div class="top-actions">
     <div class="left">
-      <button mat-icon-button routerLink="/unidade">
-        <mat-icon>arrow_back</mat-icon>
+      <button mat-icon-button routerLink="/unidade" [ariaHidden]="false">
+        <span class="material-symbols-outlined">arrow_back</span>
       </button>
 
       <h2>{{ unitId ? "Editar" : "Nova" }} unidade</h2>

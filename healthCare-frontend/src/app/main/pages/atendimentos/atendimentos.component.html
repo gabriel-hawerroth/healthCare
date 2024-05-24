@@ -11,9 +11,11 @@
             gap: 10px;
           "
         >
-          <button mat-button [matMenuTriggerFor]="menu">
-            Filtros adicionais
-            <mat-icon>filter_list</mat-icon>
+          <button mat-button [matMenuTriggerFor]="menu" [ariaHidden]="false">
+            <div class="btn-content">
+              <span>Filtros adicionais</span>
+              <span class="material-symbols-outlined">filter_list</span>
+            </div>
           </button>
 
           <mat-menu #menu="matMenu">
@@ -97,12 +99,12 @@
   </div>
 
   <div class="buttons-box">
-    <mat-icon
+    <span
       class="button-tables p1 material-symbols-outlined"
       routerLink="/atendimento/novo"
       [ariaHidden]="false"
     >
       add
-    </mat-icon>
+    </span>
   </div>
 </div>

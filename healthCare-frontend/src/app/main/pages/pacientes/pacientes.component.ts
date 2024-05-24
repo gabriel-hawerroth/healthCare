@@ -1,19 +1,18 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   OnInit,
   signal,
-  ChangeDetectionStrategy,
 } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { PatientListComponent } from './components/patient-list/patient-list.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
+import { Router, RouterModule } from '@angular/router';
 import { Patient } from '../../../interfaces/patient';
+import { LoginService } from '../../../services/login.service';
 import { PatientService } from '../../../services/patient.service';
 import { UtilsService } from '../../../utils/utils.service';
-import { LoginService } from '../../../services/login.service';
+import { PatientListComponent } from './components/patient-list/patient-list.component';
 
 @Component({
   selector: 'app-pacientes',
@@ -23,7 +22,6 @@ import { LoginService } from '../../../services/login.service';
     ReactiveFormsModule,
     MatInputModule,
     MatSelectModule,
-    MatIconModule,
     RouterModule,
   ],
   templateUrl: './pacientes.component.html',

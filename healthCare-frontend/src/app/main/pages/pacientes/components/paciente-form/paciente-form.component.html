@@ -1,8 +1,8 @@
 <div class="simple-page">
   <div class="top-actions">
     <div class="left">
-      <button mat-icon-button routerLink="/paciente">
-        <mat-icon> arrow_back </mat-icon>
+      <button mat-icon-button routerLink="/paciente" [ariaHidden]="false">
+        <span class="material-symbols-outlined">arrow_back</span>
       </button>
 
       <h2>{{ patientId ? "Editar" : "Novo" }} paciente</h2>
