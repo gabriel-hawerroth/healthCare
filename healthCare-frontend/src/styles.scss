@@ -40,6 +40,7 @@ body {
     user-select: none;
     color: black;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: #e8e8e880;
 
     app-root {
         display: flex;
@@ -89,7 +90,6 @@ mat-form-field {
 
 .mat-accordion {
     margin-top: 15px;
-    box-shadow: 1px 0 8px rgb(0 0 0/ 14%);
 
     mat-panel-title h3 {
         font-size: 1.25em;
@@ -146,6 +146,13 @@ mat-form-field {
         'wght' 400,
         'GRAD' 0,
         'opsz' 24
+}
+
+.simple-page {
+    width: 100%;
+    height: auto;
+    padding: 1em;
+    background-color: #e8e8e880;
 }
 
 .pointer {
@@ -296,12 +303,6 @@ form {
 .deleteButton {
     color: white !important;
     background-color: red !important;
-}
-
-.simple-page {
-    width: 100%;
-    height: 100%;
-    padding: 1em;
 }
 
 .login-box {

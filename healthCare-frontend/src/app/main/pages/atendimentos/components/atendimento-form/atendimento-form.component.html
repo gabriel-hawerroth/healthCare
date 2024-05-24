@@ -250,14 +250,15 @@
   </form>
 
   <br />
-
   @if (atendData && atendData.dt_criacao) {
   <br />
+
   <span id="created-at">
     Criado em
     {{ atendData.dt_criacao | date : "dd/MM/yyyy" }}
     &nbsp;
   </span>
+
   <br />
   }
 </div>
