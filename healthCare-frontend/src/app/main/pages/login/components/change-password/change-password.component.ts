@@ -18,9 +18,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Credentials } from '../../../../../interfaces/credentials';
 import { User } from '../../../../../interfaces/user';
+import { LoginService } from '../../../../../services/login.service';
 import { UserService } from '../../../../../services/user.service';
 import { UtilsService } from '../../../../../utils/utils.service';
-import { LoginService } from '../../../../../services/login.service';
 
 @Component({
   selector: 'app-change-password',

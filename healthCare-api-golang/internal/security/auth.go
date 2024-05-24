@@ -2,6 +2,7 @@ package security
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -9,8 +10,9 @@ import (
 func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		path := r.URL.Path
+
 		for _, url := range allowedUrls {
-			if url == path {
+			if strings.ContainsAny(url, path) {
 				next.ServeHTTP(w, r)
 				return
 			}
