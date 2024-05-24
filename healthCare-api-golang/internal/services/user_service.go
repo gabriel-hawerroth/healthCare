@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/gabriel-hawerroth/HealthCare/internal/entity"
 	"github.com/gabriel-hawerroth/HealthCare/internal/repository"
@@ -49,10 +50,18 @@ func (s *UserService) SaveUser(user entity.User) (*entity.User, error) {
 	if isNewUser {
 		_, err = s.UserRepository.Insert(user)
 	} else {
-		_, err = s.UserRepository.Update(user, changePassword)
+		_, err = s.UserRepository.Update(user)
 	}
 	if err != nil {
 		return nil, err
+	}
+
+	if changePassword {
+		err = s.UserRepository.UpdatePassword(*user.Id, *user.Senha)
+		if err != nil {
+			fmt.Printf("err: %v\n", err)
+			return nil, err
+		}
 	}
 
 	return s.UserRepository.GetByMail(*user.Email)

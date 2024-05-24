@@ -91,7 +91,7 @@ func (s *LoginService) ActivateAccount(userId int, token string) error {
 	}
 
 	*user.Situacao = "A"
-	_, err = s.UserRepository.Update(*user, false)
+	_, err = s.UserRepository.Update(*user)
 
 	return err
 }
@@ -140,7 +140,7 @@ func (s *LoginService) PermitChangePassword(userId int, token string) error {
 	}
 
 	*user.Can_change_password = true
-	_, err = s.UserRepository.Update(*user, false)
+	_, err = s.UserRepository.Update(*user)
 
 	return err
 }
@@ -155,15 +155,20 @@ func (s *LoginService) ChangePassword(userId int, newPassword string) error {
 		return errors.New("whitout permission to change password")
 	}
 
-	hash, err := bcrypt.GenerateFromPassword([]byte(*user.Senha), bcrypt.DefaultCost)
+	hash, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}
 
 	*user.Senha = string(hash)
-	*user.Can_change_password = false
 
-	_, err = s.UserRepository.Update(*user, false)
+	err = s.UserRepository.UpdatePassword(*user.Id, string(hash))
+	if err != nil {
+		return err
+	}
+
+	*user.Can_change_password = false
+	_, err = s.UserRepository.Update(*user)
 
 	return err
 }

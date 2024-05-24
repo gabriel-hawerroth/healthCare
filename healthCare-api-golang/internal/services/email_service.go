@@ -12,7 +12,8 @@ var senderEmail = os.Getenv("HEALTHCARE_EMAIL")
 var senderPassword = os.Getenv("HEALTHCARE_EMAIL_PASSWORD")
 
 func BuildEmailTemplate(emailType string, userId int, token string) string {
-	url := fmt.Sprintf("https://apihealthcare.hawetec.com.br/login/%s/%d/%s", emailType, userId, token)
+	// url := fmt.Sprintf("https://apihealthcare.hawetec.com.br/login/%s/%d/%s", emailType, userId, token)
+	url := fmt.Sprintf("http://localhost:8081/login/%s/%d/%s", emailType, userId, token)
 
 	var action string
 	switch emailType {

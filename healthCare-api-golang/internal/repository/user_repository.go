@@ -69,37 +69,34 @@ func (r *UserRepository) Insert(user entity.User) (*entity.User, error) {
 	return &user, err
 }
 
-func (r *UserRepository) Update(data entity.User, changePassword bool) (user *entity.User, err error) {
-	var query string
-	if changePassword {
-		query = `
-		UPDATE usuario
-		SET email = $2, senha = $3, nome = $4, sobrenome = $5,
-			acesso = $6, situacao = $7, can_change_password = $8
-		WHERE id = $1
-		RETURNING *
-	`
-		_, err = r.DB.Exec(query, data.Id,
-			data.Email, data.Senha, data.Nome, data.Sobrenome,
-			data.Acesso, data.Situacao, data.Can_change_password,
-		)
-	} else {
-		query = `
+func (r *UserRepository) Update(data entity.User) (user *entity.User, err error) {
+	query := `
 		UPDATE usuario
 		SET email = $2, nome = $3, sobrenome = $4,
 			acesso = $5, situacao = $6, can_change_password = $7
 		WHERE id = $1
-		RETURNING *
-		`
-		_, err = r.DB.Exec(query, data.Id,
-			data.Email, data.Nome, data.Sobrenome,
-			data.Acesso, data.Situacao, data.Can_change_password,
-		)
-	}
+	`
+
+	_, err = r.DB.Exec(query, data.Id,
+		data.Email, data.Nome, data.Sobrenome,
+		data.Acesso, data.Situacao, data.Can_change_password,
+	)
 
 	user = &data
 
 	return user, err
+}
+
+func (r *UserRepository) UpdatePassword(userId int, newPassword string) error {
+	query := `
+		UPDATE usuario
+		SET senha = $2
+		WHERE id = $1
+	`
+
+	_, err := r.DB.Exec(query, userId, newPassword)
+
+	return err
 }
 
 func (r *UserRepository) Delete(userId int) error {
