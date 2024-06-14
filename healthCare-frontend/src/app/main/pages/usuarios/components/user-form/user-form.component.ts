@@ -83,6 +83,7 @@ export class UserFormComponent implements OnInit {
       for (const controlName in this.userForm.controls) {
         if (this.userForm.controls[controlName].invalid) {
           console.log(`Campo inválido: ${controlName}`);
+          this.userForm.controls[controlName].markAsTouched();
         }
       }
 

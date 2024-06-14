@@ -141,6 +141,7 @@ export class PacienteFormComponent implements OnInit {
       for (const controlName in this.patientForm.controls) {
         if (this.patientForm.controls[controlName].invalid) {
           console.log(`Campo inválido: ${controlName}`);
+          this.patientForm.controls[controlName].markAsTouched();
         }
       }
       this.utilsService.showSimpleMessage('Formulário inválido');

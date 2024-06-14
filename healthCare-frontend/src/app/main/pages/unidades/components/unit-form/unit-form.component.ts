@@ -97,6 +97,7 @@ export class UnitFormComponent implements OnInit {
       for (const controlName in this.unitForm.controls) {
         if (this.unitForm.controls[controlName].invalid) {
           console.log(`Campo inválido: ${controlName}`);
+          this.unitForm.controls[controlName].markAsTouched();
         }
       }
       this.utilsService.showSimpleMessage('Formulário inválido');

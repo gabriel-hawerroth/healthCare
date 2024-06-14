@@ -138,6 +138,7 @@ export class AtendimentoFormComponent implements OnInit {
       for (const controlName in this.atendForm.controls) {
         if (this.atendForm.controls[controlName].invalid) {
           console.log(`Campo inválido: ${controlName}`);
+          this.atendForm.controls[controlName].markAsTouched();
         }
       }
       this.utilsService.showSimpleMessage('Formulário inválido');
