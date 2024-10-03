@@ -5,7 +5,7 @@ export GOARCH=amd64
 
 cd ../cmd
 
-go build -ldflags="-linkmode=internal -w -s -extldflags '-static' -X main.BuildCPUFlags=native" -o healtchare_api ./main.go
+go build -ldflags="-linkmode=internal -w -s -extldflags '-static' -X main.BuildCPUFlags=native" -o healthcare_api ./main.go
 
 mv healthcare_api ../build/
 

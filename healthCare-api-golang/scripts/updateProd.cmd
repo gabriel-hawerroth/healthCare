@@ -9,7 +9,7 @@ set GOARCH=amd64
 
 rem 3. Entrar na pasta cmd e compilar o código
 cd /D "../cmd"
-go build -ldflags="-linkmode=internal -w -s -extldflags '-static' -X main.BuildCPUFlags=native" -o healtchare_api ./main.go
+go build -ldflags="-linkmode=internal -w -s -extldflags '-static' -X main.BuildCPUFlags=native" -o healthcare_api ./main.go
 
 rem 4. Mover o arquivo de build para a pasta build
 move /Y "healthcare_api" "../build/healthcare_api"
