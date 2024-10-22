@@ -1,8 +1,13 @@
 package infra
 
 import (
+	"context"
 	"database/sql"
+	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"time"
 
 	"github.com/gabriel-hawerroth/HealthCare/internal/controllers"
 	"github.com/gabriel-hawerroth/HealthCare/internal/security"
@@ -16,10 +21,35 @@ func StartServer(db *sql.DB) {
 
 	handler := cors(security.AuthMiddleware(mux))
 
-	err := http.ListenAndServe(":8081", handler)
-	if err != nil {
-		panic("Server failed to start")
+	port := ":8081"
+
+	server := &http.Server{
+		Addr:    port,
+		Handler: handler,
 	}
+
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, os.Interrupt)
+
+	go func() {
+		log.Println("Starting web server on port", port)
+		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("Could not listen on %s: %v\n", port, err)
+		}
+	}()
+
+	<-stop
+
+	log.Println("Shutting down the server...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := server.Shutdown(ctx); err != nil {
+		log.Fatalf("Server forced to shutdown: %v", err)
+	}
+
+	log.Println("Server exiting")
 }
 
 func cors(next http.Handler) http.Handler {
